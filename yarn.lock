@@ -996,6 +996,11 @@
   resolved "https://registry.yarnpkg.com/@glidejs/glide/-/glide-3.4.1.tgz#8ad21f3169076e32bbfd75ed0753807662c25e90"
   integrity sha512-C34AEcK1HjSyxilRToUL54I6KAoodojUbeRlXoruobZuG0eGm8xfDL+3kgkWj7AJK4EZtunSOYfoqMp70eDtwg==
 
+"@google/model-viewer@^1.9.2":
+  version "1.9.2"
+  resolved "https://registry.npmmirror.com/@google/model-viewer/download/@google/model-viewer-1.9.2.tgz#aa57d36b172a16622ce27397dc0250670160ff86"
+  integrity sha1-qlfTaxcqFmIs4nOX3AJQZwFg/4Y=
+
 "@intlify/shared@^9.0.0":
   version "9.1.4"
   resolved "https://registry.yarnpkg.com/@intlify/shared/-/shared-9.1.4.tgz#0388515e5458fe1a2314c8f844db31bad26b8558"

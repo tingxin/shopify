@@ -62,6 +62,7 @@
     "*.{js,ts,vue}": "eslint --fix"
   },
   "dependencies": {
+    "@google/model-viewer": "^1.9.2",
     "@nuxtjs/axios": "^5.13.6",
     "vue-cropper": "^0.5.8"
   }

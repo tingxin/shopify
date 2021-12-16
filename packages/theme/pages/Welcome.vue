@@ -22,7 +22,7 @@ export default {
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   setup(props, {root}) {
     const handleAccountClick = () => {
-      return root.$router.push('/');
+      return root.$router.push('/cropper');
     };
     return {
       handleAccountClick
