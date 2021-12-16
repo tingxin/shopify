@@ -45,7 +45,8 @@ export default {
   },
   loading: { color: '#fff' },
   plugins: [
-    '~/plugins/scrollToTop.client.js'
+    '~/plugins/scrollToTop.client.js',
+    { src: '~/plugins/cropper', ssr: false }
   ],
   buildModules: [
     // to core
@@ -93,7 +94,8 @@ export default {
     'nuxt-i18n',
     'cookie-universal-nuxt',
     'vue-scrollto/nuxt',
-    '@vue-storefront/middleware/nuxt'
+    '@vue-storefront/middleware/nuxt',
+    '@nuxtjs/axios'
   ],
   i18n: {
     currency: 'USD',
@@ -167,7 +169,9 @@ export default {
         })
       })
     ]
+
   },
+
   router: {
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
     scrollBehavior(_to, _from, savedPosition) {
@@ -272,6 +276,24 @@ export default {
         '//shopify-pwa-beta.aureatelabs.com/c/**',
         '//shopify-pwa-beta.aureatelabs.com/'
       ]
+    }
+  },
+  axios: {
+    prefix: '/',
+    proxy: true
+  },
+  proxy: {
+    '/profile': {
+      target: 'https://wgt24czo0e.execute-api.ap-northeast-1.amazonaws.com/',
+      pathRewrite: {
+        '^/': '/'
+      }
+    },
+    '/status': {
+      target: 'https://wgt24czo0e.execute-api.ap-northeast-1.amazonaws.com/',
+      pathRewrite: {
+        '^/': '/'
+      }
     }
   }
 };

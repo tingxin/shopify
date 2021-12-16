@@ -60,5 +60,9 @@
   },
   "lint-staged": {
     "*.{js,ts,vue}": "eslint --fix"
+  },
+  "dependencies": {
+    "@nuxtjs/axios": "^5.13.6",
+    "vue-cropper": "^0.5.8"
   }
 }
