@@ -283,16 +283,10 @@ export default {
     proxy: true
   },
   proxy: {
-    '/profile': {
+    '/ama': {
       target: 'https://wgt24czo0e.execute-api.ap-northeast-1.amazonaws.com/',
       pathRewrite: {
-        '^/': '/'
-      }
-    },
-    '/status': {
-      target: 'https://wgt24czo0e.execute-api.ap-northeast-1.amazonaws.com/',
-      pathRewrite: {
-        '^/': '/'
+        '^/ama': '/'
       }
     }
   }
