@@ -1,65 +1,22 @@
 <template>
   <div id="form-step1">
     <form class="form">
-      <div @click="$store.commit('add')">你好啊 点我变大大{{$store.state.count}}</div>
+      <h3 class="form__element form__h2">假发参数</h3>
       <SfComponentSelect
-        v-model="style"
-        label="款式(style)"
         class="
           form__element
           form__element--half
           form__select
           sf-component-select--underlined
         "
-        required
-        :valid="styleBlur || validStyle(style)"
-        error-message="Please choose style."
-        @blur="styleBlur = false"
-      >
-        <SfComponentSelectOption
-          v-for="(style,key) in styles"
-          :key="key"
-          :value="style.name"
-        >
-          {{ style.label }}
-        </SfComponentSelectOption>
-      </SfComponentSelect>
-      <SfComponentSelect
-        v-model="length"
-        label="长度(length)"
-        class="
-          form__element
-          form__element--half
-          form__element--half-even
-          form__select
-          sf-component-select--underlined
-        "
-        required
-        :valid="lengthBlur || validLength(length)"
-        error-message="Please choose length."
-        @blur="lengthBlur = false"
-      >
-        <SfComponentSelectOption
-          v-for="length in lengths"
-          :key="length"
-          :value="length"
-        >
-          {{ length }}
-        </SfComponentSelectOption>
-      </SfComponentSelect>
-      <SfComponentSelect
         v-model="color"
-        label="颜色(Color)"
-        class="
-          form__element
-          form__element--half
-          form__select
-          sf-component-select--underlined
-        "
-        required
-        :valid="colorBlur || validColor(color)"
-        error-message="Please choose color."
-        @blur="colorBlur = false"
+        label="Hair Color"
+        :required="false"
+        valid
+        :disabled="false"
+        errorMessage="Please select Hair Color"
+        value=""
+        placeholder="Please select Hair Color"
       >
         <SfComponentSelectOption
           v-for="item in colors"
@@ -69,18 +26,186 @@
           {{ item.name }}
         </SfComponentSelectOption>
       </SfComponentSelect>
-      <div class="form__element form__element--half"/>
+      <SfComponentSelect
+        v-model="length"
+        label="Hair Length"
+        class="
+          form__element
+          form__element--half
+          form__element--half-even
+          form__select
+          sf-component-select--underlined
+        "
+        :required="false"
+        valid
+        :disabled="false"
+        error-message="Please select Hair Length"
+         placeholder="Please select Hair Length"
+      >
+        <SfComponentSelectOption
+          v-for="length in lengths"
+          :key="length.value"
+          :value="length.value"
+        >
+          {{ length.label }}
+        </SfComponentSelectOption>
+      </SfComponentSelect>
+      <SfComponentSelect
+        v-model="density"
+        label="Hair Density "
+        class="
+          form__element
+          form__element--half
+          form__select
+          sf-component-select--underlined
+        "
+        :required="false"
+        valid
+        :disabled="false"
+        error-message="Please select Hair Density "
+         placeholder="Please select Hair Density "
+      >
+        <SfComponentSelectOption
+          v-for="density in densities"
+          :key="density.value"
+          :value="density.value"
+        >
+          {{ density.label }}
+        </SfComponentSelectOption>
+      </SfComponentSelect>
+      <SfComponentSelect
+        v-model="laceMaterial"
+        label="Lace Material"
+        class="
+          form__element
+          form__element--half
+          form__element--half-even
+          form__select
+          sf-component-select--underlined
+        "
+        :required="false"
+        valid
+        :disabled="false"
+        error-message="Please select Lace material."
+         placeholder="Please select Lace material."
+      >
+        <SfComponentSelectOption
+          v-for="item in laceMaterials"
+          :key="item.value"
+          :value="item.value"
+        >
+          {{ item.label }}
+        </SfComponentSelectOption>
+      </SfComponentSelect>
+
+      <SfComponentSelect
+        v-model="cap"
+        label="Cap Construction "
+        class="
+          form__element
+          form__element--half
+          form__select
+          sf-component-select--underlined
+        "
+        :required="false"
+        valid
+        :disabled="false"
+        error-message="Please select Cap Construction "
+         placeholder="Please select Cap Construction "
+      >
+        <SfComponentSelectOption
+          v-for="item in caps"
+          :key="item.value"
+          :value="item.value"
+        >
+          {{ item.label }}
+        </SfComponentSelectOption>
+      </SfComponentSelect>
+
+      <SfComponentSelect
+        v-model="hairLine"
+        label="Hair Line"
+        class="
+          form__element
+          form__element--half
+          form__element--half-even
+          form__select
+          sf-component-select--underlined
+        "
+        :required="false"
+        valid
+        :disabled="false"
+        error-message="Please select HairLine"
+         placeholder="Please select HairLine"
+      >
+        <SfComponentSelectOption
+          v-for="(item, key) in hairLines"
+          :key="key"
+          :value="item.value"
+        >
+          {{ item.label }}
+        </SfComponentSelectOption>
+      </SfComponentSelect>
+
+      <SfComponentSelect
+        v-model="capSize"
+        label="Cap Size "
+        class="
+          form__element
+          form__element--half
+          form__select
+          sf-component-select--underlined
+        "
+        :required="false"
+        valid
+        :disabled="false"
+        error-message="Please select Cap Size "
+         placeholder="Please select Cap Size "
+      >
+        <SfComponentSelectOption
+          v-for="item in capSizes"
+          :key="item.value"
+          :value="item.value"
+        >
+          {{ item.label }}
+        </SfComponentSelectOption>
+      </SfComponentSelect>
+      <SfComponentSelect
+        v-model="addElasticBand"
+        label="Add Elastic Bands"
+        class="
+          form__element
+          form__element--half
+          form__element--half-even
+          form__select
+          sf-component-select--underlined
+        "
+        :required="false"
+        valid
+        :disabled="false"
+        error-message="Please select Add Elastic Bands"
+         placeholder="Please select Add Elastic Bands"
+      >
+        <SfComponentSelectOption
+          v-for="(item, key) in addElasticBands"
+          :key="key"
+          :value="item.value"
+        >
+          {{ item.label }}
+        </SfComponentSelectOption>
+      </SfComponentSelect>
+      <div class="form__element form__element--half" />
 
       <div class="form__action">
         <SfButton type="submit" @click.prevent="submit">Next</SfButton>
-        <SfButton
+        <!-- <SfButton
           class="
             sf-button--text
             form__action-button form__action-button--secondary
           "
           @click="reset"
           >Reset</SfButton
-        >
+        > -->
       </div>
     </form>
   </div>
@@ -88,9 +213,14 @@
 <script>
 import('@google/model-viewer');
 
-import { SfSelect, SfColor, SfButton, SfInput,
+import {
+  SfSelect,
+  SfColor,
+  SfButton,
+  SfInput,
   SfComponentSelect,
-  SfHeading} from '@storefront-ui/vue';
+  SfHeading
+} from '@storefront-ui/vue';
 
 export default {
   name: 'Step1',
@@ -103,7 +233,7 @@ export default {
     SfHeading
   },
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  setup(props, {root}) {
+  setup(props, { root }) {
     const handleNextClick = () => {
       return root.$router.push('/step2');
     };
@@ -117,74 +247,90 @@ export default {
       valid: false,
       submitted: false,
       // 款式
-      style: '',
-      styleBlur: true,
-      length: '',
-      lengthBlur: true,
-      color: '',
-      colorBlur: true,
-      styles: [
-        { label: 'St', name: 'st' },
-        { label: 'Body', name: 'body' },
-        { label: 'Curls', name: 'curls' },
-        { label: 'Yaki', name: 'yaki' },
-        { label: 'Bob', name: 'bob' }
+      length: '16',
+      color: 'black',
+      density: '150%',
+      laceMaterial: 'normalLace',
+      cap: '4',
+      hairLine: 'naturalHairLine',
+      capSize: 'average',
+      addElasticBand: 'no',
+      lengths: [
+        { label: '8 Inch', value: '8' },
+        { label: '10 Inch', value: '10' },
+        { label: '12 Inch', value: '12' },
+        { label: '14 Inch', value: '14' },
+        { label: '16 Inch', value: '16' },
+        { label: '18 Inch +$30.00', value: '18' },
+        { label: '20 Inch + $90.00', value: '20' },
+        { label: '22 Inch +$130.00', value: '22' },
+        { label: '24 Inch +$180.00', value: '24' },
+        { label: '26 Inch +$240.00', value: '26' }
       ],
-      lengths: ['8', '10', '12', '14', '16', '18', '20', '22', '24', '26'],
       colors: [
-        { color: 'black', name: 'Black', selected: true },
-        { color: 'wineRed', name: 'wine Red', selected: false },
-        { color: 'darkPurple', name: 'Dark Purple', selected: false },
-        { color: 'blue', name: 'Blue', selected: false },
-        { color: 'platinumBlonde', name: 'Platinum Blonde', selected: false }
+        { color: 'black', name: 'Black' },
+        { color: 'wineRed', name: 'Wine Red+¥50.00' },
+        { color: 'darkPurple', name: 'Dark Purple+¥50.00' },
+        { color: 'blue', name: 'Blue+¥50.00' },
+        { color: 'platinumBlonde', name: 'Platinum Blonde+¥50.00' }
+      ],
+
+      densities: [
+        {label: '150%', value: '150%'},
+        {label: '180% +$30.00', value: '180%'}
+      ],
+      laceMaterials: [
+        {label: 'HD Lace +$20.00', value: 'hdLace'},
+        {label: 'Normal Lace', value: 'normalLace'}
+      ],
+      caps: [
+        {label: '4 Parting Glueless Lace Front Crap', value: '4'},
+        {label: '6 Deep Parting Glueless Lace Front Crap +$60.00 GlueLess', value: '6'},
+        {label: '5 * 5 Closure Lace Cap +$40.00', value: '5'}
+      ],
+      hairLines: [
+        {label: 'Natural Hair Line', value: 'naturalHairLine'},
+        {label: 'Pre-plucked HairLine', value: 'prePluckedHairLine'}
+      ],
+      capSizes: [
+        {label: 'Average', value: 'average'},
+        {label: 'Petite', value: 'petite'},
+        {label: 'Large', value: 'large'},
+        {label: 'Custom +$30.00', value: 'custom'}
+      ],
+      addElasticBands: [
+        {label: 'Yes', value: 'yes'},
+        {label: 'No', value: 'no'}
       ]
-      // isMounted: false,
-      // url: '../assets/models/body_black_55_45cm.glb'
+
     };
   },
   methods: {
-    validate() {
-      this.styleBlur = false;
-      this.lengthBlur = false;
-      this.colorBlur = false;
-      if (
-        this.validStyle(this.style) &&
-        this.validLength(this.length) &&
-        this.validColor(this.color)
-      ) {
-        this.valid = true;
-      }
-    },
-    validStyle(style) {
-      return Boolean(style);
-    },
-    validLength(length) {
-      return Boolean(length);
-    },
-    validColor(color) {
-      return Boolean(color);
-    },
     submit() {
-      this.validate();
-      if (this.valid) {
-        const params = {
-          ...this.$store.state.form,
-          style: this.style,
-          length: this.length,
-          color: this.color
-        };
-        this.$store.dispatch('addForm', params);
-        this.submitted = true;
-        this.handleNextClick();
 
-      }
-    },
-    reset() {
-      this.style = '';
-      this.length = '';
-      this.color = '';
+      const params = {
+        ...this.$store.state.form,
+        length: this.length,
+        color: this.color,
+        density: this.density,
+        laceMaterial: this.laceMaterial,
+        cap: this.cap,
+        hairLine: this.hairLine,
+        capSize: this.capSize,
+        addElasticBand: this.addElasticBand
+
+      };
+      this.$store.dispatch('addForm', params);
+      this.submitted = true;
+      // this.handleNextClick();
     }
-
+    // reset() {
+    //   this.style = '';
+    //   this.length = '';
+    //   this.color = '';
+    //   this.density = '';
+    //   this.laceMaterial = '';
+    // }
   }
 };
 </script>
@@ -204,6 +350,9 @@ export default {
   padding: var(--spacer-sm) 0;
   @include for-mobile {
     padding: var(--spacer-sm);
+  }
+  &__h2{
+    padding:var(--spacer-sm) 0;
   }
   &__group {
     display: flex;
@@ -247,5 +396,4 @@ export default {
     }
   }
 }
-
 </style>
