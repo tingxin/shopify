@@ -89,6 +89,12 @@ export default {
     SfComponentSelect,
     SfHeading
   },
+  // setup(props, context) {
+  //   console.log('props', props, context);
+
+  //   return {
+  //   };
+  // },
   data() {
     return {
       valid: false,
@@ -136,6 +142,14 @@ export default {
     submit() {
       this.validate();
       if (this.valid) {
+        const params2 = {
+          ...this.$store.state.form,
+          headSize: this.headSize,
+          craft: this.craft,
+          density: this.density
+        };
+        console.log('params2', params2);
+        this.$store.dispatch('addForm', params2);
         this.submitted = true;
       }
     },

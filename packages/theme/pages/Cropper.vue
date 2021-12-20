@@ -69,8 +69,18 @@
   </div>
 </template>
 <script>
-import { SFButton } from '@storefront-ui/vue';
+import { SfButton } from '@storefront-ui/vue';
 export default {
+  name: 'Cropper',
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  setup(props, {root}) {
+    const handleNextClick = () => {
+      return root.$router.push('/step1');
+    };
+    return {
+      handleNextClick
+    };
+  },
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   data() {
     return {
@@ -115,7 +125,7 @@ export default {
       // isShow:false
     };
   },
-  components: { SFButton },
+  components: { SfButton },
   watch: {
     requestId: {
       // 查看文件上传的处理状态
@@ -178,7 +188,6 @@ export default {
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
     realTime(data) {
       this.previews = data;
-      // console.log(data);
     },
 
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -192,19 +201,22 @@ export default {
       } else {
         this.$refs.cropper.getCropData((data) => {
           this.downImg = data;
+          const newData = data.split('base64,')[1];
           const info = {
             name: this.option.name,
-            data: data.split('data:image/png;base64,')[1]
+            data: newData
           };
-          // 获取远端图片
-          this.$axios({
-            method: 'post',
-            url: '/ama/profile',
-            data: info
-          }).then(({ data }) => {
-            this.requestId = data.request_id;
-            this.path = data.path;
-          });
+          this.$store.dispatch('addForm', info);
+          // // 获取远端图片
+          // this.$axios({
+          //   method: 'post',
+          //   url: '/ama/profile',
+          //   data: info
+          // }).then(({ data }) => {
+          //   this.requestId = data.request_id;
+          //   this.path = data.path;
+          // });
+          this.handleNextClick();
         });
       }
     },

@@ -14,7 +14,7 @@
 import { SfBanner } from '@storefront-ui/vue';
 
 export default {
-  name: 'Test',
+  name: 'Welcome',
 
   components: {
     SfBanner

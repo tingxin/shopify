@@ -1,9 +1,10 @@
 <template>
   <div id="form-step1">
     <form class="form">
+      <div @click="$store.commit('add')">你好啊 点我变大大{{$store.state.count}}</div>
       <SfComponentSelect
-        v-model="shape"
-        label="款式"
+        v-model="style"
+        label="款式(style)"
         class="
           form__element
           form__element--half
@@ -11,21 +12,21 @@
           sf-component-select--underlined
         "
         required
-        :valid="shapeBlur || validShape(shape)"
-        error-message="Please choose shape."
-        @blur="shapeBlur = false"
+        :valid="styleBlur || validStyle(style)"
+        error-message="Please choose style."
+        @blur="styleBlur = false"
       >
         <SfComponentSelectOption
-          v-for="(shape,key) in shapes"
+          v-for="(style,key) in styles"
           :key="key"
-          :value="shape.name"
+          :value="style.name"
         >
-          {{ shape.label }}
+          {{ style.label }}
         </SfComponentSelectOption>
       </SfComponentSelect>
       <SfComponentSelect
         v-model="length"
-        label="长度"
+        label="长度(length)"
         class="
           form__element
           form__element--half
@@ -46,19 +47,29 @@
           {{ length }}
         </SfComponentSelectOption>
       </SfComponentSelect>
-      <!-- <div class="form__element form__element--half"/> -->
-      <div class="product__colors ">
-      <p class="product__color-label">Color:</p>
-      <SfColor
-        v-for="(color, i) in colors"
-        :key="i"
-        :aria-label="color.name"
-        :color="color.color"
-        :selected="color.selected"
-        class="product__color"
-        @click="selectColor(i)"
-      />
-    </div>
+      <SfComponentSelect
+        v-model="color"
+        label="颜色(Color)"
+        class="
+          form__element
+          form__element--half
+          form__select
+          sf-component-select--underlined
+        "
+        required
+        :valid="colorBlur || validColor(color)"
+        error-message="Please choose color."
+        @blur="colorBlur = false"
+      >
+        <SfComponentSelectOption
+          v-for="item in colors"
+          :key="item.color"
+          :value="item.color"
+        >
+          {{ item.name }}
+        </SfComponentSelectOption>
+      </SfComponentSelect>
+      <div class="form__element form__element--half"/>
 
       <div class="form__action">
         <SfButton type="submit" @click.prevent="submit">Next</SfButton>
@@ -106,25 +117,26 @@ export default {
       valid: false,
       submitted: false,
       // 款式
-      shape: '',
-      shapeBlur: true,
+      style: '',
+      styleBlur: true,
       length: '',
       lengthBlur: true,
-      selectedColor: 'beige',
-      shapes: [
-        { label: '直发', name: 'zhifa' },
+      color: '',
+      colorBlur: true,
+      styles: [
+        { label: 'St', name: 'st' },
         { label: 'Body', name: 'body' },
-        { label: '小卷', name: 'xiaojuan' },
+        { label: 'Curls', name: 'curls' },
         { label: 'Yaki', name: 'yaki' },
-        { label: 'Bob头', name: 'bobe' }
+        { label: 'Bob', name: 'bob' }
       ],
       lengths: ['8', '10', '12', '14', '16', '18', '20', '22', '24', '26'],
       colors: [
-        { color: '#EDCBB9', name: 'beige', selected: true },
-        { color: '#ABD9D8', name: 'mint1', selected: false },
-        { color: '#DB5593', name: 'pink1', selected: false },
-        { color: '#ABD9D8', name: 'mint2', selected: false },
-        { color: '#DB5593', name: 'pink2', selected: false }
+        { color: 'black', name: 'Black', selected: true },
+        { color: 'wineRed', name: 'wine Red', selected: false },
+        { color: 'darkPurple', name: 'Dark Purple', selected: false },
+        { color: 'blue', name: 'Blue', selected: false },
+        { color: 'platinumBlonde', name: 'Platinum Blonde', selected: false }
       ]
       // isMounted: false,
       // url: '../assets/models/body_black_55_45cm.glb'
@@ -132,45 +144,47 @@ export default {
   },
   methods: {
     validate() {
-      this.shapeBlur = false;
+      this.styleBlur = false;
       this.lengthBlur = false;
+      this.colorBlur = false;
       if (
-        this.validShape(this.shape) &&
-        this.validLength(this.length)
+        this.validStyle(this.style) &&
+        this.validLength(this.length) &&
+        this.validColor(this.color)
       ) {
         this.valid = true;
       }
     },
-    validShape(shape) {
-      return Boolean(shape);
+    validStyle(style) {
+      return Boolean(style);
     },
     validLength(length) {
       return Boolean(length);
     },
+    validColor(color) {
+      return Boolean(color);
+    },
     submit() {
       this.validate();
       if (this.valid) {
+        const params = {
+          ...this.$store.state.form,
+          style: this.style,
+          length: this.length,
+          color: this.color
+        };
+        this.$store.dispatch('addForm', params);
         this.submitted = true;
         this.handleNextClick();
+
       }
     },
     reset() {
-      this.shape = '';
+      this.style = '';
       this.length = '';
-      this.selectedColor = 'beige';
-    },
-
-    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-    selectColor(colorIndex) {
-      this.colors.map((el, i) => {
-        if (colorIndex === i) {
-          el.selected = true;
-          this.selectedColor = el.name;
-        } else {
-          el.selected = false;
-        }
-      });
+      this.color = '';
     }
+
   }
 };
 </script>
@@ -231,29 +245,6 @@ export default {
     &__button {
       --button-width: auto;
     }
-  }
-}
-
-.product {
-  &__colors {
-
-    @include font(
-      --product-color-font,
-      var(--font-weight--normal),
-      var(--font-size--lg),
-      1.6,
-      var(--font-family--secondary)
-    );
-    display: flex;
-    align-items: center;
-  margin-bottom: var(--spacer-xl);
-
-  }
-  &__color-label {
-    margin: 0 var(--spacer-lg) 0 0;
-  }
-  &__color {
-    margin: 0 var(--spacer-2xs);
   }
 }
 
