@@ -1,12 +1,8 @@
 <template>
-  <div id="test">
-    <div class="model">
-        <!-- src="/models/zhifa_black_55_25.4cm_2K.glb" -->
-        <!-- src="https://jizhan.s3.ap-northeast-1.amazonaws.com/model/a7be72c6-3006-471b-8b7a-5792f4fe0860.glb" -->
-        <!-- src="https://modelviewer.dev/shared-assets/models/Astronaut.glb" -->
-
+<div>
+  <div id="test" v-if="isDom" ref="bill">
+    <div class="model" >
       <model-viewer
-        src="https://modelviewer.dev/shared-assets/models/Astronaut.glb"
         autoplay
         camera-controls
         field-of-view="45deg"
@@ -14,66 +10,73 @@
         ar
         ar-modes="webxr scene-viewer quick-look"
         class="model-img"
+        id="model"
+
       />
     </div>
     <div class="btns">
-      <SfButton
-        class="color-primary sf-button btn"
-        @click="handelReturn"
-      >
-        Return
-      </SfButton>
-      <SfButton class="color-primary sf-button btn"> Check Out </SfButton>
-      <SfButton class="color-primary sf-button btn" @click="handleShare"> Share </SfButton>
+
+      <SfButton class="color-primary sf-button btn" @click="htmlToCanvas"> Share </SfButton>
       <div class="tilltop">分享前请选取合适的角度</div>
     </div>
-    <!-- <model-viewer v-if="isMounted" :src="url" camera-controls></model-viewer> -->
   </div>
+    <div class="canvas-bill" v-else>
+      <img :src="canvasImageUrl" alt="">
+    </div>
+
+</div>
+
 </template>
 <script>
 // import('@google/model-viewer');
 import { SfButton } from '@storefront-ui/vue';
+import html2canvas from 'html2canvas';
 export default {
   components: { SfButton },
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   setup(props, { root }) {
-    const handelReturn = () => {
-      return root.$router.push('/step1');
-    };
+
     const filePath = root.$route.query.path;
-    // const newFile = `/ama/${filePath.split('.com/')[1]}`;
-    console.log('00', filePath);
-    const handleShare = () => {
-      return root.$router.push({
-        path: '/share',
-        query: {
-          path: 'https://modelviewer.dev/shared-assets/models/Astronaut.glb'
-        }
-      });
+    // console.log('00', filePath);
+    /** **
+     * add 3d model-viewer src
+     **/
+    const getModleFile = () => {
+      document.getElementById('model').src = filePath;
     };
     return {
-      handelReturn,
       filePath,
-      handleShare
+      getModleFile
     };
   },
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   data() {
     return {
-      // isMounted: false,
-      // url: '../assets/models/body_black_55_45cm.glb'
+      isDom: true,
+      canvasImageUrl: ''
     };
   },
-  // computed: {
-  //   filePath() {
-  //     console.log('00', this.$route.query.filePath);
-  //     return this.$route.query.filePath;
-  //   }
-  // },
+  methods: {
+
+    /**
+* 将页面指定节点内容转为图片
+* 1.拿到想要转换为图片的内容节点DOM；
+* 2.转换，拿到转换后的canvas
+* 3.转换为图片
+*/
+    htmlToCanvas() {
+      console.log('bill', this.$refs.bill);
+      html2canvas(this.$refs.bill).then((canvas)=>{
+        const imageUrl = canvas.toDataURL('image/png');
+        this.canvasImageUrl = imageUrl;
+        this.isDom = false;
+      });
+    }
+  },
   mounted() {
-    // this.isMounted = true;
-    // this.loadComponent();
     import('@google/model-viewer');
+    this.getModleFile();
+
   }
 
 };
@@ -103,9 +106,9 @@ export default {
   .btns {
     display: flex;
     flex-direction: column;
-    //  @include for-desktop{
-    //   align-items: center;
-    //  }
+     @include for-desktop{
+      justify-content: center;
+     }
     .btn {
       width: 150px;
       margin: var(--spacer-sm) 0 0;
@@ -121,6 +124,20 @@ export default {
       }
       color: red;
     }
+  }
+
+}
+.canvas-bill{
+  @include for-desktop {
+    width: 500px;
+  height: 500px;
+  }
+  margin: var(--spacer-sm) auto;
+  width: 100%;
+  height: 300px;
+  img{
+    width: 100%;
+    height: 100%;
   }
 }
 
