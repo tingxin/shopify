@@ -233,15 +233,6 @@ export default {
     SfHeading
   },
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  setup(props, { root }) {
-    const handleNextClick = () => {
-      return root.$router.push('/step2');
-    };
-    return {
-      handleNextClick
-    };
-  },
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   data() {
     return {
       valid: false,
@@ -301,9 +292,45 @@ export default {
       addElasticBands: [
         {label: 'Yes', value: 'yes'},
         {label: 'No', value: 'no'}
-      ]
+      ],
+      // 轮询时间
+      timer: null,
+      // 是否执行轮训
+      is2D: '',
+      requestId: '',
+      // 回显图片路径
+      filePath: ''
 
     };
+  },
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  setup(props, { root }) {
+    const handleNextClick = () => {
+      return root.$router.push({
+        path: '/model',
+        query: {
+          path: this.filePath
+        }
+      });
+      // return root.$router.push(`/model?filePath=${this.filePath}`);
+    };
+    return {
+      handleNextClick
+    };
+  },
+  watch: {
+    requestId: {
+      // 查看文件上传的处理状态
+      handler(newVal) {
+        if (newVal !== '' && this.is2D !== 'done') {
+          // 实现轮询
+          this.createSetInterval();
+        } else if (newVal !== '' && this.is2D === 'done') {
+          this.stopSetInterval();
+        }
+      },
+      immediate: true
+    }
   },
   methods: {
     submit() {
@@ -322,8 +349,17 @@ export default {
       };
       this.$store.dispatch('addForm', params);
       this.submitted = true;
+      // 获取远端图片
+      this.$axios({
+        method: 'post',
+        url: '/ama/profile',
+        data: params
+      }).then(({ data }) => {
+        this.requestId = data.request_id;
+        this.filePath = data.file_path;
+      });
       // this.handleNextClick();
-    }
+    },
     // reset() {
     //   this.style = '';
     //   this.length = '';
@@ -331,6 +367,39 @@ export default {
     //   this.density = '';
     //   this.laceMaterial = '';
     // }
+    // 开启轮询  如果存在则先销毁定时器后重新开启
+    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+    createSetInterval() {
+      this.stopSetInterval();
+      this.timer = setInterval(() => {
+        this.getNewMessage();
+      }, 5000);
+    },
+    // 关闭轮询
+    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+    stopSetInterval() {
+      if (this.timer) {
+        clearInterval(this.timer);
+        this.timer = null;
+        this.handleNextClick();
+      }
+    },
+    // 请求是否有新消息
+    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+    getNewMessage() {
+      this.$axios({
+        method: 'get',
+        url: '/ama/status',
+        headers: {
+          'x-jizhan-request-id': this.requestId
+        }
+      }).then(({ data }) => {
+        if (data.status === 'done') {
+          this.stopSetInterval();
+        }
+        this.is2D = data.status;
+      });
+    }
   }
 };
 </script>

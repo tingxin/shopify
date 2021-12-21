@@ -1,8 +1,12 @@
 <template>
   <div id="test">
     <div class="model">
+        <!-- src="/models/zhifa_black_55_25.4cm_2K.glb" -->
+        <!-- src="https://jizhan.s3.ap-northeast-1.amazonaws.com/model/a7be72c6-3006-471b-8b7a-5792f4fe0860.glb" -->
+        <!-- src="https://modelviewer.dev/shared-assets/models/Astronaut.glb" -->
+
       <model-viewer
-        src="/models/zhifa_black_55_25.4cm_2K.glb"
+        src="https://modelviewer.dev/shared-assets/models/Astronaut.glb"
         autoplay
         camera-controls
         field-of-view="45deg"
@@ -30,15 +34,19 @@
 import('@google/model-viewer');
 import { SfButton } from '@storefront-ui/vue';
 export default {
-  name: 'Test',
   components: { SfButton },
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   setup(props, { root }) {
     const handelReturn = () => {
       return root.$router.push('/step1');
     };
+    const filePath = root.$route.query.filePath;
+    // const newFile = `/ama/${filePath.split('.com/')[1]}`;
+    console.log('00', filePath);
+
     return {
-      handelReturn
+      handelReturn,
+      filePath
     };
   },
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -48,15 +56,17 @@ export default {
       // url: '../assets/models/body_black_55_45cm.glb'
     };
   },
+  // computed: {
+  //   filePath() {
+  //     console.log('00', this.$route.query.filePath);
+  //     return this.$route.query.filePath;
+  //   }
+  // },
   mounted() {
     // this.isMounted = true;
     // this.loadComponent();
-  },
-  computed: {
-    // loadComponent() {
-    //   return () => import('@google/model-viewer');
-    // }
   }
+
 };
 </script>
 
@@ -96,15 +106,13 @@ export default {
         margin-left: var(--spacer-xl);
       }
     }
-    p {
-      @include for-desktop {
-        margin: var(--spacer-sm) var(--spacer-xl);
-      }
-      color: red;
-    }
+    // p {
+    //   @include for-desktop {
+    //     margin: var(--spacer-sm) var(--spacer-xl);
+    //   }
+    //   color: red;
+    // }
   }
 }
 
-::v-deep {
-}
 </style>
