@@ -5,7 +5,7 @@
       :search-value="term"
       :cart-items-qty="cartTotalItems"
       :account-icon="accountIcon"
-      class="sf-header--has-mobile-search"
+      class="sf-header--has-mobile-search header_hidden"
       :class="{ 'header-on-top': isSearchOpen }"
       @click:cart="toggleCartSidebar"
       @click:wishlist="toggleWishlistSidebar"
@@ -32,7 +32,7 @@
             class="nav-item"
             :data-cy="'app-header-url_' + cat.handle"
             :label="cat.title"
-            :link="localePath('/c/' + cat.handle)"
+            :link="localePath('/')"
           />
         </div>
       </template>
@@ -41,22 +41,24 @@
       </template>
       <template #header-icons>
         <div class="sf-header__icons">
-          <SfButton
+          <!-- <SfButton
             v-e2e="'app-header-account'"
             class="sf-button--pure sf-header__action"
             @click="handleAccountClick"
           >
             <SfIcon :icon="accountIcon" size="1.25rem" />
+          </SfButton> -->
+          <SfButton class="sf-button--pure sf-header__action">
+            <!-- @click="toggleWishlistSidebar" -->
+            <SfIcon class="sf-header__icon" icon="search" size="1.25rem" />
           </SfButton>
 
-          <SfButton
-            class="sf-button--pure sf-header__action"
-            @click="toggleWishlistSidebar"
-          >
+          <SfButton class="sf-button--pure sf-header__action">
+            <!-- @click="toggleWishlistSidebar" -->
             <SfIcon class="sf-header__icon" icon="heart" size="1.25rem" />
           </SfButton>
 
-          <SfButton
+          <!-- <SfButton
             v-e2e="'app-header-cart'"
             class="sf-button--pure sf-header__action"
             @click="toggleCartSidebar"
@@ -67,7 +69,7 @@
               class="sf-badge--number cart-badge"
               >{{ cartTotalItems }}</SfBadge
             >
-          </SfButton>
+          </SfButton> -->
         </div>
       </template>
 
@@ -99,7 +101,7 @@ import {
   SfBadge,
   SfSearchBar,
   SfIcon,
-  SfOverlay,
+  SfOverlay
 } from '@storefront-ui/vue';
 import SearchResults from './SearchResults.vue';
 import debounce from 'lodash/debounce';
@@ -114,7 +116,7 @@ import {
   cartGetters,
   searchGetters,
   useCategory,
-  useSearch,
+  useSearch
 } from '@vue-storefront/shopify';
 import useUiHelpers from '~/composables/useUiHelpers';
 import LocaleSelector from './LocaleSelector';
@@ -129,12 +131,15 @@ export default {
     SfButton,
     SfOverlay,
     SfBadge,
-    SfSearchBar,
+    SfSearchBar
   },
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   setup(_, { $router }) {
-    const { toggleCartSidebar, toggleWishlistSidebar, toggleLoginModal } =
-      useUiState();
+    const {
+      toggleCartSidebar,
+      toggleWishlistSidebar,
+      toggleLoginModal
+    } = useUiState();
     const { changeSearchTerm, getFacetsFromURL } = useUiHelpers();
     const { isAuthenticated, load: loadUser } = useUser();
     const { cart, load: loadCart } = useCart();
@@ -173,7 +178,7 @@ export default {
       }
 
       await headerSearch({
-        term: term.value,
+        term: term.value
       });
     }, 1000);
     const closeSearch = () => {
@@ -183,7 +188,7 @@ export default {
     };
 
     searchResults.value = {
-      products: computed(() => searchGetters.getItems(result.value)),
+      products: computed(() => searchGetters.getItems(result.value))
     };
     // #endregion Search Section
 
@@ -207,9 +212,9 @@ export default {
       curCatSlug,
       searchResults,
       categories,
-      isSearchOpen,
+      isSearchOpen
     };
-  },
+  }
 };
 </script>
 
@@ -247,5 +252,8 @@ export default {
   ::v-deep &__item--mobile {
     display: block;
   }
+}
+.sf-search-bar {
+  display: none;
 }
 </style>

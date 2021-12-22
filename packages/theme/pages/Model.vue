@@ -1,12 +1,12 @@
 <template>
   <div id="test">
     <div class="model">
-        <!-- src="/models/zhifa_black_55_25.4cm_2K.glb" -->
-        <!-- src="https://jizhan.s3.ap-northeast-1.amazonaws.com/model/a7be72c6-3006-471b-8b7a-5792f4fe0860.glb" -->
-        <!-- src="https://modelviewer.dev/shared-assets/models/Astronaut.glb" -->
+      <!-- src="/models/zhifa_black_55_25.4cm_2K.glb" -->
+      <!-- src="https://jizhan.s3.ap-northeast-1.amazonaws.com/model/a7be72c6-3006-471b-8b7a-5792f4fe0860.glb" -->
+      <!-- src="https://modelviewer.dev/shared-assets/models/Astronaut.glb" -->
 
       <model-viewer
-        src="https://modelviewer.dev/shared-assets/models/Astronaut.glb"
+        src="/models/zhifa_black_55_25.4cm_2K.glb"
         autoplay
         camera-controls
         field-of-view="45deg"
@@ -17,14 +17,13 @@
       />
     </div>
     <div class="btns">
-      <SfButton
-        class="color-primary sf-button btn"
-        @click="handelReturn"
-      >
+      <SfButton class="color-primary sf-button btn" @click="handelReturn">
         Return
       </SfButton>
       <SfButton class="color-primary sf-button btn"> Check Out </SfButton>
-      <SfButton class="color-primary sf-button btn" @click="handleShare"> Share </SfButton>
+      <SfButton class="color-primary sf-button btn" @click="handleShare">
+        Share
+      </SfButton>
       <div class="tilltop">分享前请选取合适的角度</div>
     </div>
     <!-- <model-viewer v-if="isMounted" :src="url" camera-controls></model-viewer> -->
@@ -48,6 +47,7 @@ export default {
         path: '/share',
         query: {
           path: 'https://modelviewer.dev/shared-assets/models/Astronaut.glb'
+          // path: '/models/zhifa_black_55_25.4cm_2K.glb'
         }
       });
     };
@@ -75,7 +75,6 @@ export default {
     // this.loadComponent();
     import('@google/model-viewer');
   }
-
 };
 </script>
 
@@ -123,5 +122,4 @@ export default {
     }
   }
 }
-
 </style>

@@ -3,18 +3,16 @@
     <form class="form">
       <h3 class="form__element form__h2">假发参数</h3>
       <SfComponentSelect
+        v-model="color"
         class="
-          form__element
-          form__element--half
-          form__select
+          form__element form__element--half form__select
           sf-component-select--underlined
         "
-        v-model="color"
         label="Hair Color"
         :required="false"
         valid
         :disabled="false"
-        errorMessage="Please select Hair Color"
+        error-message="Please select Hair Color"
         value=""
         placeholder="Please select Hair Color"
       >
@@ -40,7 +38,7 @@
         valid
         :disabled="false"
         error-message="Please select Hair Length"
-         placeholder="Please select Hair Length"
+        placeholder="Please select Hair Length"
       >
         <SfComponentSelectOption
           v-for="length in lengths"
@@ -54,16 +52,14 @@
         v-model="density"
         label="Hair Density "
         class="
-          form__element
-          form__element--half
-          form__select
+          form__element form__element--half form__select
           sf-component-select--underlined
         "
         :required="false"
         valid
         :disabled="false"
         error-message="Please select Hair Density "
-         placeholder="Please select Hair Density "
+        placeholder="Please select Hair Density "
       >
         <SfComponentSelectOption
           v-for="density in densities"
@@ -87,7 +83,7 @@
         valid
         :disabled="false"
         error-message="Please select Lace material."
-         placeholder="Please select Lace material."
+        placeholder="Please select Lace material."
       >
         <SfComponentSelectOption
           v-for="item in laceMaterials"
@@ -102,16 +98,14 @@
         v-model="cap"
         label="Cap Construction "
         class="
-          form__element
-          form__element--half
-          form__select
+          form__element form__element--half form__select
           sf-component-select--underlined
         "
         :required="false"
         valid
         :disabled="false"
         error-message="Please select Cap Construction "
-         placeholder="Please select Cap Construction "
+        placeholder="Please select Cap Construction "
       >
         <SfComponentSelectOption
           v-for="item in caps"
@@ -136,7 +130,7 @@
         valid
         :disabled="false"
         error-message="Please select HairLine"
-         placeholder="Please select HairLine"
+        placeholder="Please select HairLine"
       >
         <SfComponentSelectOption
           v-for="(item, key) in hairLines"
@@ -151,16 +145,14 @@
         v-model="capSize"
         label="Cap Size "
         class="
-          form__element
-          form__element--half
-          form__select
+          form__element form__element--half form__select
           sf-component-select--underlined
         "
         :required="false"
         valid
         :disabled="false"
         error-message="Please select Cap Size "
-         placeholder="Please select Cap Size "
+        placeholder="Please select Cap Size "
       >
         <SfComponentSelectOption
           v-for="item in capSizes"
@@ -184,11 +176,33 @@
         valid
         :disabled="false"
         error-message="Please select Add Elastic Bands"
-         placeholder="Please select Add Elastic Bands"
+        placeholder="Please select Add Elastic Bands"
       >
         <SfComponentSelectOption
           v-for="(item, key) in addElasticBands"
           :key="key"
+          :value="item.value"
+        >
+          {{ item.label }}
+        </SfComponentSelectOption>
+      </SfComponentSelect>
+      <SfComponentSelect
+        v-model="style"
+        class="
+          form__element form__element--half form__select
+          sf-component-select--underlined
+        "
+        label="Hair style"
+        :required="false"
+        valid
+        :disabled="false"
+        error-message="Please select Hair style"
+        value=""
+        placeholder="Please select Hair style"
+      >
+        <SfComponentSelectOption
+          v-for="item in styles"
+          :key="item.value"
           :value="item.value"
         >
           {{ item.label }}
@@ -208,6 +222,13 @@
         > -->
       </div>
     </form>
+    <SfLoader
+      v-if="isLoadervisible"
+      class="pdc-pdp-loader"
+      :loading="isLoadervisible"
+    >
+      <div />
+    </SfLoader>
   </div>
 </template>
 <script>
@@ -219,7 +240,8 @@ import {
   SfButton,
   SfInput,
   SfComponentSelect,
-  SfHeading
+  SfHeading,
+  SfLoader
 } from '@storefront-ui/vue';
 
 export default {
@@ -230,11 +252,28 @@ export default {
     SfButton,
     SfInput,
     SfComponentSelect,
-    SfHeading
+    SfHeading,
+    SfLoader
+  },
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  setup(props, { root }) {
+    const handleNextClick = () => {
+      return root.$router.push({
+        path: '/model',
+        query: {
+          path: this.filePath
+        }
+      });
+      // return root.$router.push(`/model?filePath=${this.filePath}`);
+    };
+    return {
+      handleNextClick
+    };
   },
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   data() {
     return {
+      isLoadervisible: false,
       valid: false,
       submitted: false,
       // 款式
@@ -246,6 +285,7 @@ export default {
       hairLine: 'naturalHairLine',
       capSize: 'average',
       addElasticBand: 'no',
+      style: 'st',
       lengths: [
         { label: '8 Inch', value: '8' },
         { label: '10 Inch', value: '10' },
@@ -267,31 +307,41 @@ export default {
       ],
 
       densities: [
-        {label: '150%', value: '150%'},
-        {label: '180% +$30.00', value: '180%'}
+        { label: '150%', value: '150%' },
+        { label: '180% +$30.00', value: '180%' }
       ],
       laceMaterials: [
-        {label: 'HD Lace +$20.00', value: 'hdLace'},
-        {label: 'Normal Lace', value: 'normalLace'}
+        { label: 'HD Lace +$20.00', value: 'hdLace' },
+        { label: 'Normal Lace', value: 'normalLace' }
       ],
       caps: [
-        {label: '4 Parting Glueless Lace Front Crap', value: '4'},
-        {label: '6 Deep Parting Glueless Lace Front Crap +$60.00 GlueLess', value: '6'},
-        {label: '5 * 5 Closure Lace Cap +$40.00', value: '5'}
+        { label: '4 Parting Glueless Lace Front Crap', value: '4' },
+        {
+          label: '6 Deep Parting Glueless Lace Front Crap +$60.00 GlueLess',
+          value: '6'
+        },
+        { label: '5 * 5 Closure Lace Cap +$40.00', value: '5' }
       ],
       hairLines: [
-        {label: 'Natural Hair Line', value: 'naturalHairLine'},
-        {label: 'Pre-plucked HairLine', value: 'prePluckedHairLine'}
+        { label: 'Natural Hair Line', value: 'naturalHairLine' },
+        { label: 'Pre-plucked HairLine', value: 'prePluckedHairLine' }
       ],
       capSizes: [
-        {label: 'Average', value: 'average'},
-        {label: 'Petite', value: 'petite'},
-        {label: 'Large', value: 'large'},
-        {label: 'Custom +$30.00', value: 'custom'}
+        { label: 'Average', value: 'average' },
+        { label: 'Petite', value: 'petite' },
+        { label: 'Large', value: 'large' },
+        { label: 'Custom +$30.00', value: 'custom' }
       ],
       addElasticBands: [
-        {label: 'Yes', value: 'yes'},
-        {label: 'No', value: 'no'}
+        { label: 'Yes', value: 'yes' },
+        { label: 'No', value: 'no' }
+      ],
+      styles: [
+        { label: 'ST', value: 'st' },
+        { label: 'Body', value: 'body' },
+        { label: 'Curls', value: 'curls' },
+        { label: 'Yaki', value: 'yaki' },
+        { label: 'Bob', value: 'bob' }
       ],
       // 轮询时间
       timer: null,
@@ -300,22 +350,6 @@ export default {
       requestId: '',
       // 回显图片路径
       filePath: ''
-
-    };
-  },
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  setup(props, { root }) {
-    const handleNextClick = () => {
-      return root.$router.push({
-        path: '/model',
-        query: {
-          path: this.filePath
-        }
-      });
-      // return root.$router.push(`/model?filePath=${this.filePath}`);
-    };
-    return {
-      handleNextClick
     };
   },
   watch: {
@@ -334,7 +368,6 @@ export default {
   },
   methods: {
     submit() {
-
       const params = {
         ...this.$store.state.form,
         length: this.length,
@@ -345,10 +378,11 @@ export default {
         hairLine: this.hairLine,
         capSize: this.capSize,
         addElasticBand: this.addElasticBand
-
       };
       this.$store.dispatch('addForm', params);
       this.submitted = true;
+      this.isLoadervisible = true;
+
       // 获取远端图片
       this.$axios({
         method: 'post',
@@ -395,6 +429,7 @@ export default {
         }
       }).then(({ data }) => {
         if (data.status === 'done') {
+          this.isLoadervisible = false;
           this.stopSetInterval();
         }
         this.is2D = data.status;
@@ -405,10 +440,25 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "~@storefront-ui/vue/styles";
+@import '~@storefront-ui/vue/styles';
+.pdc-pdp-loader {
+  max-height: 75vh;
+  // width: 100%;
+  /* padding: 100px 0; */
+  position: absolute;
+  top: 0;
+  left: 0;
+  @include for-mobile {
+    min-height: 154vh;
+  }
+  .sf-loader__overlay {
+    background: rgba(0, 0, 0, 0.2);
+  }
+}
 #form-ste1 {
   box-sizing: border-box;
   padding: 0 var(--spacer-sm);
+  position: relative;
   @include for-desktop {
     padding: 0 var(--spacer-sm);
     max-width: 870px;
@@ -420,8 +470,8 @@ export default {
   @include for-mobile {
     padding: var(--spacer-sm);
   }
-  &__h2{
-    padding:var(--spacer-sm) 0;
+  &__h2 {
+    padding: var(--spacer-sm) 0;
   }
   &__group {
     display: flex;
@@ -462,6 +512,15 @@ export default {
     }
     &__button {
       --button-width: auto;
+    }
+  }
+  .sf-loader {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    .sf-loader__overlay {
+      background: rgba(255, 255, 255, 0.9);
     }
   }
 }
