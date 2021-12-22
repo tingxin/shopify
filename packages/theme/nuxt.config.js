@@ -1,7 +1,8 @@
 require('isomorphic-fetch');
 import webpack from 'webpack';
 
-/** @type { import('@nuxt/types').NuxtConfig } */ 
+/** @type { import('@nuxt/types').NuxtConfig } */
+
 const config = {
   publicRuntimeConfig: {
     appKey: 'vsf2spcon',
@@ -25,6 +26,7 @@ const config = {
         name: 'description',
         content: process.env.npm_package_description || ''
       }
+      // { name: 'referrer', content: 'no-referrer' }
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
@@ -44,13 +46,14 @@ const config = {
         href:
           'https://fonts.googleapis.com/css?family=Raleway:300,400,400i,500,600,700|Roboto:300,300i,400,400i,500,700&display=swap',
         media: 'print',
-        onload: 'this.media=\'all\''
+        onload: "this.media='all'"
       }
     ]
   },
   loading: { color: '#fff' },
   plugins: [
-    '~/plugins/scrollToTop.client.js'
+    '~/plugins/scrollToTop.client.js',
+    { src: '~/plugins/cropper', ssr: false }
   ],
   buildModules: [
     // to core
@@ -100,7 +103,8 @@ const config = {
     'nuxt-i18n',
     'cookie-universal-nuxt',
     'vue-scrollto/nuxt',
-    '@vue-storefront/middleware/nuxt'
+    '@vue-storefront/middleware/nuxt',
+    '@nuxtjs/axios'
   ],
   i18n: {
     currency: 'USD',
@@ -175,18 +179,19 @@ const config = {
       })
     ],
     extend(config) {
-      config.resolve.extensions.push('.mjs')
+      config.resolve.extensions.push('.mjs');
 
       config.module.rules.push({
         test: /\.mjs$/,
         include: /node_modules/,
         type: 'javascript/auto'
-      })
+      });
     },
     extractCSS: {
       ignoreOrder: true
     }
   },
+
   router: {
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
     scrollBehavior(_to, _from, savedPosition) {
@@ -292,7 +297,19 @@ const config = {
         '//shopify-pwa.aureatelabs.com/'
       ]
     }
+  },
+  axios: {
+    prefix: '/',
+    proxy: true
+  },
+  proxy: {
+    '/ama': {
+      target: 'https://wgt24czo0e.execute-api.ap-northeast-1.amazonaws.com/',
+      pathRewrite: {
+        '^/ama': '/'
+      }
+    }
   }
 };
 
-export default config
+export default config;

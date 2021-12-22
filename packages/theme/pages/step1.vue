@@ -1,0 +1,468 @@
+<template>
+  <div id="form-step1">
+    <form class="form">
+      <h3 class="form__element form__h2">假发参数</h3>
+      <SfComponentSelect
+        class="
+          form__element
+          form__element--half
+          form__select
+          sf-component-select--underlined
+        "
+        v-model="color"
+        label="Hair Color"
+        :required="false"
+        valid
+        :disabled="false"
+        errorMessage="Please select Hair Color"
+        value=""
+        placeholder="Please select Hair Color"
+      >
+        <SfComponentSelectOption
+          v-for="item in colors"
+          :key="item.color"
+          :value="item.color"
+        >
+          {{ item.name }}
+        </SfComponentSelectOption>
+      </SfComponentSelect>
+      <SfComponentSelect
+        v-model="length"
+        label="Hair Length"
+        class="
+          form__element
+          form__element--half
+          form__element--half-even
+          form__select
+          sf-component-select--underlined
+        "
+        :required="false"
+        valid
+        :disabled="false"
+        error-message="Please select Hair Length"
+         placeholder="Please select Hair Length"
+      >
+        <SfComponentSelectOption
+          v-for="length in lengths"
+          :key="length.value"
+          :value="length.value"
+        >
+          {{ length.label }}
+        </SfComponentSelectOption>
+      </SfComponentSelect>
+      <SfComponentSelect
+        v-model="density"
+        label="Hair Density "
+        class="
+          form__element
+          form__element--half
+          form__select
+          sf-component-select--underlined
+        "
+        :required="false"
+        valid
+        :disabled="false"
+        error-message="Please select Hair Density "
+         placeholder="Please select Hair Density "
+      >
+        <SfComponentSelectOption
+          v-for="density in densities"
+          :key="density.value"
+          :value="density.value"
+        >
+          {{ density.label }}
+        </SfComponentSelectOption>
+      </SfComponentSelect>
+      <SfComponentSelect
+        v-model="laceMaterial"
+        label="Lace Material"
+        class="
+          form__element
+          form__element--half
+          form__element--half-even
+          form__select
+          sf-component-select--underlined
+        "
+        :required="false"
+        valid
+        :disabled="false"
+        error-message="Please select Lace material."
+         placeholder="Please select Lace material."
+      >
+        <SfComponentSelectOption
+          v-for="item in laceMaterials"
+          :key="item.value"
+          :value="item.value"
+        >
+          {{ item.label }}
+        </SfComponentSelectOption>
+      </SfComponentSelect>
+
+      <SfComponentSelect
+        v-model="cap"
+        label="Cap Construction "
+        class="
+          form__element
+          form__element--half
+          form__select
+          sf-component-select--underlined
+        "
+        :required="false"
+        valid
+        :disabled="false"
+        error-message="Please select Cap Construction "
+         placeholder="Please select Cap Construction "
+      >
+        <SfComponentSelectOption
+          v-for="item in caps"
+          :key="item.value"
+          :value="item.value"
+        >
+          {{ item.label }}
+        </SfComponentSelectOption>
+      </SfComponentSelect>
+
+      <SfComponentSelect
+        v-model="hairLine"
+        label="Hair Line"
+        class="
+          form__element
+          form__element--half
+          form__element--half-even
+          form__select
+          sf-component-select--underlined
+        "
+        :required="false"
+        valid
+        :disabled="false"
+        error-message="Please select HairLine"
+         placeholder="Please select HairLine"
+      >
+        <SfComponentSelectOption
+          v-for="(item, key) in hairLines"
+          :key="key"
+          :value="item.value"
+        >
+          {{ item.label }}
+        </SfComponentSelectOption>
+      </SfComponentSelect>
+
+      <SfComponentSelect
+        v-model="capSize"
+        label="Cap Size "
+        class="
+          form__element
+          form__element--half
+          form__select
+          sf-component-select--underlined
+        "
+        :required="false"
+        valid
+        :disabled="false"
+        error-message="Please select Cap Size "
+         placeholder="Please select Cap Size "
+      >
+        <SfComponentSelectOption
+          v-for="item in capSizes"
+          :key="item.value"
+          :value="item.value"
+        >
+          {{ item.label }}
+        </SfComponentSelectOption>
+      </SfComponentSelect>
+      <SfComponentSelect
+        v-model="addElasticBand"
+        label="Add Elastic Bands"
+        class="
+          form__element
+          form__element--half
+          form__element--half-even
+          form__select
+          sf-component-select--underlined
+        "
+        :required="false"
+        valid
+        :disabled="false"
+        error-message="Please select Add Elastic Bands"
+         placeholder="Please select Add Elastic Bands"
+      >
+        <SfComponentSelectOption
+          v-for="(item, key) in addElasticBands"
+          :key="key"
+          :value="item.value"
+        >
+          {{ item.label }}
+        </SfComponentSelectOption>
+      </SfComponentSelect>
+      <div class="form__element form__element--half" />
+
+      <div class="form__action">
+        <SfButton type="submit" @click.prevent="submit">Next</SfButton>
+        <!-- <SfButton
+          class="
+            sf-button--text
+            form__action-button form__action-button--secondary
+          "
+          @click="reset"
+          >Reset</SfButton
+        > -->
+      </div>
+    </form>
+  </div>
+</template>
+<script>
+import('@google/model-viewer');
+
+import {
+  SfSelect,
+  SfColor,
+  SfButton,
+  SfInput,
+  SfComponentSelect,
+  SfHeading
+} from '@storefront-ui/vue';
+
+export default {
+  name: 'Step1',
+  components: {
+    SfSelect,
+    SfColor,
+    SfButton,
+    SfInput,
+    SfComponentSelect,
+    SfHeading
+  },
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  data() {
+    return {
+      valid: false,
+      submitted: false,
+      // 款式
+      length: '16',
+      color: 'black',
+      density: '150%',
+      laceMaterial: 'normalLace',
+      cap: '4',
+      hairLine: 'naturalHairLine',
+      capSize: 'average',
+      addElasticBand: 'no',
+      lengths: [
+        { label: '8 Inch', value: '8' },
+        { label: '10 Inch', value: '10' },
+        { label: '12 Inch', value: '12' },
+        { label: '14 Inch', value: '14' },
+        { label: '16 Inch', value: '16' },
+        { label: '18 Inch +$30.00', value: '18' },
+        { label: '20 Inch + $90.00', value: '20' },
+        { label: '22 Inch +$130.00', value: '22' },
+        { label: '24 Inch +$180.00', value: '24' },
+        { label: '26 Inch +$240.00', value: '26' }
+      ],
+      colors: [
+        { color: 'black', name: 'Black' },
+        { color: 'wineRed', name: 'Wine Red+¥50.00' },
+        { color: 'darkPurple', name: 'Dark Purple+¥50.00' },
+        { color: 'blue', name: 'Blue+¥50.00' },
+        { color: 'platinumBlonde', name: 'Platinum Blonde+¥50.00' }
+      ],
+
+      densities: [
+        {label: '150%', value: '150%'},
+        {label: '180% +$30.00', value: '180%'}
+      ],
+      laceMaterials: [
+        {label: 'HD Lace +$20.00', value: 'hdLace'},
+        {label: 'Normal Lace', value: 'normalLace'}
+      ],
+      caps: [
+        {label: '4 Parting Glueless Lace Front Crap', value: '4'},
+        {label: '6 Deep Parting Glueless Lace Front Crap +$60.00 GlueLess', value: '6'},
+        {label: '5 * 5 Closure Lace Cap +$40.00', value: '5'}
+      ],
+      hairLines: [
+        {label: 'Natural Hair Line', value: 'naturalHairLine'},
+        {label: 'Pre-plucked HairLine', value: 'prePluckedHairLine'}
+      ],
+      capSizes: [
+        {label: 'Average', value: 'average'},
+        {label: 'Petite', value: 'petite'},
+        {label: 'Large', value: 'large'},
+        {label: 'Custom +$30.00', value: 'custom'}
+      ],
+      addElasticBands: [
+        {label: 'Yes', value: 'yes'},
+        {label: 'No', value: 'no'}
+      ],
+      // 轮询时间
+      timer: null,
+      // 是否执行轮训
+      is2D: '',
+      requestId: '',
+      // 回显图片路径
+      filePath: ''
+
+    };
+  },
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  setup(props, { root }) {
+    const handleNextClick = () => {
+      return root.$router.push({
+        path: '/model',
+        query: {
+          path: this.filePath
+        }
+      });
+      // return root.$router.push(`/model?filePath=${this.filePath}`);
+    };
+    return {
+      handleNextClick
+    };
+  },
+  watch: {
+    requestId: {
+      // 查看文件上传的处理状态
+      handler(newVal) {
+        if (newVal !== '' && this.is2D !== 'done') {
+          // 实现轮询
+          this.createSetInterval();
+        } else if (newVal !== '' && this.is2D === 'done') {
+          this.stopSetInterval();
+        }
+      },
+      immediate: true
+    }
+  },
+  methods: {
+    submit() {
+
+      const params = {
+        ...this.$store.state.form,
+        length: this.length,
+        color: this.color,
+        density: this.density,
+        laceMaterial: this.laceMaterial,
+        cap: this.cap,
+        hairLine: this.hairLine,
+        capSize: this.capSize,
+        addElasticBand: this.addElasticBand
+
+      };
+      this.$store.dispatch('addForm', params);
+      this.submitted = true;
+      // 获取远端图片
+      this.$axios({
+        method: 'post',
+        url: '/ama/profile',
+        data: params
+      }).then(({ data }) => {
+        this.requestId = data.request_id;
+        this.filePath = data.file_path;
+      });
+      // this.handleNextClick();
+    },
+    // reset() {
+    //   this.style = '';
+    //   this.length = '';
+    //   this.color = '';
+    //   this.density = '';
+    //   this.laceMaterial = '';
+    // }
+    // 开启轮询  如果存在则先销毁定时器后重新开启
+    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+    createSetInterval() {
+      this.stopSetInterval();
+      this.timer = setInterval(() => {
+        this.getNewMessage();
+      }, 5000);
+    },
+    // 关闭轮询
+    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+    stopSetInterval() {
+      if (this.timer) {
+        clearInterval(this.timer);
+        this.timer = null;
+        this.handleNextClick();
+      }
+    },
+    // 请求是否有新消息
+    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+    getNewMessage() {
+      this.$axios({
+        method: 'get',
+        url: '/ama/status',
+        headers: {
+          'x-jizhan-request-id': this.requestId
+        }
+      }).then(({ data }) => {
+        if (data.status === 'done') {
+          this.stopSetInterval();
+        }
+        this.is2D = data.status;
+      });
+    }
+  }
+};
+</script>
+
+<style lang="scss" scoped>
+@import "~@storefront-ui/vue/styles";
+#form-ste1 {
+  box-sizing: border-box;
+  padding: 0 var(--spacer-sm);
+  @include for-desktop {
+    padding: 0 var(--spacer-sm);
+    max-width: 870px;
+    margin: 0 auto;
+  }
+}
+.form {
+  padding: var(--spacer-sm) 0;
+  @include for-mobile {
+    padding: var(--spacer-sm);
+  }
+  &__h2{
+    padding:var(--spacer-sm) 0;
+  }
+  &__group {
+    display: flex;
+    align-items: flex-start;
+  }
+  &__action-button {
+    &:first-child {
+      margin: var(--spacer-sm) 0 0 0;
+    }
+    &--secondary {
+      margin: var(--spacer-sm) 0 var(--spacer-sm) var(--spacer-base);
+    }
+  }
+  &__button {
+    --button-width: 100%;
+  }
+  @include for-desktop {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    margin: 0 var(--spacer-2xl) 0 0;
+    &:last-of-type {
+      margin: 0 calc(var(--spacer-2xl) - var(--spacer-sm)) 0 0;
+    }
+    &__element {
+      margin: 0 0 var(--spacer-sm) 0;
+      flex: 0 0 100%;
+      &--half {
+        flex: 1 1 50%;
+        &-even {
+          padding: 0 0 0 var(--spacer-xl);
+        }
+      }
+    }
+    &__action {
+      flex: 0 0 100%;
+      display: flex;
+    }
+    &__button {
+      --button-width: auto;
+    }
+  }
+}
+</style>

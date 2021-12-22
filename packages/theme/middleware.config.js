@@ -4,8 +4,8 @@ module.exports = {
       location: '@vue-storefront/shopify-api/server',
       configuration: {
         api: {
-          domain: process.env.SHOPIFY_DOMAIN,
-          storefrontAccessToken: process.env.SHOPIFY_STOREFRONT_TOKEN
+          domain: 'devfriend.myshopify.com',
+          storefrontAccessToken: 'd9bbf4bbfa49382930ca255fd8ca8f8e'
         },
         currency: 'USD',
         country: 'US'
