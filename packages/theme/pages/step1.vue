@@ -328,7 +328,7 @@ export default {
     },
   },
   methods: {
-    submit() {
+    async submit() {
       const params = [
         'jc',
         this.color,
@@ -349,11 +349,10 @@ export default {
       this.submitted = true;
       this.isLoadervisible = true;
       // 获取远端图片
-      this.$axios({
+      await this.$axios({
         method: 'post',
         url: '/ama/profile',
-        data,
-        // timeout: 1000,
+        data: JSON.stringify(data),
       }).then(({ data }) => {
         this.requestId = data.request_id;
         this.filePath = data.file_path;
