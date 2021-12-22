@@ -1,31 +1,29 @@
 <template>
-<div>
-  <div id="test" v-if="isDom" ref="bill">
-    <div class="model" >
-      <model-viewer
-        autoplay
-        camera-controls
-        field-of-view="45deg"
-        interaction-prompt="none"
-        ar
-        ar-modes="webxr scene-viewer quick-look"
-        class="model-img"
-        id="model"
-
-      />
+  <div>
+    <div v-if="isDom" id="test" ref="bill">
+      <div class="model">
+        <model-viewer
+          id="model"
+          autoplay
+          camera-controls
+          field-of-view="45deg"
+          interaction-prompt="none"
+          ar
+          ar-modes="webxr scene-viewer quick-look"
+          class="model-img"
+        />
+      </div>
+      <div class="btns">
+        <SfButton class="color-primary sf-button btn" @click="htmlToCanvas">
+          Share
+        </SfButton>
+        <div class="tilltop">分享前请选取合适的角度</div>
+      </div>
     </div>
-    <div class="btns">
-
-      <SfButton class="color-primary sf-button btn" @click="htmlToCanvas"> Share </SfButton>
-      <div class="tilltop">分享前请选取合适的角度</div>
+    <div v-else class="canvas-bill">
+      <img :src="canvasImageUrl" alt="" />
     </div>
   </div>
-    <div class="canvas-bill" v-else>
-      <img :src="canvasImageUrl" alt="">
-    </div>
-
-</div>
-
 </template>
 <script>
 // import('@google/model-viewer');
@@ -35,7 +33,6 @@ export default {
   components: { SfButton },
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   setup(props, { root }) {
-
     const filePath = root.$route.query.path;
     // console.log('00', filePath);
     /** **
@@ -56,29 +53,26 @@ export default {
       canvasImageUrl: ''
     };
   },
+  mounted() {
+    import('@google/model-viewer');
+    this.getModleFile();
+  },
   methods: {
-
     /**
-* 将页面指定节点内容转为图片
-* 1.拿到想要转换为图片的内容节点DOM；
-* 2.转换，拿到转换后的canvas
-* 3.转换为图片
-*/
+     * 将页面指定节点内容转为图片
+     * 1.拿到想要转换为图片的内容节点DOM；
+     * 2.转换，拿到转换后的canvas
+     * 3.转换为图片
+     */
     htmlToCanvas() {
-      console.log('bill', this.$refs.bill);
-      html2canvas(this.$refs.bill).then((canvas)=>{
+      // console.log('bill', this.$refs.bill);
+      html2canvas(this.$refs.bill).then((canvas) => {
         const imageUrl = canvas.toDataURL('image/png');
         this.canvasImageUrl = imageUrl;
         this.isDom = false;
       });
     }
-  },
-  mounted() {
-    import('@google/model-viewer');
-    this.getModleFile();
-
   }
-
 };
 </script>
 
@@ -106,9 +100,9 @@ export default {
   .btns {
     display: flex;
     flex-direction: column;
-     @include for-desktop{
+    @include for-desktop {
       justify-content: center;
-     }
+    }
     .btn {
       width: 150px;
       margin: var(--spacer-sm) 0 0;
@@ -125,20 +119,18 @@ export default {
       color: red;
     }
   }
-
 }
-.canvas-bill{
+.canvas-bill {
   @include for-desktop {
     width: 500px;
-  height: 500px;
+    height: 500px;
   }
   margin: var(--spacer-sm) auto;
   width: 100%;
   height: 300px;
-  img{
+  img {
     width: 100%;
     height: 100%;
   }
 }
-
 </style>
