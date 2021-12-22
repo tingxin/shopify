@@ -341,22 +341,24 @@ export default {
         this.addElasticBand,
       ];
 
-      const newData = {
+      const data = {
         ...this.$store.state.form,
         params,
       };
-      this.$store.dispatch('addForm', newData);
+      this.$store.dispatch('addForm', data);
       this.submitted = true;
       this.isLoadervisible = true;
       // 获取远端图片
       this.$axios({
         method: 'post',
         url: '/ama/profile',
-        data: newData,
+        data,
+        // timeout: 1000,
       }).then(({ data }) => {
         this.requestId = data.request_id;
         this.filePath = data.file_path;
       });
+      // this.getNewMessage();
       // this.handleNextClick();
     },
     // reset() {
