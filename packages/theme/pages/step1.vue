@@ -4,10 +4,7 @@
       <h3 class="form__element form__h2">假发参数</h3>
       <SfComponentSelect
         v-model="color"
-        class="
-          form__element form__element--half form__select
-          sf-component-select--underlined
-        "
+        class="form__element form__element--half form__select sf-component-select--underlined"
         label="Hair Color"
         :required="false"
         valid
@@ -27,13 +24,7 @@
       <SfComponentSelect
         v-model="length"
         label="Hair Length"
-        class="
-          form__element
-          form__element--half
-          form__element--half-even
-          form__select
-          sf-component-select--underlined
-        "
+        class="form__element form__element--half form__element--half-even form__select sf-component-select--underlined"
         :required="false"
         valid
         :disabled="false"
@@ -51,10 +42,7 @@
       <SfComponentSelect
         v-model="density"
         label="Hair Density "
-        class="
-          form__element form__element--half form__select
-          sf-component-select--underlined
-        "
+        class="form__element form__element--half form__select sf-component-select--underlined"
         :required="false"
         valid
         :disabled="false"
@@ -72,13 +60,7 @@
       <SfComponentSelect
         v-model="laceMaterial"
         label="Lace Material"
-        class="
-          form__element
-          form__element--half
-          form__element--half-even
-          form__select
-          sf-component-select--underlined
-        "
+        class="form__element form__element--half form__element--half-even form__select sf-component-select--underlined"
         :required="false"
         valid
         :disabled="false"
@@ -97,10 +79,7 @@
       <SfComponentSelect
         v-model="cap"
         label="Cap Construction "
-        class="
-          form__element form__element--half form__select
-          sf-component-select--underlined
-        "
+        class="form__element form__element--half form__select sf-component-select--underlined"
         :required="false"
         valid
         :disabled="false"
@@ -119,13 +98,7 @@
       <SfComponentSelect
         v-model="hairLine"
         label="Hair Line"
-        class="
-          form__element
-          form__element--half
-          form__element--half-even
-          form__select
-          sf-component-select--underlined
-        "
+        class="form__element form__element--half form__element--half-even form__select sf-component-select--underlined"
         :required="false"
         valid
         :disabled="false"
@@ -144,10 +117,7 @@
       <SfComponentSelect
         v-model="capSize"
         label="Cap Size "
-        class="
-          form__element form__element--half form__select
-          sf-component-select--underlined
-        "
+        class="form__element form__element--half form__select sf-component-select--underlined"
         :required="false"
         valid
         :disabled="false"
@@ -165,13 +135,7 @@
       <SfComponentSelect
         v-model="addElasticBand"
         label="Add Elastic Bands"
-        class="
-          form__element
-          form__element--half
-          form__element--half-even
-          form__select
-          sf-component-select--underlined
-        "
+        class="form__element form__element--half form__element--half-even form__select sf-component-select--underlined"
         :required="false"
         valid
         :disabled="false"
@@ -188,10 +152,7 @@
       </SfComponentSelect>
       <SfComponentSelect
         v-model="style"
-        class="
-          form__element form__element--half form__select
-          sf-component-select--underlined
-        "
+        class="form__element form__element--half form__select sf-component-select--underlined"
         label="Hair style"
         :required="false"
         valid
@@ -241,7 +202,7 @@ import {
   SfInput,
   SfComponentSelect,
   SfHeading,
-  SfLoader
+  SfLoader,
 } from '@storefront-ui/vue';
 
 export default {
@@ -253,7 +214,7 @@ export default {
     SfInput,
     SfComponentSelect,
     SfHeading,
-    SfLoader
+    SfLoader,
   },
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   setup(props, { root }) {
@@ -261,13 +222,13 @@ export default {
       return root.$router.push({
         path: '/model',
         query: {
-          path: this.filePath
-        }
+          path: this.filePath,
+        },
       });
       // return root.$router.push(`/model?filePath=${this.filePath}`);
     };
     return {
-      handleNextClick
+      handleNextClick,
     };
   },
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -296,52 +257,52 @@ export default {
         { label: '20 Inch + $90.00', value: '20inch' },
         { label: '22 Inch +$130.00', value: '22inch' },
         { label: '24 Inch +$180.00', value: '24inch' },
-        { label: '26 Inch +$240.00', value: '26inch' }
+        { label: '26 Inch +$240.00', value: '26inch' },
       ],
       colors: [
         { color: 'black', name: 'Black' },
         { color: 'wineRed', name: 'Wine Red+¥50.00' },
         { color: 'darkPurple', name: 'Dark Purple+¥50.00' },
         { color: 'blue', name: 'Blue+¥50.00' },
-        { color: 'platinumBlonde', name: 'Platinum Blonde+¥50.00' }
+        { color: 'platinumBlonde', name: 'Platinum Blonde+¥50.00' },
       ],
 
       densities: [
         { label: '150%', value: '150%' },
-        { label: '180% +$30.00', value: '180%' }
+        { label: '180% +$30.00', value: '180%' },
       ],
       laceMaterials: [
         { label: 'HD Lace +$20.00', value: 'hdLace' },
-        { label: 'Normal Lace', value: 'normalLace' }
+        { label: 'Normal Lace', value: 'normalLace' },
       ],
       caps: [
         { label: '4 Parting Glueless Lace Front Crap', value: '4' },
         {
           label: '6 Deep Parting Glueless Lace Front Crap +$60.00 GlueLess',
-          value: '6'
+          value: '6',
         },
-        { label: '5 * 5 Closure Lace Cap +$40.00', value: '5' }
+        { label: '5 * 5 Closure Lace Cap +$40.00', value: '5' },
       ],
       hairLines: [
         { label: 'Natural Hair Line', value: 'naturalHairLine' },
-        { label: 'Pre-plucked HairLine', value: 'prePluckedHairLine' }
+        { label: 'Pre-plucked HairLine', value: 'prePluckedHairLine' },
       ],
       capSizes: [
         { label: 'Average', value: 'average' },
         { label: 'Petite', value: 'petite' },
         { label: 'Large', value: 'large' },
-        { label: 'Custom +$30.00', value: 'custom' }
+        { label: 'Custom +$30.00', value: 'custom' },
       ],
       addElasticBands: [
         { label: 'Yes', value: 'yes' },
-        { label: 'No', value: 'no' }
+        { label: 'No', value: 'no' },
       ],
       styles: [
         { label: 'ST', value: 'st' },
         { label: 'Body', value: 'body' },
         { label: 'Curls', value: 'curls' },
         { label: 'Yaki', value: 'yaki' },
-        { label: 'Bob', value: 'bob' }
+        { label: 'Bob', value: 'bob' },
       ],
       // 轮询时间
       timer: null,
@@ -349,7 +310,7 @@ export default {
       is2D: '',
       requestId: '',
       // 回显图片路径
-      filePath: ''
+      filePath: '',
     };
   },
   watch: {
@@ -363,8 +324,8 @@ export default {
           this.stopSetInterval();
         }
       },
-      immediate: true
-    }
+      immediate: true,
+    },
   },
   methods: {
     submit() {
@@ -377,12 +338,12 @@ export default {
         this.cap,
         this.hairLine,
         this.capSize,
-        this.addElasticBand
+        this.addElasticBand,
       ];
 
       const newData = {
         ...this.$store.state.form,
-        params
+        params,
       };
       this.$store.dispatch('addForm', newData);
       this.submitted = true;
@@ -391,7 +352,7 @@ export default {
       this.$axios({
         method: 'post',
         url: '/ama/profile',
-        data: newData
+        data: newData,
       }).then(({ data }) => {
         this.requestId = data.request_id;
         this.filePath = data.file_path;
@@ -429,8 +390,8 @@ export default {
         method: 'get',
         url: '/ama/status',
         headers: {
-          'x-jizhan-request-id': this.requestId
-        }
+          'x-jizhan-request-id': this.requestId,
+        },
       }).then(({ data }) => {
         if (data.status === 'done') {
           this.isLoadervisible = false;
@@ -438,8 +399,8 @@ export default {
         }
         this.is2D = data.status;
       });
-    }
-  }
+    },
+  },
 };
 </script>
 
