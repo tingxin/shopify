@@ -284,7 +284,7 @@ export default {
       hairLine: 'naturalHairLine',
       capSize: 'average',
       addElasticBand: 'no',
-      style: 'jc‘’',
+      style: 'jc',
       lengths: [
         { label: '8 Inch', value: '8inch' },
         { label: '10 Inch', value: '10inch' },
