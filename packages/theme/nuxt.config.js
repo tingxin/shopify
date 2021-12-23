@@ -192,6 +192,7 @@ const config = {
     extractCSS: {
       ignoreOrder: true,
     },
+    vendor: ['axios'],
   },
 
   router: {
@@ -312,6 +313,13 @@ const config = {
       pathRewrite: {
         '^/ama': '/',
       },
+    },
+    '/default': {
+      target: 'https://4zcntep4rj.execute-api.us-east-1.amazonaws.com',
+      changeOrigin: true,
+      // pathRewrite: {
+      //   '^/default': '/',
+      // },
     },
   },
 };

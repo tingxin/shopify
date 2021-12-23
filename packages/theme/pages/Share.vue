@@ -2,8 +2,9 @@
   <div>
     <div v-if="isDom" id="test" ref="bill">
       <div class="model">
+        <!-- https://jizhan1.s3.us-east-1.amazonaws.com/model/03656bf0-1838-427a-a96e-f4f658431cad.glb -->
         <model-viewer
-          id="model"
+          id="share"
           autoplay
           camera-controls
           field-of-view="45deg"
@@ -34,28 +35,27 @@ export default {
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   setup(props, { root }) {
     const filePath = root.$route.query.path;
-    // console.log('00', filePath);
     /** **
      * add 3d model-viewer src
      **/
     const getModleFile = () => {
-      document.getElementById('model').src = filePath;
+      document.getElementById('share').src = filePath;
     };
     return {
       filePath,
-      getModleFile
+      getModleFile,
     };
   },
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   data() {
     return {
       isDom: true,
-      canvasImageUrl: ''
+      canvasImageUrl: '',
     };
   },
   mounted() {
     import('@google/model-viewer');
-    this.getModleFile();
+    // this.getModleFile();
   },
   methods: {
     /**
@@ -71,8 +71,8 @@ export default {
         this.canvasImageUrl = imageUrl;
         this.isDom = false;
       });
-    }
-  }
+    },
+  },
 };
 </script>
 

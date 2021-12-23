@@ -1,12 +1,8 @@
 <template>
-  <div id="test">
+  <div id="model-viewer">
     <div class="model">
-      <!-- src="/models/zhifa_black_55_25.4cm_2K.glb" -->
-      <!-- src="https://jizhan.s3.ap-northeast-1.amazonaws.com/model/a7be72c6-3006-471b-8b7a-5792f4fe0860.glb" -->
-      <!-- src="https://modelviewer.dev/shared-assets/models/Astronaut.glb" -->
-
       <model-viewer
-        src="/models/zhifa_black_55_25.4cm_2K.glb"
+        id="model"
         autoplay
         camera-controls
         field-of-view="45deg"
@@ -26,7 +22,6 @@
       </SfButton>
       <div class="tilltop">分享前请选取合适的角度</div>
     </div>
-    <!-- <model-viewer v-if="isMounted" :src="url" camera-controls></model-viewer> -->
   </div>
 </template>
 <script>
@@ -39,47 +34,43 @@ export default {
     const handelReturn = () => {
       return root.$router.push('/step1');
     };
-    const filePath = root.$route.query.path;
-    // const newFile = `/ama/${filePath.split('.com/')[1]}`;
-    console.log('00', filePath);
+
     const handleShare = () => {
       return root.$router.push({
         path: '/share',
         query: {
-          path: 'https://modelviewer.dev/shared-assets/models/Astronaut.glb'
-          // path: '/models/zhifa_black_55_25.4cm_2K.glb'
-        }
+          path: root.$route.query.path,
+        },
       });
     };
     return {
       handelReturn,
-      filePath,
-      handleShare
+      handleShare,
     };
   },
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   data() {
-    return {
-      // isMounted: false,
-      // url: '../assets/models/body_black_55_45cm.glb'
-    };
+    return {};
   },
-  // computed: {
-  //   filePath() {
-  //     console.log('00', this.$route.query.filePath);
-  //     return this.$route.query.filePath;
-  //   }
-  // },
+  methods: {
+    getModleFile() {
+      const filePath = this.$route.query.path;
+
+      document.getElementById('model').src = filePath;
+      // document.getElementById('model').src =
+      //   'https://jizhan1.s3.us-east-1.amazonaws.com/model/03656bf0-1838-427a-a96e-f4f658431cad.glb';
+    },
+  },
+
   mounted() {
-    // this.isMounted = true;
-    // this.loadComponent();
     import('@google/model-viewer');
-  }
+    this.getModleFile();
+  },
 };
 </script>
 
 <style lang="scss" scoped>
-#test {
+#model-viewer {
   box-sizing: border-box;
   padding: 0 var(--spacer-sm);
   margin: var(--spacer-sm) auto;

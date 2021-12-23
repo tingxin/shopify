@@ -1,5 +1,13 @@
 <template>
   <div id="form-step1">
+    <SfNotification
+      :visible="Boolean(notificationVisible)"
+      persistent=""
+      title=""
+      :message="notificationVisible"
+      action=""
+      type="danger"
+    />
     <form class="form">
       <h3 class="form__element form__h2">假发参数</h3>
       <SfComponentSelect
@@ -173,14 +181,6 @@
 
       <div class="form__action">
         <SfButton type="submit" @click.prevent="submit">Next</SfButton>
-        <!-- <SfButton
-          class="
-            sf-button--text
-            form__action-button form__action-button--secondary
-          "
-          @click="reset"
-          >Reset</SfButton
-        > -->
       </div>
     </form>
     <SfLoader
@@ -203,6 +203,7 @@ import {
   SfComponentSelect,
   SfHeading,
   SfLoader,
+  SfNotification,
 } from '@storefront-ui/vue';
 
 export default {
@@ -215,6 +216,7 @@ export default {
     SfComponentSelect,
     SfHeading,
     SfLoader,
+    SfNotification,
   },
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   setup(props, { root }) {
@@ -225,7 +227,6 @@ export default {
           path: this.filePath,
         },
       });
-      // return root.$router.push(`/model?filePath=${this.filePath}`);
     };
     return {
       handleNextClick,
@@ -237,8 +238,9 @@ export default {
       isLoadervisible: false,
       valid: false,
       submitted: false,
+      notificationVisible: '',
       // 款式
-      length: '16',
+      length: '16inch',
       color: 'black',
       density: '150%',
       laceMaterial: 'normalLace',
@@ -330,10 +332,14 @@ export default {
   methods: {
     async submit() {
       const params = [
+        // 'jc',
+        // this.color,
+        // this.density,
+        // this.length,
         'jc',
-        this.color,
-        this.density,
-        this.length,
+        'black',
+        '26inch',
+        '55',
         this.laceMaterial,
         this.cap,
         this.hairLine,
@@ -348,17 +354,18 @@ export default {
       this.$store.dispatch('addForm', data);
       this.submitted = true;
       this.isLoadervisible = true;
+      // this.getNewMessage();
       // 获取远端图片
+      this.notificationVisible = '';
       await this.$axios({
-        method: 'post',
+        method: 'POST',
         url: '/ama/profile',
+        // url:'/default/profile',
         data: JSON.stringify(data),
       }).then(({ data }) => {
         this.requestId = data.request_id;
         this.filePath = data.file_path;
       });
-      // this.getNewMessage();
-      // this.handleNextClick();
     },
     // reset() {
     //   this.style = '';
@@ -381,20 +388,33 @@ export default {
       if (this.timer) {
         clearInterval(this.timer);
         this.timer = null;
-        this.handleNextClick();
       }
     },
     // 请求是否有新消息
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-    getNewMessage() {
-      this.$axios({
-        method: 'get',
+    async getNewMessage() {
+      await this.$axios({
+        method: 'GET',
         url: '/ama/status',
         headers: {
           'x-jizhan-request-id': this.requestId,
         },
       }).then(({ data }) => {
         if (data.status === 'done') {
+          this.isLoadervisible = false;
+          this.stopSetInterval();
+          this.$router.push({
+            path: '/model',
+            query: {
+              path: this.filePath,
+            },
+          });
+        } else if (data.status == 'timeout') {
+          this.notificationVisible = '处理超时，请重试';
+          this.isLoadervisible = false; //选择配置的暂时不支持，请重新配置
+          this.stopSetInterval();
+        } else if (data.status == 'bad') {
+          this.notificationVisible = ' 选择配置的暂时不支持，请重新配置';
           this.isLoadervisible = false;
           this.stopSetInterval();
         }
@@ -408,7 +428,7 @@ export default {
 <style lang="scss" scoped>
 @import '~@storefront-ui/vue/styles';
 .pdc-pdp-loader {
-  max-height: 75vh;
+  max-height: 90vh;
   // width: 100%;
   /* padding: 100px 0; */
   position: absolute;
