@@ -284,7 +284,7 @@ export default {
       hairLine: 'naturalHairLine',
       capSize: 'average',
       addElasticBand: 'no',
-      style: 'st',
+      style: 'jc',
       lengths: [
         { label: '8 Inch', value: '8inch' },
         { label: '10 Inch', value: '10inch' },
@@ -336,6 +336,7 @@ export default {
         { label: 'No', value: 'no' },
       ],
       styles: [
+        { label: 'JC', value: 'jc' },
         { label: 'ST', value: 'st' },
         { label: 'Body', value: 'body' },
         { label: 'Curls', value: 'curls' },
