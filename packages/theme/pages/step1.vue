@@ -8,156 +8,36 @@
       action=""
       type="danger"
     />
+
     <form class="form">
-      <h3 class="form__element form__h2">假发参数</h3>
-      <SfComponentSelect
-        v-model="color"
-        class="form__element form__element--half form__select sf-component-select--underlined"
-        label="Hair Color"
-        :required="false"
-        valid
-        :disabled="false"
-        error-message="Please select Hair Color"
-        value=""
-        placeholder="Please select Hair Color"
-      >
-        <SfComponentSelectOption
-          v-for="item in colors"
-          :key="item.color"
-          :value="item.color"
+      <h3 class="form__element form__h2">
+        Wig Specs
+        <SfButton
+          class="sf-button--pure sf-header__action info_circle——button"
+          @click="handleSidebar"
         >
-          {{ item.name }}
-        </SfComponentSelectOption>
-      </SfComponentSelect>
-      <SfComponentSelect
-        v-model="length"
-        label="Hair Length"
-        class="form__element form__element--half form__element--half-even form__select sf-component-select--underlined"
-        :required="false"
-        valid
-        :disabled="false"
-        error-message="Please select Hair Length"
-        placeholder="Please select Hair Length"
-      >
-        <SfComponentSelectOption
-          v-for="length in lengths"
-          :key="length.value"
-          :value="length.value"
+          <SfIcon
+            icon="info_circle"
+            size="lg"
+            color="green-primary"
+            viewBox="0 0 24 24"
+            :coverage="1"
+          />
+        </SfButton>
+        <SfSidebar
+          title="WechatIMG68"
+          subtitle=""
+          :headingLevel="3"
+          button
+          :visible="sidebarVisible"
+          overlay
+          persistent
+          @close="sidebarClose"
         >
-          {{ length.label }}
-        </SfComponentSelectOption>
-      </SfComponentSelect>
-      <SfComponentSelect
-        v-model="density"
-        label="Hair Density "
-        class="form__element form__element--half form__select sf-component-select--underlined"
-        :required="false"
-        valid
-        :disabled="false"
-        error-message="Please select Hair Density "
-        placeholder="Please select Hair Density "
-      >
-        <SfComponentSelectOption
-          v-for="density in densities"
-          :key="density.value"
-          :value="density.value"
-        >
-          {{ density.label }}
-        </SfComponentSelectOption>
-      </SfComponentSelect>
-      <SfComponentSelect
-        v-model="laceMaterial"
-        label="Lace Material"
-        class="form__element form__element--half form__element--half-even form__select sf-component-select--underlined"
-        :required="false"
-        valid
-        :disabled="false"
-        error-message="Please select Lace material."
-        placeholder="Please select Lace material."
-      >
-        <SfComponentSelectOption
-          v-for="item in laceMaterials"
-          :key="item.value"
-          :value="item.value"
-        >
-          {{ item.label }}
-        </SfComponentSelectOption>
-      </SfComponentSelect>
+          <img alt="Empty bag" class="cart__image" src="WechatIMG68.jpeg" />
+        </SfSidebar>
+      </h3>
 
-      <SfComponentSelect
-        v-model="cap"
-        label="Cap Construction "
-        class="form__element form__element--half form__select sf-component-select--underlined"
-        :required="false"
-        valid
-        :disabled="false"
-        error-message="Please select Cap Construction "
-        placeholder="Please select Cap Construction "
-      >
-        <SfComponentSelectOption
-          v-for="item in caps"
-          :key="item.value"
-          :value="item.value"
-        >
-          {{ item.label }}
-        </SfComponentSelectOption>
-      </SfComponentSelect>
-
-      <SfComponentSelect
-        v-model="hairLine"
-        label="Hair Line"
-        class="form__element form__element--half form__element--half-even form__select sf-component-select--underlined"
-        :required="false"
-        valid
-        :disabled="false"
-        error-message="Please select HairLine"
-        placeholder="Please select HairLine"
-      >
-        <SfComponentSelectOption
-          v-for="(item, key) in hairLines"
-          :key="key"
-          :value="item.value"
-        >
-          {{ item.label }}
-        </SfComponentSelectOption>
-      </SfComponentSelect>
-
-      <SfComponentSelect
-        v-model="capSize"
-        label="Cap Size "
-        class="form__element form__element--half form__select sf-component-select--underlined"
-        :required="false"
-        valid
-        :disabled="false"
-        error-message="Please select Cap Size "
-        placeholder="Please select Cap Size "
-      >
-        <SfComponentSelectOption
-          v-for="item in capSizes"
-          :key="item.value"
-          :value="item.value"
-        >
-          {{ item.label }}
-        </SfComponentSelectOption>
-      </SfComponentSelect>
-      <SfComponentSelect
-        v-model="addElasticBand"
-        label="Add Elastic Bands"
-        class="form__element form__element--half form__element--half-even form__select sf-component-select--underlined"
-        :required="false"
-        valid
-        :disabled="false"
-        error-message="Please select Add Elastic Bands"
-        placeholder="Please select Add Elastic Bands"
-      >
-        <SfComponentSelectOption
-          v-for="(item, key) in addElasticBands"
-          :key="key"
-          :value="item.value"
-        >
-          {{ item.label }}
-        </SfComponentSelectOption>
-      </SfComponentSelect>
       <SfComponentSelect
         v-model="style"
         class="form__element form__element--half form__select sf-component-select--underlined"
@@ -177,6 +57,155 @@
           {{ item.label }}
         </SfComponentSelectOption>
       </SfComponentSelect>
+      <SfComponentSelect
+        v-model="color"
+        class="form__element form__element--half form__element--half-even form__select sf-component-select--underlined"
+        label="Hair Color"
+        :required="false"
+        valid
+        :disabled="false"
+        error-message="Please select Hair Color"
+        value=""
+        placeholder="Please select Hair Color"
+      >
+        <SfComponentSelectOption
+          v-for="item in colors"
+          :key="item.color"
+          :value="item.color"
+        >
+          {{ item.name }}
+        </SfComponentSelectOption>
+      </SfComponentSelect>
+      <SfComponentSelect
+        v-model="length"
+        label="Hair Length"
+        class="form__element form__element--half form__select sf-component-select--underlined"
+        :required="false"
+        valid
+        :disabled="false"
+        error-message="Please select Hair Length"
+        placeholder="Please select Hair Length"
+      >
+        <SfComponentSelectOption
+          v-for="length in lengths"
+          :key="length.value"
+          :value="length.value"
+        >
+          {{ length.label }}
+        </SfComponentSelectOption>
+      </SfComponentSelect>
+      <SfComponentSelect
+        v-model="density"
+        label="Hair Density "
+        class="form__element form__element--half form__element--half-even form__select sf-component-select--underlined"
+        :required="false"
+        valid
+        :disabled="false"
+        error-message="Please select Hair Density "
+        placeholder="Please select Hair Density "
+      >
+        <SfComponentSelectOption
+          v-for="density in densities"
+          :key="density.value"
+          :value="density.value"
+        >
+          {{ density.label }}
+        </SfComponentSelectOption>
+      </SfComponentSelect>
+      <SfComponentSelect
+        v-model="laceMaterial"
+        label="Lace Material"
+        class="form__element form__element--half form__select sf-component-select--underlined"
+        :required="false"
+        valid
+        :disabled="false"
+        error-message="Please select Lace material."
+        placeholder="Please select Lace material."
+      >
+        <SfComponentSelectOption
+          v-for="item in laceMaterials"
+          :key="item.value"
+          :value="item.value"
+        >
+          {{ item.label }}
+        </SfComponentSelectOption>
+      </SfComponentSelect>
+
+      <SfComponentSelect
+        v-model="cap"
+        label="Cap Construction "
+        class="form__element form__element--half form__element--half-even form__select sf-component-select--underlined"
+        :required="false"
+        valid
+        :disabled="false"
+        error-message="Please select Cap Construction "
+        placeholder="Please select Cap Construction "
+      >
+        <SfComponentSelectOption
+          v-for="item in caps"
+          :key="item.value"
+          :value="item.value"
+        >
+          {{ item.label }}
+        </SfComponentSelectOption>
+      </SfComponentSelect>
+
+      <SfComponentSelect
+        v-model="hairLine"
+        label="Hair Line"
+        class="form__element form__element--half form__select sf-component-select--underlined"
+        :required="false"
+        valid
+        :disabled="false"
+        error-message="Please select HairLine"
+        placeholder="Please select HairLine"
+      >
+        <SfComponentSelectOption
+          v-for="(item, key) in hairLines"
+          :key="key"
+          :value="item.value"
+        >
+          {{ item.label }}
+        </SfComponentSelectOption>
+      </SfComponentSelect>
+
+      <SfComponentSelect
+        v-model="capSize"
+        label="Cap Size "
+        class="form__element form__element--half form__element--half-even form__select sf-component-select--underlined"
+        :required="false"
+        valid
+        :disabled="false"
+        error-message="Please select Cap Size "
+        placeholder="Please select Cap Size "
+      >
+        <SfComponentSelectOption
+          v-for="item in capSizes"
+          :key="item.value"
+          :value="item.value"
+        >
+          {{ item.label }}
+        </SfComponentSelectOption>
+      </SfComponentSelect>
+      <SfComponentSelect
+        v-model="addElasticBand"
+        label="Add Elastic Bands"
+        class="form__element form__element--half form__select sf-component-select--underlined"
+        :required="false"
+        valid
+        :disabled="false"
+        error-message="Please select Add Elastic Bands"
+        placeholder="Please select Add Elastic Bands"
+      >
+        <SfComponentSelectOption
+          v-for="(item, key) in addElasticBands"
+          :key="key"
+          :value="item.value"
+        >
+          {{ item.label }}
+        </SfComponentSelectOption>
+      </SfComponentSelect>
+
       <div class="form__element form__element--half" />
 
       <div class="form__action">
@@ -204,6 +233,9 @@ import {
   SfHeading,
   SfLoader,
   SfNotification,
+  SfIcon,
+  SfSidebar,
+  SfImage,
 } from '@storefront-ui/vue';
 
 export default {
@@ -217,6 +249,9 @@ export default {
     SfHeading,
     SfLoader,
     SfNotification,
+    SfIcon,
+    SfSidebar,
+    SfImage,
   },
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   setup(props, { root }) {
@@ -238,6 +273,7 @@ export default {
       isLoadervisible: false,
       valid: false,
       submitted: false,
+      sidebarVisible: false,
       notificationVisible: '',
       // 款式
       length: '16inch',
@@ -330,16 +366,22 @@ export default {
     },
   },
   methods: {
+    handleSidebar() {
+      this.sidebarVisible = true;
+    },
+    sidebarClose() {
+      this.sidebarVisible = false;
+    },
     async submit() {
       const params = [
         // 'jc',
         // this.color,
         // this.density,
         // this.length,
-        'jc',
-        'black',
-        '26inch',
-        '55',
+        this.style,
+        this.color,
+        this.length,
+        this.density,
         this.laceMaterial,
         this.cap,
         this.hairLine,
@@ -359,8 +401,8 @@ export default {
       this.notificationVisible = '';
       await this.$axios({
         method: 'POST',
-        url: '/ama/profile',
-        // url:'/default/profile',
+        // url: '/ama/profile',
+        url: '/b/default/profile',
         data: JSON.stringify(data),
       }).then(({ data }) => {
         this.requestId = data.request_id;
@@ -395,7 +437,8 @@ export default {
     async getNewMessage() {
       await this.$axios({
         method: 'GET',
-        url: '/ama/status',
+        // url: '/ama/status',
+        url: '/b/default/status',
         headers: {
           'x-jizhan-request-id': this.requestId,
         },
@@ -427,6 +470,9 @@ export default {
 
 <style lang="scss" scoped>
 @import '~@storefront-ui/vue/styles';
+.cart__image {
+  width: 100%;
+}
 .pdc-pdp-loader {
   max-height: 90vh;
   // width: 100%;
@@ -440,6 +486,10 @@ export default {
   .sf-loader__overlay {
     background: rgba(0, 0, 0, 0.2);
   }
+}
+.info_circle——button {
+  display: inline-block;
+  // padding-top: var(--spacer-sm);
 }
 #form-ste1 {
   box-sizing: border-box;

@@ -31,19 +31,7 @@
         @crop-moving="cropMoving"
       ></vue-cropper>
     </div>
-    <div
-      class="show-preview"
-      :style="{
-        width: previews.w + 'px',
-        height: previews.h + 'px',
-        overflow: 'hidden',
-        margin: '5px',
-      }"
-    >
-      <div :style="previews.div">
-        <img :src="previews.url" :style="previews.img" />
-      </div>
-    </div>
+
     <div class="test-button">
       <label class="upload btn" for="uploads">upload</label>
       <input
@@ -59,26 +47,25 @@
       <SfButton class="color-primary sf-button btn" @click="refreshCrop">
         refresh
       </SfButton>
-      <SfButton class="color-primary sf-button btn" @click="down('base64')">
+      <SfButton class="color-primary sf-button btn" @click="down('blob')">
         next
       </SfButton>
-    </div>
-    <div v-if="is2D === ''">
-      <img :src="path" class="img" />
     </div>
   </div>
 </template>
 <script>
 import { SfButton } from '@storefront-ui/vue';
+import { compress, compressAccurately } from 'image-conversion';
+
 export default {
   name: 'Cropper',
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  setup(props, {root}) {
+  setup(props, { root }) {
     const handleNextClick = () => {
       return root.$router.push('/step1');
     };
     return {
-      handleNextClick
+      handleNextClick,
     };
   },
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -90,8 +77,8 @@ export default {
       previews: {},
       lists: [
         {
-          img: 'https://avatars2.githubusercontent.com/u/15681693?s=460&v=4'
-        }
+          img: 'https://avatars2.githubusercontent.com/u/15681693?s=460&v=4',
+        },
       ],
       option: {
         img: 'https://avatars2.githubusercontent.com/u/15681693?s=460&v=4',
@@ -109,37 +96,19 @@ export default {
         autoCropHeight: 150,
         centerBox: false,
         high: true,
-        max: 99999
+        max: 99999,
       },
       show: true,
       fixed: true,
-      fixedNumber: [16, 9],
-      // 轮询时间
-      timer: null,
-      // 是否执行轮训
-      is2D: '',
-      requestId: '',
+      fixedNumber: [4, 3],
       // 回显图片路径
-      path: ''
+      path: '',
       // //是否回显
       // isShow:false
     };
   },
   components: { SfButton },
-  watch: {
-    requestId: {
-      // 查看文件上传的处理状态
-      handler(newVal) {
-        if (newVal !== '' && this.is2D !== 'done') {
-          // 实现轮询
-          this.createSetInterval();
-        } else if (newVal !== '' && this.is2D === 'done') {
-          this.stopSetInterval();
-        }
-      },
-      immediate: true
-    }
-  },
+
   methods: {
     // 开启轮询  如果存在则先销毁定时器后重新开启
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -156,22 +125,6 @@ export default {
         clearInterval(this.timer);
         this.timer = null;
       }
-    },
-    // 请求是否有新消息
-    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-    getNewMessage() {
-      this.$axios({
-        method: 'get',
-        url: '/ama/status',
-        headers: {
-          'x-jizhan-request-id': this.requestId
-        }
-      }).then(({ data }) => {
-        if (data.status === 'done') {
-          this.stopSetInterval();
-        }
-        this.is2D = data.status;
-      });
     },
 
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -196,7 +149,36 @@ export default {
       // 输出;
       if (type === 'blob') {
         this.$refs.cropper.getCropBlob((data) => {
-          this.downImg = window.URL.createObjectURL(data);
+          const isJpgOrPng =
+            data.type == 'image/jpeg' || data.type == 'image/png';
+          const isLt2M = data.size / 1024 / 1024 < 2;
+          if (!isJpgOrPng) {
+            // this.$message.error('上传头像图片只能是 JPG 或 PNG 格式!');
+            return false;
+          }
+          if (!isLt2M) {
+            // this.$message.error('上传头像图片大小不能超过 2MB!');
+            return false;
+          }
+          return new Promise((resolve) => {
+            compressAccurately(data, {
+              with: 640,
+              height: 480,
+            }).then((res) => {
+              this.$refs.cropper.getCropData((res) => {
+                this.downImg = res;
+                const newData = res.split('base64,')[1];
+                const info = {
+                  name: this.option.name,
+                  data: newData,
+                };
+                this.$store.dispatch('addForm', info);
+                this.handleNextClick();
+              });
+              resolve(res);
+            });
+          });
+          // this.downImg = window.URL.createObjectURL(data);
         });
       } else {
         this.$refs.cropper.getCropData((data) => {
@@ -204,18 +186,9 @@ export default {
           const newData = data.split('base64,')[1];
           const info = {
             name: this.option.name,
-            data: newData
+            data: newData,
           };
           this.$store.dispatch('addForm', info);
-          // // 获取远端图片
-          // this.$axios({
-          //   method: 'post',
-          //   url: '/ama/profile',
-          //   data: info
-          // }).then(({ data }) => {
-          //   this.requestId = data.request_id;
-          //   this.path = data.path;
-          // });
           this.handleNextClick();
         });
       }
@@ -260,12 +233,8 @@ export default {
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
     cropMoving(data) {
       console.log(data, '截图框当前坐标');
-    }
+    },
   },
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  mounted() {
-    // console.log(window['vue-cropper'])
-  }
 };
 </script>
 <style lang="scss" scoped>
@@ -334,23 +303,28 @@ export default {
     display: flex;
     flex-wrap: wrap;
     @include for-desktop {
-      width: 80%;
+      width: 100%;
+      justify-content: center;
     }
   }
-  .upload{
+  .upload {
     background: var(--c-primary);
 
-    color:var(--c-light-variant);
-    font: var(--button-font, var(--button-font-weight, var(--font-weight--semibold)) var(--button-font-size, var(--font-size--base))/var(--button-font-line-height, 1.2) var(--button-font-family, var(--font-family--secondary)));
- line-height: 2.7rem;
+    color: var(--c-light-variant);
+    font: var(
+      --button-font,
+      var(--button-font-weight, var(--font-weight--semibold))
+        var(--button-font-size, var(--font-size--base)) /
+        var(--button-font-line-height, 1.2)
+        var(--button-font-family, var(--font-family--secondary))
+    );
+    line-height: 2.7rem;
     text-align: center;
- @include for-desktop {
-    line-height: 43px;
-    margin: 0 var(--spacer-sm) var(--spacer-sm);
-    padding: var(--button-padding, 0 var(--spacer-base));
-
- }
-
+    @include for-desktop {
+      line-height: 43px;
+      margin: 0 var(--spacer-sm) var(--spacer-sm);
+      padding: var(--button-padding, 0 var(--spacer-base));
+    }
   }
   .btn {
     width: var(--spacer-2sm);
