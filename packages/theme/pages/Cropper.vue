@@ -100,7 +100,7 @@ export default {
       },
       show: true,
       fixed: true,
-      fixedNumber: [4, 3],
+      fixedNumber: [3, 4],
       // 回显图片路径
       path: '',
       // //是否回显
@@ -249,7 +249,7 @@ export default {
   .cut {
     margin: 30px auto;
     width: 100%;
-    height: 15rem;
+    height: 20rem;
     @include for-desktop {
       width: 500px;
       height: 500px;
