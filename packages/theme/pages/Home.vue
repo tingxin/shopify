@@ -23,6 +23,7 @@
             :button-text="item.buttonText"
             :image="item.image"
             :class="item.class"
+            :link="item.link"
           />
         </template>
       </SfBannerGrid>
@@ -165,6 +166,21 @@ export default {
       banners: [
         {
           slot: 'banner-A',
+          subtitle: 'Hair',
+          title: 'Try on online',
+          description: 'Custom wigs exclusively for you',
+          buttonText: 'Start Customizing',
+          image: {
+            mobile:
+              'https://cdn.shopify.com/s/files/1/0407/1902/4288/files/bannerH_328x343.jpg',
+            desktop:
+              'https://cdn.shopify.com/s/files/1/0407/1902/4288/files/bannerH_1240x840.jpg',
+          },
+          class: 'sf-banner--slim',
+          link: '/cropper',
+        },
+        {
+          slot: 'banner-B',
           subtitle: 'Dresses',
           title: 'Cocktail & Party',
           description:
@@ -177,10 +193,10 @@ export default {
               'https://cdn.shopify.com/s/files/1/0407/1902/4288/files/bannerF_332x840.jpg'
           },
           class: 'sf-banner--slim desktop-only',
-          link: '/c/women/women-clothing-skirts'
+          // link: '/c/women/women-clothing-skirts'
         },
         {
-          slot: 'banner-B',
+          slot: 'banner-C',
           subtitle: 'Dresses',
           title: 'Linen Dresses',
           description:
@@ -193,10 +209,10 @@ export default {
               'https://cdn.shopify.com/s/files/1/0407/1902/4288/files/bannerE_496x840.jpg'
           },
           class: 'sf-banner--slim banner-central desktop-only',
-          link: '/c/women/women-clothing-dresses'
+          // link: '/c/women/women-clothing-dresses'
         },
         {
-          slot: 'banner-C',
+          slot: 'banner-D',
           subtitle: 'T-Shirts',
           title: 'The Office Life',
           image: {
@@ -206,10 +222,10 @@ export default {
               'https://cdn.shopify.com/s/files/1/0407/1902/4288/files/bannerC_332x400.jpg'
           },
           class: 'sf-banner--slim banner__tshirt',
-          link: '/c/women/women-clothing-shirts'
+          // link: '/c/women/women-clothing-shirts'
         },
         {
-          slot: 'banner-D',
+          slot: 'banner-E',
           subtitle: 'Summer Sandals',
           title: 'Eco Sandals',
           image: {
@@ -219,7 +235,7 @@ export default {
               'https://cdn.shopify.com/s/files/1/0407/1902/4288/files/bannerG_332x400.jpg'
           },
           class: 'sf-banner--slim',
-          link: '/c/women/women-shoes-sandals'
+          // link: '/c/women/women-shoes-sandals'
         }
       ]
     };

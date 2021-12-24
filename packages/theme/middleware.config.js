@@ -4,8 +4,8 @@ module.exports = {
       location: '@vue-storefront/shopify-api/server',
       configuration: {
         api: {
-          domain: 'vsf-next-pwa.myshopify.com',
-          storefrontAccessToken: '03f21475b97c18fa05c0ab452c368af4'
+          domain: 'devfriend.myshopify.com', //https://accounts.shopify.com/store-login
+          storefrontAccessToken: 'd9bbf4bbfa49382930ca255fd8ca8f8e', //c24d1d8294f006f42952f30a37ed6f33
         },
         currency: 'USD',
         country: 'US'
