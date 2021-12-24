@@ -170,7 +170,7 @@ export default {
             desktop:
               'https://cdn.shopify.com/s/files/1/0407/1902/4288/files/bannerH_1240x840.jpg',
           },
-          class: 'sf-banner--slim desktop-only',
+          class: 'sf-banner--slim',
           link: '/cropper',
         },
         {
