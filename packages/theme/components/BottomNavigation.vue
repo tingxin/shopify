@@ -1,6 +1,6 @@
 <template>
   <!-- TODO: create logic with isActive prop for BottomNavigationItems -->
-  <SfBottomNavigation class="smartphone-only bootm_hidden">
+  <SfBottomNavigation class="smartphone-only">
     <nuxt-link data-cy="bottom-navigation-url_home" to="/">
       <SfBottomNavigationItem
         :class="$route.path == '/' ? 'sf-bottom-navigation__item--active' : ''"
@@ -59,14 +59,11 @@ export default {
   components: {
     SfBottomNavigation,
     SfIcon,
-    SfCircleIcon
+    SfCircleIcon,
   },
   setup(props, { root }) {
-    const {
-      toggleCartSidebar,
-      toggleWishlistSidebar,
-      toggleLoginModal
-    } = useUiState();
+    const { toggleCartSidebar, toggleWishlistSidebar, toggleLoginModal } =
+      useUiState();
     const { isAuthenticated } = useUser();
 
     const handleAccountClick = async () => {
@@ -79,13 +76,8 @@ export default {
     return {
       toggleWishlistSidebar,
       toggleCartSidebar,
-      handleAccountClick
+      handleAccountClick,
     };
-  }
+  },
 };
 </script>
-<style lang="scss" scoped>
-.bootm_hidden {
-  display: none;
-}
-</style>

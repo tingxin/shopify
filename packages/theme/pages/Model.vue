@@ -56,9 +56,9 @@ export default {
     getModleFile() {
       const filePath = this.$route.query.path;
 
-      document.getElementById('model').src = filePath;
-      // document.getElementById('model').src =
-      //   'https://jizhan1.s3.us-east-1.amazonaws.com/model/03656bf0-1838-427a-a96e-f4f658431cad.glb';
+      // document.getElementById('model').src = filePath;
+      document.getElementById('model').src =
+        'https://jizhan1.s3.us-east-1.amazonaws.com/model/abab9826-c7c9-40eb-8d7a-95a33c0ae447.glb';
     },
   },
 

@@ -92,8 +92,8 @@ export default {
         canMoveBox: true,
         autoCrop: true,
         // 只有自动截图开启 宽度高度才生效
-        autoCropWidth: 160,
-        autoCropHeight: 150,
+        autoCropWidth: 400,
+        autoCropHeight: 300,
         centerBox: false,
         high: true,
         max: 99999,
