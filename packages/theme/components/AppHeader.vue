@@ -19,7 +19,15 @@
     </template>
 
     <template #navigation v-if="categories.length > 0">
-      <SfHeaderNavigationItem v-for='cat in categories' :key="cat.id" class="nav-item" :data-cy="'app-header-url_' + cat.handle"  :label="cat.title" :link="localePath('/c/' + cat.handle )" />
+      <SfHeaderNavigationItem 
+      v-for='cat in categories' 
+      :key="cat.id" 
+      class="nav-item" 
+      :data-cy="'app-header-url_' + cat.handle"  
+      label="products" 
+      link='https://fdwig.myshopify.com/collections/all'
+      />
+      <!-- :link="localePath('/c/' + cat.handle )"  -->
     </template>
     <template #aside>
       <LocaleSelector class="smartphone-only" />
@@ -74,6 +82,7 @@ export default {
     const { isAuthenticated, load: loadUser } = useUser();
     const { cart, load: loadCart } = useCart();
     const { search, categories } = useCategory('menuCategories');
+    console.log('categories',categories)
     const { load: loadWishlist } = useWishlist();
     const term = ref(getFacetsFromURL().term);
     const curCatSlug = ref(getFacetsFromURL().categorySlug);
