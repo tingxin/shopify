@@ -1,52 +1,55 @@
 <template name="Cropper">
   <div>
     <div id="cropper">
-    <div class="cut">
-      <vue-cropper
-        ref="cropper"
-        :img="option.img"
-        :output-size="option.size"
-        :output-type="option.outputType"
-        :info="true"
-        :full="option.full"
-        :fixed="fixed"
-        :fixed-number="fixedNumber"
-        :can-move="option.canMove"
-        :can-move-box="option.canMoveBox"
-        :fixed-box="option.fixedBox"
-        :original="option.original"
-        :auto-crop="option.autoCrop"
-        :auto-crop-width="option.autoCropWidth"
-        :auto-crop-height="option.autoCropHeight"
-        :center-box="option.centerBox"
-        @real-time="realTime"
-        :high="option.high"
-        @img-load="imgLoad"
-        mode="cover"
-        :max-img-size="option.max"
-        @crop-moving="cropMoving"
-      ></vue-cropper>
-    </div>
-    <div
-      :style="{
-        width: previews.w + 'px',
-        height: previews.h + 'px',
-        overflow: 'hidden',
-        margin: '30px',
-      }"
-    >
-      <div :style="previews.div">
-        <!-- <img :src="previews.url" :style="previews.img" /> -->
-        <img :style="previews.img" src="mark.jpeg" alt="" />
+      <div class="cut">
+        <vue-cropper
+          ref="cropper"
+          :img="option.img"
+          :output-size="option.size"
+          :output-type="option.outputType"
+          :info="true"
+          :full="option.full"
+          :fixed="fixed"
+          :fixed-number="fixedNumber"
+          :can-move="option.canMove"
+          :can-move-box="option.canMoveBox"
+          :fixed-box="option.fixedBox"
+          :original="option.original"
+          :auto-crop="option.autoCrop"
+          :auto-crop-width="option.autoCropWidth"
+          :auto-crop-height="option.autoCropHeight"
+          :center-box="option.centerBox"
+          :high="option.high"
+          mode="cover"
+          :max-img-size="option.max"
+          @real-time="realTime"
+          @img-load="imgLoad"
+          @crop-moving="cropMoving"
+        ></vue-cropper>
+      </div>
+      <div
+        :style="{
+          width: previews.w + 'px',
+          height: previews.h + 'px',
+          overflow: 'hidden',
+          margin: '30px'
+        }"
+      >
+        <div :style="previews.div">
+          <!-- <img :src="previews.url" :style="previews.img" /> -->
+          <img :style="previews.img" src="mark.jpeg" alt="" />
+        </div>
       </div>
     </div>
-   
-  </div>
-   <div class="test-button">
+    <div class="cropper-desc">
+      Please upload a frontal face photo that matches the contour of the
+      reference image we provide
+    </div>
+    <div class="test-button">
       <label class="upload btn" for="uploads">upload</label>
       <input
-        type="file"
         id="uploads"
+        type="file"
         style="position: absolute; clip: rect(0 0 0 0)"
         accept="image/png, image/jpeg, image/gif, image/jpg"
         @change="uploadImg($event, 1)"
@@ -64,38 +67,39 @@
   </div>
 </template>
 <script>
-import { SfButton } from "@storefront-ui/vue";
-import { compress, compressAccurately } from "image-conversion";
+import { SfButton } from '@storefront-ui/vue';
+import { compress, compressAccurately } from 'image-conversion';
 
 export default {
-  name: "Cropper",
+  name: 'Cropper',
+  components: { SfButton },
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   setup(props, { root }) {
     const handleNextClick = () => {
-      return root.$router.push("/step1");
+      return root.$router.push('/step1');
     };
     return {
-      handleNextClick,
+      handleNextClick
     };
   },
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   data() {
     return {
       model: false,
-      modelSrc: "",
+      modelSrc: '',
       crap: false,
       previews: {},
       lists: [
         {
-          img: "mark.jpeg",
-        },
+          img: 'mark.jpeg'
+        }
       ],
       option: {
-        img: "mark.jpeg",
+        img: 'mark.jpeg',
         size: 1,
         full: false,
-        outputType: "png",
-        name: "demo.png",
+        outputType: 'png',
+        name: 'demo.png',
         canMove: true,
         fixedBox: false,
         original: false,
@@ -106,14 +110,13 @@ export default {
         autoCropHeight: 640,
         centerBox: false,
         high: true,
-        max: 99999,
+        max: 99999
       },
       show: true,
       fixed: true,
-      fixedNumber: [3, 4],
+      fixedNumber: [3, 4]
     };
   },
-  components: { SfButton },
 
   methods: {
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -136,10 +139,10 @@ export default {
     down(type) {
       event.preventDefault();
       // 输出;
-      if (type === "blob") {
+      if (type === 'blob') {
         this.$refs.cropper.getCropBlob((data) => {
           const isJpgOrPng =
-            data.type == "image/jpeg" || data.type == "image/png";
+            data.type == 'image/jpeg' || data.type == 'image/png';
           const isLt2M = data.size / 1024 / 1024 < 2;
           if (!isJpgOrPng) {
             // this.$message.error('上传头像图片只能是 JPG 或 PNG 格式!');
@@ -152,16 +155,16 @@ export default {
           return new Promise((resolve) => {
             compressAccurately(data, {
               with: 480,
-              height: 640,
+              height: 640
             }).then((res) => {
               this.$refs.cropper.getCropData((res) => {
                 this.downImg = res;
-                const newData = res.split("base64,")[1];
+                const newData = res.split('base64,')[1];
                 const info = {
                   name: this.option.name,
-                  data: newData,
+                  data: newData
                 };
-                this.$store.dispatch("addForm", info);
+                this.$store.dispatch('addForm', info);
                 this.handleNextClick();
               });
               resolve(res);
@@ -172,12 +175,12 @@ export default {
       } else {
         this.$refs.cropper.getCropData((data) => {
           this.downImg = data;
-          const newData = data.split("base64,")[1];
+          const newData = data.split('base64,')[1];
           const info = {
             name: this.option.name,
-            data: newData,
+            data: newData
           };
-          this.$store.dispatch("addForm", info);
+          this.$store.dispatch('addForm', info);
           this.handleNextClick();
         });
       }
@@ -194,7 +197,7 @@ export default {
       const reader = new FileReader();
       reader.onload = (e) => {
         let data;
-        if (typeof e.target.result === "object") {
+        if (typeof e.target.result === 'object') {
           // 把Array Buffer转化为blob 如果是base64不需要
           const blob = new Blob([e.target.result]);
           data = window.URL.createObjectURL(blob);
@@ -205,7 +208,7 @@ export default {
         if (num === 1) {
           this.option.img = data;
           this.option.name = file.name;
-          this.option.outputType = file.name.split("/")[1];
+          this.option.outputType = file.name.split('/')[1];
         } else if (num === 2) {
           this.example2.img = data;
         }
@@ -222,8 +225,8 @@ export default {
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
     cropMoving(data) {
       // console.log(data, "截图框当前坐标");
-    },
-  },
+    }
+  }
 };
 </script>
 <style lang="scss" scoped>
@@ -231,7 +234,7 @@ export default {
   box-sizing: border-box;
   @include for-desktop {
     display: flex;
-  justify-content: center;
+    justify-content: center;
     max-width: 1272px;
     padding: 0 var(--spacer-sm);
     margin: 0 auto;
@@ -246,47 +249,56 @@ export default {
       height: 480px;
     }
   }
-
 }
-  .test-button {
-    display: flex;
-    flex-wrap: wrap;
-    @include for-desktop {
-      width: 100%;
-      justify-content: center;
-    }
-  }
-  .img-mark {
+.test-button {
+  display: flex;
+  flex-wrap: wrap;
+  @include for-desktop {
     width: 100%;
-    height: 100%;
+    justify-content: center;
   }
-  .upload {
-    background: var(--c-primary);
+}
+.img-mark {
+  width: 100%;
+  height: 100%;
+}
+.upload {
+  background: var(--c-primary);
 
-    color: var(--c-light-variant);
-    font: var(
-      --button-font,
-      var(--button-font-weight, var(--font-weight--semibold))
-        var(--button-font-size, var(--font-size--base)) /
-        var(--button-font-line-height, 1.2)
-        var(--button-font-family, var(--font-family--secondary))
-    );
-    line-height: 2.7rem;
-    text-align: center;
-    @include for-desktop {
-      line-height: 43px;
-      margin: 0 var(--spacer-sm) var(--spacer-sm);
-      padding: var(--button-padding, 0 var(--spacer-base));
-    }
-  }
-  .btn {
-    width: var(--spacer-2sm);
+  color: var(--c-light-variant);
+  font: var(
+    --button-font,
+    var(--button-font-weight, var(--font-weight--semibold))
+      var(--button-font-size, var(--font-size--base)) /
+      var(--button-font-line-height, 1.2)
+      var(--button-font-family, var(--font-family--secondary))
+  );
+  line-height: 2.7rem;
+  text-align: center;
+  @include for-desktop {
+    line-height: 43px;
     margin: 0 var(--spacer-sm) var(--spacer-sm);
-    height: 43px;
-
-    @include for-mobile {
-      flex: 0 0 40%;
-      height: 2.7rem;
-    }
+    padding: var(--button-padding, 0 var(--spacer-base));
   }
+}
+.cropper-desc {
+  margin: var(--spacer-sm) var(--spacer-sm);
+  font-size: 2rem;
+  color: red;
+  @include for-desktop {
+    margin: var(--spacer-sm) 0;
+    font-size: 18px;
+    text-align: center;
+  }
+}
+.btn {
+  width: var(--spacer-2sm);
+  margin: 0 var(--spacer-sm) var(--spacer-sm);
+  height: 43px;
+
+  @include for-mobile {
+    flex: 0 0 40%;
+    height: 2.7rem;
+  }
+}
 </style>

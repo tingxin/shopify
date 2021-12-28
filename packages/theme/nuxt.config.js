@@ -1,14 +1,20 @@
 require('isomorphic-fetch');
 import webpack from 'webpack';
 
-export default {
-  server: {
-    port: 3001,
-    host: '0.0.0.0'
-  },
+/** @type { import('@nuxt/types').NuxtConfig } */
+
+const config = {
   publicRuntimeConfig: {
-    appKey: 'vsf2Connector' + Date.now()
+    appKey: 'vsf2spcon',
+    appVersion: Date.now()
   },
+  privateRuntimeConfig: {
+    storeURL: process.env.SHOPIFY_DOMAIN,
+    storeToken: process.env.SHOPIFY_STOREFRONT_TOKEN
+  },
+  serverMiddleware: [
+    { path: '/custom', handler: '~/server-middleware/custom-features.js' }
+  ],
   head: {
     title: 'Shopify | Vue Storefront Next',
     meta: [
@@ -39,17 +45,18 @@ export default {
         href:
           'https://fonts.googleapis.com/css?family=Raleway:300,400,400i,500,600,700|Roboto:300,300i,400,400i,500,700&display=swap',
         media: 'print',
-        onload: 'this.media=\'all\''
+        onload: "this.media='all'"
       }
     ]
   },
   loading: { color: '#fff' },
   plugins: [
     '~/plugins/scrollToTop.client.js',
-    { src: '~/plugins/cropper', ssr: false },
+    { src: '~/plugins/cropper', ssr: false }
   ],
   buildModules: [
     // to core
+    '@nuxtjs/composition-api/module',
     '@nuxtjs/pwa',
     '@nuxt/typescript-build',
     '@nuxtjs/style-resources',
@@ -95,7 +102,7 @@ export default {
     'cookie-universal-nuxt',
     'vue-scrollto/nuxt',
     '@vue-storefront/middleware/nuxt',
-    '@nuxtjs/axios',
+    '@nuxtjs/axios'
   ],
   i18n: {
     currency: 'USD',
@@ -159,7 +166,7 @@ export default {
     ]
   },
   build: {
-    transpile: ['vee-validate/dist/rules'],
+    transpile: ['vee-validate/dist/rules', 'storefront-ui'],
     plugins: [
       new webpack.DefinePlugin({
         'process.VERSION': JSON.stringify({
@@ -170,6 +177,18 @@ export default {
       })
     ],
     vendor: ['axios'],
+    extend(config) {
+      config.resolve.extensions.push('.mjs');
+
+      config.module.rules.push({
+        test: /\.mjs$/,
+        include: /node_modules/,
+        type: 'javascript/auto'
+      });
+    },
+    extractCSS: {
+      ignoreOrder: true
+    }
   },
   router: {
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -236,7 +255,7 @@ export default {
       description:
         'This is the Shopify PWA app for VSF Next - Developed by Aureate labs',
       themeColor: '#5ece7b',
-      ogHost: 'shopify-pwa-beta.aureatelabs.com'
+      ogHost: 'shopify-pwa.aureatelabs.com'
     },
     icon: {
       iconSrc: 'src/static/android-icon-512x512.png'
@@ -272,30 +291,32 @@ export default {
         }
       ],
       preCaching: [
-        '//shopify-pwa-beta.aureatelabs.com/c/**',
-        '//shopify-pwa-beta.aureatelabs.com/'
+        '//shopify-pwa.aureatelabs.com/c/**',
+        '//shopify-pwa.aureatelabs.com/'
       ]
     }
   },
   axios: {
     // prefix: '',
     proxy: true,
-    credentials: true,
+    credentials: true
   },
   proxy: {
     '/ama': {
       target: 'https://wgt24czo0e.execute-api.ap-northeast-1.amazonaws.com/',
       changeOrigin: true,
       pathRewrite: {
-        '^/ama': '/',
-      },
+        '^/ama': '/'
+      }
     },
     '/b': {
       target: 'https://4zcntep4rj.execute-api.us-east-1.amazonaws.com/',
       changeOrigin: true,
       pathRewrite: {
-        '^/b': '/',
-      },
-    },
-  },
+        '^/b': '/'
+      }
+    }
+  }
 };
+
+export default config;

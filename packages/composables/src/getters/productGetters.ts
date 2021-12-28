@@ -5,6 +5,7 @@ import {
   AgnosticPrice,
   ProductGetters
 } from '@vue-storefront/core';
+import { Product } from '@vue-storefront/shopify-api';
 import { ProductVariant } from '@vue-storefront/shopify-api/src/types';
 import { enhanceProduct } from '../helpers/internals';
 import { formatAttributeList, capitalize } from './_utils';
@@ -75,14 +76,14 @@ export const getProductFiltered = (products, filters: ProductVariantFilters | an
     return [];
   }
   products = Array.isArray(products) ? products : [products];
-  return enhanceProduct(products);
+  return (Object.keys(products).length > 0 ? enhanceProduct(products as Product[]) : []) as ProductVariant[];
 };
 export const getFilteredSingle = (product) => {
   if (!product) {
     return [];
   }
   product = Array.isArray(product) ? product : [product];
-  return enhanceProduct(product);
+  return enhanceProduct(product) as ProductVariant[];
 };
 
 export const getSelectedVariant = (product: ProductVariant, attribs) => {
@@ -102,7 +103,7 @@ export const getProductAttributes = (products: ProductVariant, filterByAttribute
 
   /* const formatAttributes = (products): AgnosticAttribute[] =>{
     return formatAttributeList(products.options);
-  };*/
+  }; */
   const formatAttributes = (product: ProductVariant): AgnosticAttribute[] =>
     formatAttributeList(product.options).filter((attribute) => filterByAttributeName ? filterByAttributeName.includes(attribute.name) : attribute);
 
@@ -297,10 +298,10 @@ const productGetters: ProductGetters<ProductVariant, ProductVariantFilters> = {
   getSaleStatus: getProductSaleStatus,
   getStockStatus: getProductStockStatus,
   getStock: getProductStock,
-  getFormattedPrice: getFormattedPrice,
+  getFormattedPrice,
   getTotalReviews: getProductTotalReviews,
   getAverageRating: getProductAverageRating,
-  getBreadcrumbs: getBreadcrumbs,
+  getBreadcrumbs,
   getSelectedVariant
 };
 

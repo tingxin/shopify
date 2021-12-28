@@ -13,7 +13,6 @@
         :link="hero.link"
       />
     </SfHero>
-
     <LazyHydrate when-visible>
       <RelatedProducts
         :products="products"
@@ -47,24 +46,24 @@ import {
   SfBannerGrid,
   SfHeading,
   SfArrow,
-  SfButton,
-} from "@storefront-ui/vue";
-import RelatedProducts from "~/components/RelatedProducts.vue";
-import { useProduct, useCart, productGetters } from "@vue-storefront/shopify";
-import { computed } from "@vue/composition-api";
-import { onSSR } from "@vue-storefront/core";
-import MobileStoreBanner from "~/components/MobileStoreBanner.vue";
-import LazyHydrate from "vue-lazy-hydration";
+  SfButton
+} from '@storefront-ui/vue';
+import RelatedProducts from '~/components/RelatedProducts.vue';
+import { useProduct, useCart, productGetters } from '@vue-storefront/shopify';
+import { computed } from '@vue/composition-api';
+import { onSSR } from '@vue-storefront/core';
+import MobileStoreBanner from '~/components/MobileStoreBanner.vue';
+import LazyHydrate from 'vue-lazy-hydration';
 
 export default {
-  name: "Home",
+  name: 'Home',
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   setup() {
     const {
       products: relatedProducts,
       search: productsSearch,
-      loading: productsLoading,
-    } = useProduct("relatedProducts");
+      loading: productsLoading
+    } = useProduct('relatedProducts');
     const { cart, load: loadCart, addItem: addToCart, isInCart } = useCart();
 
     onSSR(async () => {
@@ -79,7 +78,7 @@ export default {
       productsLoading,
       productGetters,
       addToCart,
-      isInCart,
+      isInCart
     };
   },
   components: {
@@ -95,39 +94,39 @@ export default {
     SfArrow,
     SfButton,
     MobileStoreBanner,
-    LazyHydrate,
+    LazyHydrate
   },
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   data() {
     return {
       heroes: [
         {
-          title: " Custom wigs exclusively for you",
-          subtitle: "Try on online",
-          buttonText: "Start Customizing",
-          background: "#eceff1",
+          title: ' Custom wigs exclusively for you',
+          subtitle: 'Try on online',
+          buttonText: 'Start Customizing',
+          background: '#eceff1',
           image: {
             mobile:
-              "https://cdn.shopify.com/s/files/1/0407/1902/4288/files/bannerH_328x224.jpg",
+              'https://cdn.shopify.com/s/files/1/0407/1902/4288/files/bannerH_328x224.jpg',
             desktop:
-              "https://cdn.shopify.com/s/files/1/0407/1902/4288/files/bannerH_1240x400.jpg",
+              'https://cdn.shopify.com/s/files/1/0407/1902/4288/files/bannerH_1240x400.jpg'
           },
-          link: "/cropper",
-          className: "sf-hero-item--position-bg-top-left ",
-        },
-      ],
+          link: '/cropper',
+          className: 'sf-hero-item--position-bg-top-left '
+        }
+      ]
     };
   },
   methods: {
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
     toggleWishlist(index) {
       this.products[index].isInWishlist = !this.products[index].isInWishlist;
-    },
-  },
+    }
+  }
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="postcss" scoped>
 .article-meta h4 a {
   color: #111111;
   font-weight: 600;
@@ -138,7 +137,7 @@ export default {
 }
 .article-item__meta-item:not(:last-child)::after {
   display: inline-block;
-  content: "";
+  content: '';
   width: 5px;
   height: 5px;
   margin: -1px 10px 0 10px;
