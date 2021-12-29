@@ -25,47 +25,43 @@
   </div>
 </template>
 <script>
-// import('@google/model-viewer');
 import { SfButton } from '@storefront-ui/vue';
 export default {
   components: { SfButton },
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   setup(props, { root }) {
     const handelReturn = () => {
-      return root.$router.push('/step1');
+      return root.$router.push('/step');
     };
 
     const handleShare = () => {
-      return root.$router.push({
-        path: '/share',
-        query: {
-          path: root.$route.query.path,
-        },
-      });
+      // return root.$router.push({
+      //   path: '/share',
+      //   query: {
+      //     path: root.$route.query.path
+      //   }
+      // });
     };
     return {
       handelReturn,
-      handleShare,
+      handleShare
     };
   },
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   data() {
     return {};
   },
-  methods: {
-    getModleFile() {
-      const filePath = this.$route.query.path;
-
-      // document.getElementById('model').src = filePath;
-      document.getElementById('model').src =
-        'https://jizhan1.s3.us-east-1.amazonaws.com/model/abab9826-c7c9-40eb-8d7a-95a33c0ae447.glb';
-    },
-  },
 
   mounted() {
     import('@google/model-viewer');
     this.getModleFile();
   },
+  methods: {
+    getModleFile() {
+      const filePath = window.localStorage.getItem('filePath');
+      document.getElementById('model').src = filePath;
+    }
+  }
 };
 </script>
 
@@ -93,9 +89,6 @@ export default {
   .btns {
     display: flex;
     flex-direction: column;
-    //  @include for-desktop{
-    //   align-items: center;
-    //  }
     .btn {
       width: 150px;
       margin: var(--spacer-sm) 0 0;

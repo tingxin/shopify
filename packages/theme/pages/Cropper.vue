@@ -76,7 +76,7 @@ export default {
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   setup(props, { root }) {
     const handleNextClick = () => {
-      return root.$router.push('/step1');
+      return root.$router.push('/step');
     };
     return {
       handleNextClick
@@ -142,7 +142,7 @@ export default {
       if (type === 'blob') {
         this.$refs.cropper.getCropBlob((data) => {
           const isJpgOrPng =
-            data.type == 'image/jpeg' || data.type == 'image/png';
+            data.type === 'image/jpeg' || data.type === 'image/png';
           const isLt2M = data.size / 1024 / 1024 < 2;
           if (!isJpgOrPng) {
             // this.$message.error('上传头像图片只能是 JPG 或 PNG 格式!');
@@ -164,6 +164,7 @@ export default {
                   name: this.option.name,
                   data: newData
                 };
+                window.localStorage.setItem('info', JSON.stringify(info));
                 this.$store.dispatch('addForm', info);
                 this.handleNextClick();
               });
