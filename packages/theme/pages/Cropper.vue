@@ -32,7 +32,7 @@
           width: previews.w + 'px',
           height: previews.h + 'px',
           overflow: 'hidden',
-          margin: '30px'
+          margin: '30px',
         }"
       >
         <div :style="previews.div">
@@ -46,7 +46,7 @@
       reference image we provide
     </div>
     <div class="test-button">
-      <label class="upload btn" for="uploads">upload</label>
+      <label class="upload btn" for="uploads">UPLOAD</label>
       <input
         id="uploads"
         type="file"
@@ -79,7 +79,7 @@ export default {
       return root.$router.push('/step');
     };
     return {
-      handleNextClick
+      handleNextClick,
     };
   },
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -91,8 +91,8 @@ export default {
       previews: {},
       lists: [
         {
-          img: 'mark.jpeg'
-        }
+          img: 'mark.jpeg',
+        },
       ],
       option: {
         img: 'mark.jpeg',
@@ -110,11 +110,11 @@ export default {
         autoCropHeight: 640,
         centerBox: false,
         high: true,
-        max: 99999
+        max: 99999,
       },
       show: true,
       fixed: true,
-      fixedNumber: [3, 4]
+      fixedNumber: [3, 4],
     };
   },
 
@@ -155,14 +155,14 @@ export default {
           return new Promise((resolve) => {
             compressAccurately(data, {
               with: 480,
-              height: 640
+              height: 640,
             }).then((res) => {
               this.$refs.cropper.getCropData((res) => {
                 this.downImg = res;
                 const newData = res.split('base64,')[1];
                 const info = {
                   name: this.option.name,
-                  data: newData
+                  data: newData,
                 };
                 window.localStorage.setItem('info', JSON.stringify(info));
                 this.$store.dispatch('addForm', info);
@@ -179,7 +179,7 @@ export default {
           const newData = data.split('base64,')[1];
           const info = {
             name: this.option.name,
-            data: newData
+            data: newData,
           };
           this.$store.dispatch('addForm', info);
           this.handleNextClick();
@@ -226,8 +226,8 @@ export default {
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
     cropMoving(data) {
       // console.log(data, "截图框当前坐标");
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>
