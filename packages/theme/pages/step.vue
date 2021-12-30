@@ -10,7 +10,7 @@
     />
     <div class="form__element form_title">
       <SfButton
-        class="sf-button--pure  info_circle——button"
+        class="sf-button--pure info_circle——button"
         @click="handleSidebar"
       >
         <SfIcon
@@ -38,10 +38,7 @@
     <form class="form">
       <SfComponentSelect
         v-model="style"
-        class="
-          form__element form__element--half form__select
-          sf-component-select--underlined
-        "
+        class="form__element form__element--half form__select sf-component-select--underlined"
         label="Hair style"
         :required="false"
         valid
@@ -60,13 +57,7 @@
       </SfComponentSelect>
       <SfComponentSelect
         v-model="color"
-        class="
-          form__element
-          form__element--half
-          form__element--half-even
-          form__select
-          sf-component-select--underlined
-        "
+        class="form__element form__element--half form__element--half-even form__select sf-component-select--underlined"
         label="Hair Color"
         :required="false"
         valid
@@ -86,10 +77,7 @@
       <SfComponentSelect
         v-model="length"
         label="Hair Length"
-        class="
-          form__element form__element--half form__select
-          sf-component-select--underlined
-        "
+        class="form__element form__element--half form__select sf-component-select--underlined"
         :required="false"
         valid
         :disabled="false"
@@ -107,13 +95,7 @@
       <SfComponentSelect
         v-model="density"
         label="Hair Density "
-        class="
-          form__element
-          form__element--half
-          form__element--half-even
-          form__select
-          sf-component-select--underlined
-        "
+        class="form__element form__element--half form__element--half-even form__select sf-component-select--underlined"
         :required="false"
         valid
         :disabled="false"
@@ -131,10 +113,7 @@
       <SfComponentSelect
         v-model="laceMaterial"
         label="Lace Material"
-        class="
-          form__element form__element--half form__select
-          sf-component-select--underlined
-        "
+        class="form__element form__element--half form__select sf-component-select--underlined"
         :required="false"
         valid
         :disabled="false"
@@ -153,13 +132,7 @@
       <SfComponentSelect
         v-model="cap"
         label="Cap Construction "
-        class="
-          form__element
-          form__element--half
-          form__element--half-even
-          form__select
-          sf-component-select--underlined
-        "
+        class="form__element form__element--half form__element--half-even form__select sf-component-select--underlined"
         :required="false"
         valid
         :disabled="false"
@@ -178,10 +151,7 @@
       <SfComponentSelect
         v-model="hairLine"
         label="Hair Line"
-        class="
-          form__element form__element--half form__select
-          sf-component-select--underlined
-        "
+        class="form__element form__element--half form__select sf-component-select--underlined"
         :required="false"
         valid
         :disabled="false"
@@ -200,13 +170,7 @@
       <SfComponentSelect
         v-model="capSize"
         label="Cap Size "
-        class="
-          form__element
-          form__element--half
-          form__element--half-even
-          form__select
-          sf-component-select--underlined
-        "
+        class="form__element form__element--half form__element--half-even form__select sf-component-select--underlined"
         :required="false"
         valid
         :disabled="false"
@@ -224,10 +188,7 @@
       <SfComponentSelect
         v-model="addElasticBand"
         label="Add Elastic Bands"
-        class="
-          form__element form__element--half form__select
-          sf-component-select--underlined
-        "
+        class="form__element form__element--half form__select sf-component-select--underlined"
         :required="false"
         valid
         :disabled="false"
@@ -249,13 +210,16 @@
         <SfButton type="submit" @click.prevent="submit">Next</SfButton>
       </div>
     </form>
-    <SfLoader
-      v-if="isLoadervisible"
-      class="pdc-pdp-loader"
-      :loading="isLoadervisible"
-    >
-      <div />
-    </SfLoader>
+    <div class="pdc-pdp" v-if="isLoadervisible">
+      <SfLoader class="pdc-pdp-loader" :loading="isLoadervisible">
+        <div class="desc">
+          please have a cup of coffee,it will be done in one or wait minutes
+        </div>
+      </SfLoader>
+      <div class="pdc-pdp-desc">
+        please have a cup of coffee,it will be done in one or wait minutes
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -272,7 +236,7 @@ import {
   SfNotification,
   SfIcon,
   SfSidebar,
-  SfImage
+  SfImage,
 } from '@storefront-ui/vue';
 
 export default {
@@ -288,7 +252,7 @@ export default {
     SfNotification,
     SfIcon,
     SfSidebar,
-    SfImage
+    SfImage,
   },
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   setup(props, { root }) {
@@ -296,12 +260,12 @@ export default {
       return root.$router.push({
         path: '/model',
         query: {
-          path: this.filePath
-        }
+          path: this.filePath,
+        },
       });
     };
     return {
-      handleNextClick
+      handleNextClick,
     };
   },
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -332,45 +296,45 @@ export default {
         { label: '20 Inch + $90.00', value: '20inch' },
         { label: '22 Inch +$130.00', value: '22inch' },
         { label: '24 Inch +$180.00', value: '24inch' },
-        { label: '26 Inch +$240.00', value: '26inch' }
+        { label: '26 Inch +$240.00', value: '26inch' },
       ],
       colors: [
         { color: 'black', name: 'Black' },
         { color: 'wineRed', name: 'Wine Red' },
         { color: 'darkPurple', name: 'Dark Purple' },
         { color: 'blue', name: 'Blue' },
-        { color: 'platinumBlonde', name: 'Platinum Blonde' }
+        { color: 'platinumBlonde', name: 'Platinum Blonde' },
       ],
 
       densities: [
         { label: '150%', value: '150%' },
-        { label: '180% +$30.00', value: '180%' }
+        { label: '180% +$30.00', value: '180%' },
       ],
       laceMaterials: [
         { label: 'HD Lace +$20.00', value: 'hdLace' },
-        { label: 'Normal Lace', value: 'normalLace' }
+        { label: 'Normal Lace', value: 'normalLace' },
       ],
       caps: [
         { label: '4 Parting Glueless Lace Front Crap', value: '4' },
         {
           label: '6 Deep Parting Glueless Lace Front Crap +$60.00 GlueLess',
-          value: '6'
+          value: '6',
         },
-        { label: '5 * 5 Closure Lace Cap +$40.00', value: '5' }
+        { label: '5 * 5 Closure Lace Cap +$40.00', value: '5' },
       ],
       hairLines: [
         { label: 'Natural Hair Line', value: 'naturalHairLine' },
-        { label: 'Pre-plucked HairLine', value: 'prePluckedHairLine' }
+        { label: 'Pre-plucked HairLine', value: 'prePluckedHairLine' },
       ],
       capSizes: [
         { label: 'Average', value: 'average' },
         { label: 'Petite', value: 'petite' },
         { label: 'Large', value: 'large' },
-        { label: 'Custom +$30.00', value: 'custom' }
+        { label: 'Custom +$30.00', value: 'custom' },
       ],
       addElasticBands: [
         { label: 'Yes', value: 'yes' },
-        { label: 'No', value: 'no' }
+        { label: 'No', value: 'no' },
       ],
       styles: [
         { label: 'JC', value: 'jc' },
@@ -378,7 +342,7 @@ export default {
         { label: 'Body', value: 'body' },
         { label: 'Curls', value: 'curls' },
         { label: 'Yaki', value: 'yaki' },
-        { label: 'Bob', value: 'bob' }
+        { label: 'Bob', value: 'bob' },
       ],
       // 轮询时间
       timer: null,
@@ -386,7 +350,7 @@ export default {
       is2D: '',
       requestId: '',
       // 回显图片路径
-      filePath: ''
+      filePath: '',
     };
   },
   watch: {
@@ -400,8 +364,8 @@ export default {
           this.stopSetInterval();
         }
       },
-      immediate: true
-    }
+      immediate: true,
+    },
   },
   methods: {
     handleSidebar() {
@@ -424,13 +388,16 @@ export default {
         this.cap,
         this.hairLine,
         this.capSize,
-        this.addElasticBand
+        this.addElasticBand,
       ];
       const info = JSON.parse(window.localStorage.getItem('info'));
-      const data = {
-        ...info,
-        params
+      const newData = {
+        // ...info,
+        name: info.name,
+        params,
+        data: info.data,
       };
+
       // this.$store.dispatch('addForm', data);
       this.submitted = true;
       this.isLoadervisible = true;
@@ -441,12 +408,18 @@ export default {
         method: 'POST',
         // url: '/ama/profile',
         url: '/b/default/profile',
-        data: JSON.stringify(data)
-      }).then(({ data }) => {
-        window.localStorage.removeItem('filePath');
-        this.requestId = data.request_id;
-        this.filePath = data.file_path;
-      });
+        data: JSON.stringify(newData),
+      })
+        .then(({ data }) => {
+          window.localStorage.removeItem('filePath');
+          this.requestId = data.request_id;
+          this.filePath = data.file_path;
+        })
+        .catch((e) => {
+          console.log(e);
+          this.notificationVisible = 'Internal Server Error';
+          this.isLoadervisible = false;
+        });
     },
     // reset() {
     //   this.style = '';
@@ -461,7 +434,7 @@ export default {
       this.stopSetInterval();
       this.timer = setInterval(() => {
         this.getNewMessage();
-      }, 7000);
+      }, 5000);
     },
     // 关闭轮询
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -479,32 +452,42 @@ export default {
         // url: '/ama/status',
         url: '/b/default/status',
         headers: {
-          'x-jizhan-request-id': this.requestId
-        }
-      }).then(({ data }) => {
-        if (data.status === 'done') {
+          'x-jizhan-request-id': this.requestId,
+        },
+      })
+        .then(({ data }) => {
+          if (data.status === 'done') {
+            this.isLoadervisible = false;
+            this.stopSetInterval();
+            this.$router.push({
+              path: '/model',
+              // query: {
+              //   path: this.filePath
+              // }
+            });
+            window.localStorage.setItem('filePath', this.filePath);
+          } else if (data.status === 'timeout') {
+            this.notificationVisible = '处理超时，请重试';
+            this.isLoadervisible = false; // 选择配置的暂时不支持，请重新配置
+            this.stopSetInterval();
+          } else if (data.status === 'bad') {
+            this.notificationVisible = ' 选择配置的暂时不支持，请重新配置';
+            this.isLoadervisible = false;
+            this.stopSetInterval();
+          }
+          this.is2D = data.status;
+        })
+        .catch((e) => {
+          console.log(e);
+          this.notificationVisible = 'Internal Server Error';
           this.isLoadervisible = false;
           this.stopSetInterval();
-          this.$router.push({
-            path: '/model'
-            // query: {
-            //   path: this.filePath
-            // }
-          });
-          window.localStorage.setItem('filePath', this.filePath);
-        } else if (data.status === 'timeout') {
-          this.notificationVisible = '处理超时，请重试';
-          this.isLoadervisible = false; // 选择配置的暂时不支持，请重新配置
-          this.stopSetInterval();
-        } else if (data.status === 'bad') {
-          this.notificationVisible = ' 选择配置的暂时不支持，请重新配置';
-          this.isLoadervisible = false;
-          this.stopSetInterval();
-        }
-        this.is2D = data.status;
-      });
-    }
-  }
+        });
+    },
+  },
+  mounted() {
+    this.stopSetInterval();
+  },
 };
 </script>
 
@@ -513,23 +496,38 @@ export default {
 .cart__image {
   width: 100%;
 }
-.pdc-pdp-loader {
-  max-height: 90vh;
-  // width: 100%;
-  /* padding: 100px 0; */
+.pdc-pdp {
+  min-height: 93vh;
+  width: 100%;
   position: absolute;
   top: 0;
-  left: 0;
+  right: 0;
+  z-index: 99999;
+  margin-left: -25%;
+  background: rgba(94, 91, 91, 0.2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
   @include for-mobile {
     min-height: 165vh;
   }
-  .sf-loader__overlay {
-    background: rgba(0, 0, 0, 0.2);
+  .pdc-pdp-loader {
+    width: 100%;
+    .sf-loader__overlay {
+      background: rgba(0, 0, 0, 0.5);
+    }
+  }
+  .pdc-pdp-desc {
+    color: red;
+    margin: var(--spacer-2xl);
+    @include for-mobile {
+      margin: var(--spacer-2xl) var(--spacer-base);
+    }
   }
 }
 .info_circle——button {
   display: inline-block;
-  // padding-top: var(--spacer-sm);
 }
 #form-ste1 {
   box-sizing: border-box;
