@@ -31,7 +31,7 @@ export default {
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   setup(props, { root }) {
     const handelReturn = () => {
-      return root.$router.push('/step');
+      return root.$router.push('/step1');
     };
 
     const handleShare = () => {
@@ -44,7 +44,7 @@ export default {
     };
     return {
       handelReturn,
-      handleShare
+      handleShare,
     };
   },
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -60,8 +60,8 @@ export default {
     getModleFile() {
       const filePath = window.localStorage.getItem('filePath');
       document.getElementById('model').src = filePath;
-    }
-  }
+    },
+  },
 };
 </script>
 

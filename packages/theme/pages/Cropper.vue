@@ -76,7 +76,7 @@ export default {
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   setup(props, { root }) {
     const handleNextClick = () => {
-      return root.$router.push('/step');
+      return root.$router.push('/step1');
     };
     return {
       handleNextClick,
