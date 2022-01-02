@@ -1,13 +1,5 @@
 <template>
   <div id="form-step1">
-    <SfNotification
-      :visible="Boolean(notificationVisible)"
-      persistent=""
-      title=""
-      :message="notificationVisible"
-      action=""
-      type="danger"
-    />
     <div class="form__element form_title">
       <SfButton
         class="sf-button--pure info_circle——button"
@@ -92,117 +84,6 @@
           {{ length.label }}
         </SfComponentSelectOption>
       </SfComponentSelect>
-      <SfComponentSelect
-        v-model="density"
-        label="Hair Density "
-        class="form__element form__element--half form__element--half-even form__select sf-component-select--underlined"
-        :required="false"
-        valid
-        :disabled="false"
-        error-message="Please select Hair Density "
-        placeholder="Please select Hair Density "
-      >
-        <SfComponentSelectOption
-          v-for="density in densities"
-          :key="density.value"
-          :value="density.value"
-        >
-          {{ density.label }}
-        </SfComponentSelectOption>
-      </SfComponentSelect>
-      <SfComponentSelect
-        v-model="laceMaterial"
-        label="Lace Material"
-        class="form__element form__element--half form__select sf-component-select--underlined"
-        :required="false"
-        valid
-        :disabled="false"
-        error-message="Please select Lace material."
-        placeholder="Please select Lace material."
-      >
-        <SfComponentSelectOption
-          v-for="item in laceMaterials"
-          :key="item.value"
-          :value="item.value"
-        >
-          {{ item.label }}
-        </SfComponentSelectOption>
-      </SfComponentSelect>
-
-      <SfComponentSelect
-        v-model="cap"
-        label="Cap Construction "
-        class="form__element form__element--half form__element--half-even form__select sf-component-select--underlined"
-        :required="false"
-        valid
-        :disabled="false"
-        error-message="Please select Cap Construction "
-        placeholder="Please select Cap Construction "
-      >
-        <SfComponentSelectOption
-          v-for="item in caps"
-          :key="item.value"
-          :value="item.value"
-        >
-          {{ item.label }}
-        </SfComponentSelectOption>
-      </SfComponentSelect>
-
-      <SfComponentSelect
-        v-model="hairLine"
-        label="Hair Line"
-        class="form__element form__element--half form__select sf-component-select--underlined"
-        :required="false"
-        valid
-        :disabled="false"
-        error-message="Please select HairLine"
-        placeholder="Please select HairLine"
-      >
-        <SfComponentSelectOption
-          v-for="(item, key) in hairLines"
-          :key="key"
-          :value="item.value"
-        >
-          {{ item.label }}
-        </SfComponentSelectOption>
-      </SfComponentSelect>
-
-      <SfComponentSelect
-        v-model="capSize"
-        label="Cap Size "
-        class="form__element form__element--half form__element--half-even form__select sf-component-select--underlined"
-        :required="false"
-        valid
-        :disabled="false"
-        error-message="Please select Cap Size "
-        placeholder="Please select Cap Size "
-      >
-        <SfComponentSelectOption
-          v-for="item in capSizes"
-          :key="item.value"
-          :value="item.value"
-        >
-          {{ item.label }}
-        </SfComponentSelectOption>
-      </SfComponentSelect>
-      <SfComponentSelect
-        v-model="addElasticBand"
-        label="Add Elastic Bands"
-        class="form__element form__element--half form__select sf-component-select--underlined"
-        :required="false"
-        valid
-        :disabled="false"
-        error-message="Please select Add Elastic Bands"
-        placeholder="Please select Add Elastic Bands"
-      >
-        <SfComponentSelectOption
-          v-for="(item, key) in addElasticBands"
-          :key="key"
-          :value="item.value"
-        >
-          {{ item.label }}
-        </SfComponentSelectOption>
-      </SfComponentSelect>
 
       <div class="form__element form__element--half" />
 
@@ -210,16 +91,6 @@
         <SfButton type="submit" @click.prevent="submit">Next</SfButton>
       </div>
     </form>
-    <div class="pdc-pdp" v-if="isLoadervisible">
-      <SfLoader class="pdc-pdp-loader" :loading="isLoadervisible">
-        <div class="desc">
-          please have a cup of coffee,it will be done in one or wait minutes
-        </div>
-      </SfLoader>
-      <div class="pdc-pdp-desc">
-        please have a cup of coffee,it will be done in one or wait minutes
-      </div>
-    </div>
   </div>
 </template>
 <script>
@@ -231,9 +102,6 @@ import {
   SfButton,
   SfInput,
   SfComponentSelect,
-  SfHeading,
-  SfLoader,
-  SfNotification,
   SfIcon,
   SfSidebar,
   SfImage,
@@ -247,45 +115,29 @@ export default {
     SfButton,
     SfInput,
     SfComponentSelect,
-    SfHeading,
-    SfLoader,
-    SfNotification,
     SfIcon,
     SfSidebar,
     SfImage,
   },
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  setup(props, { root }) {
-    const handleNextClick = () => {
-      return root.$router.push({
-        path: '/model',
-        query: {
-          path: this.filePath,
-        },
-      });
-    };
-    return {
-      handleNextClick,
-    };
-  },
+  setup(props, { root }) {},
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   data() {
     return {
-      isLoadervisible: false,
       valid: false,
-      submitted: false,
       sidebarVisible: false,
-      notificationVisible: '',
       // 款式
+      style: 'jc',
       length: '16inch',
       color: 'black',
-      density: '150%',
-      laceMaterial: 'normalLace',
-      cap: '4',
-      hairLine: 'naturalHairLine',
-      capSize: 'average',
-      addElasticBand: 'no',
-      style: 'jc',
+      styles: [
+        { label: 'JC', value: 'jc' },
+        { label: 'ST', value: 'st' },
+        { label: 'Body', value: 'body' },
+        { label: 'Curls', value: 'curls' },
+        { label: 'Yaki', value: 'yaki' },
+        { label: 'Bob', value: 'bob' },
+      ],
       lengths: [
         { label: '8 Inch', value: '8inch' },
         { label: '10 Inch', value: '10inch' },
@@ -305,68 +157,9 @@ export default {
         { color: 'blue', name: 'Blue' },
         { color: 'platinumBlonde', name: 'Platinum Blonde' },
       ],
-
-      densities: [
-        { label: '150%', value: '150%' },
-        { label: '180% +$30.00', value: '180%' },
-      ],
-      laceMaterials: [
-        { label: 'HD Lace +$20.00', value: 'hdLace' },
-        { label: 'Normal Lace', value: 'normalLace' },
-      ],
-      caps: [
-        { label: '4 Parting Glueless Lace Front Crap', value: '4' },
-        {
-          label: '6 Deep Parting Glueless Lace Front Crap +$60.00 GlueLess',
-          value: '6',
-        },
-        { label: '5 * 5 Closure Lace Cap +$40.00', value: '5' },
-      ],
-      hairLines: [
-        { label: 'Natural Hair Line', value: 'naturalHairLine' },
-        { label: 'Pre-plucked HairLine', value: 'prePluckedHairLine' },
-      ],
-      capSizes: [
-        { label: 'Average', value: 'average' },
-        { label: 'Petite', value: 'petite' },
-        { label: 'Large', value: 'large' },
-        { label: 'Custom +$30.00', value: 'custom' },
-      ],
-      addElasticBands: [
-        { label: 'Yes', value: 'yes' },
-        { label: 'No', value: 'no' },
-      ],
-      styles: [
-        { label: 'JC', value: 'jc' },
-        { label: 'ST', value: 'st' },
-        { label: 'Body', value: 'body' },
-        { label: 'Curls', value: 'curls' },
-        { label: 'Yaki', value: 'yaki' },
-        { label: 'Bob', value: 'bob' },
-      ],
-      // 轮询时间
-      timer: null,
-      // 是否执行轮训
-      is2D: '',
-      requestId: '',
-      // 回显图片路径
-      filePath: '',
     };
   },
-  watch: {
-    requestId: {
-      // 查看文件上传的处理状态
-      handler(newVal) {
-        if (newVal !== '' && this.is2D !== 'done') {
-          // 实现轮询
-          this.createSetInterval();
-        } else if (newVal !== '' && this.is2D === 'done') {
-          this.stopSetInterval();
-        }
-      },
-      immediate: true,
-    },
-  },
+  watch: {},
   methods: {
     handleSidebar() {
       return (this.sidebarVisible = true);
@@ -375,118 +168,17 @@ export default {
       this.sidebarVisible = false;
     },
     async submit() {
-      const params = [
-        // 'jc',
-        // this.color,
-        // this.density,
-        // this.length,
-        this.style,
-        this.color,
-        this.length,
-        this.density,
-        this.laceMaterial,
-        this.cap,
-        this.hairLine,
-        this.capSize,
-        this.addElasticBand,
-      ];
-      const info = JSON.parse(window.localStorage.getItem('info'));
-      const newData = {
-        // ...info,
-        name: info.name,
-        params,
-        data: info.data,
-      };
-
-      // this.$store.dispatch('addForm', data);
-      this.submitted = true;
-      this.isLoadervisible = true;
-      // this.getNewMessage();
-      // 获取远端图片
-      this.notificationVisible = '';
-      await this.$axios({
-        method: 'POST',
-        // url: '/ama/profile',
-        url: '/b/default/profile',
-        data: JSON.stringify(newData),
-      })
-        .then(({ data }) => {
-          window.localStorage.removeItem('filePath');
-          this.requestId = data.request_id;
-          this.filePath = data.file_path;
-        })
-        .catch((e) => {
-          console.log(e);
-          this.notificationVisible = 'Internal Server Error';
-          this.isLoadervisible = false;
-        });
+      window.localStorage.setItem(
+        'hairInfo',
+        JSON.stringify([this.style, this.color, this.length])
+      );
+      this.$router.push({
+        path: '/step2',
+        // query: {
+        //   path: this.filePath
+        // }
+      });
     },
-    // reset() {
-    //   this.style = '';
-    //   this.length = '';
-    //   this.color = '';
-    //   this.density = '';
-    //   this.laceMaterial = '';
-    // }
-    // 开启轮询  如果存在则先销毁定时器后重新开启
-    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-    createSetInterval() {
-      this.stopSetInterval();
-      this.timer = setInterval(() => {
-        this.getNewMessage();
-      }, 5000);
-    },
-    // 关闭轮询
-    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-    stopSetInterval() {
-      if (this.timer) {
-        clearInterval(this.timer);
-        this.timer = null;
-      }
-    },
-    // 请求是否有新消息
-    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-    async getNewMessage() {
-      await this.$axios({
-        method: 'GET',
-        // url: '/ama/status',
-        url: '/b/default/status',
-        headers: {
-          'x-jizhan-request-id': this.requestId,
-        },
-      })
-        .then(({ data }) => {
-          if (data.status === 'done') {
-            this.isLoadervisible = false;
-            this.stopSetInterval();
-            this.$router.push({
-              path: '/model',
-              // query: {
-              //   path: this.filePath
-              // }
-            });
-            window.localStorage.setItem('filePath', this.filePath);
-          } else if (data.status === 'timeout') {
-            this.notificationVisible = '处理超时，请重试';
-            this.isLoadervisible = false; // 选择配置的暂时不支持，请重新配置
-            this.stopSetInterval();
-          } else if (data.status === 'bad') {
-            this.notificationVisible = ' 选择配置的暂时不支持，请重新配置';
-            this.isLoadervisible = false;
-            this.stopSetInterval();
-          }
-          this.is2D = data.status;
-        })
-        .catch((e) => {
-          console.log(e);
-          this.notificationVisible = 'Internal Server Error';
-          this.isLoadervisible = false;
-          this.stopSetInterval();
-        });
-    },
-  },
-  mounted() {
-    this.stopSetInterval();
   },
 };
 </script>
@@ -496,36 +188,7 @@ export default {
 .cart__image {
   width: 100%;
 }
-.pdc-pdp {
-  min-height: 93vh;
-  width: 100%;
-  position: absolute;
-  top: 0;
-  right: 0;
-  z-index: 99999;
-  margin-left: -25%;
-  background: rgba(94, 91, 91, 0.2);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  @include for-mobile {
-    min-height: 165vh;
-  }
-  .pdc-pdp-loader {
-    width: 100%;
-    .sf-loader__overlay {
-      background: rgba(0, 0, 0, 0.5);
-    }
-  }
-  .pdc-pdp-desc {
-    color: red;
-    margin: var(--spacer-2xl);
-    @include for-mobile {
-      margin: var(--spacer-2xl) var(--spacer-base);
-    }
-  }
-}
+
 .info_circle——button {
   display: inline-block;
 }
@@ -589,15 +252,6 @@ export default {
     }
     &__button {
       --button-width: auto;
-    }
-  }
-  .sf-loader {
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 1;
-    .sf-loader__overlay {
-      background: rgba(255, 255, 255, 0.9);
     }
   }
 }

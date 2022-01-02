@@ -2,6 +2,8 @@
   <div>
     <div id="cropper">
       <div class="cut">
+        <!-- {{ previews }} -->
+
         <vue-cropper
           ref="cropper"
           :img="option.img"
@@ -33,10 +35,13 @@
           height: previews.h + 'px',
           overflow: 'hidden',
           margin: '30px',
+          border: '3px dashed red',
         }"
+        class="cropper-show"
       >
+        <!-- class="cropper-show" -->
+
         <div :style="previews.div">
-          <!-- <img :src="previews.url" :style="previews.img" /> -->
           <img :style="previews.img" src="mark.jpeg" alt="" />
         </div>
       </div>
@@ -89,11 +94,6 @@ export default {
       modelSrc: '',
       crap: false,
       previews: {},
-      lists: [
-        {
-          img: 'mark.jpeg',
-        },
-      ],
       option: {
         img: 'mark.jpeg',
         size: 1,
@@ -106,8 +106,8 @@ export default {
         canMoveBox: true,
         autoCrop: true,
         // 只有自动截图开启 宽度高度才生效
-        autoCropWidth: 480,
-        autoCropHeight: 640,
+        // autoCropWidth: 240,
+        // autoCropHeight: 320,
         centerBox: false,
         high: true,
         max: 99999,
@@ -165,13 +165,12 @@ export default {
                   data: newData,
                 };
                 window.localStorage.setItem('info', JSON.stringify(info));
-                this.$store.dispatch('addForm', info);
+                // this.$store.dispatch('addForm', info);
                 this.handleNextClick();
               });
               resolve(res);
             });
           });
-          // this.downImg = window.URL.createObjectURL(data);
         });
       } else {
         this.$refs.cropper.getCropData((data) => {
@@ -181,7 +180,7 @@ export default {
             name: this.option.name,
             data: newData,
           };
-          this.$store.dispatch('addForm', info);
+          // this.$store.dispatch('addForm', info);
           this.handleNextClick();
         });
       }
@@ -227,6 +226,9 @@ export default {
     cropMoving(data) {
       // console.log(data, "截图框当前坐标");
     },
+    handleShow(e) {
+      e.stoppropagation();
+    },
   },
 };
 </script>
@@ -242,12 +244,25 @@ export default {
   }
   .cut {
     margin: 30px auto;
-    width: 100%;
-    height: 20rem;
+    width: 80%;
+    height: 300px;
     @include for-desktop {
       margin: 30px 0;
       width: 420px;
       height: 480px;
+    }
+  }
+  .cropper-show {
+    position: absolute;
+    opacity: 0.2;
+
+    pointer-events: none;
+    @include for-desktop {
+      top: 14.5%;
+    }
+    @include for-mobile {
+      top: 20%;
+      left: 11%;
     }
   }
 }
@@ -284,7 +299,7 @@ export default {
 }
 .cropper-desc {
   margin: var(--spacer-sm) var(--spacer-sm);
-  font-size: 2rem;
+  font-size: 1rem;
   color: red;
   @include for-desktop {
     margin: var(--spacer-sm) 0;
