@@ -131,7 +131,7 @@ export default {
       length: '16inch',
       color: 'black',
       styles: [
-        { label: 'JC', value: 'jc' },
+        { label: 'JC0', value: 'jc' },
         { label: 'ST', value: 'st' },
         { label: 'Body', value: 'body' },
         { label: 'Curls', value: 'curls' },
@@ -152,10 +152,10 @@ export default {
       ],
       colors: [
         { color: 'black', name: 'Black' },
-        { color: 'wineRed', name: 'Wine Red' },
-        { color: 'darkPurple', name: 'Dark Purple' },
+        { color: 'winered', name: 'Wine Red' },
+        { color: 'darkpurple', name: 'Dark Purple' },
         { color: 'blue', name: 'Blue' },
-        { color: 'platinumBlonde', name: 'Platinum Blonde' },
+        { color: 'platinumblonde', name: 'Platinum Blonde' },
       ],
     };
   },

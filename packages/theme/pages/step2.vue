@@ -205,7 +205,7 @@ export default {
       ],
       laceMaterials: [
         { label: 'HD Lace +$20.00', value: 'hdLace' },
-        { label: 'Normal Lace', value: 'normalLace' },
+        { label: 'Normal Lace', value: 'normallace' },
       ],
       caps: [
         { label: '4 Parting Glueless Lace Front Crap', value: '4' },
@@ -216,8 +216,8 @@ export default {
         { label: '5 * 5 Closure Lace Cap +$40.00', value: '5' },
       ],
       hairLines: [
-        { label: 'Natural Hair Line', value: 'naturalHairLine' },
-        { label: 'Pre-plucked HairLine', value: 'prePluckedHairLine' },
+        { label: 'Natural Hair Line', value: 'naturalhairline' },
+        { label: 'Pre-plucked HairLine', value: 'prePluckedhairline' },
       ],
       capSizes: [
         { label: 'Average', value: 'average' },
