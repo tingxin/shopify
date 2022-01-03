@@ -127,16 +127,15 @@ export default {
       valid: false,
       sidebarVisible: false,
       // 款式
-      style: 'jc',
+      style: 'st',
       length: '16inch',
       color: 'black',
       styles: [
-        { label: 'JC', value: 'jc' },
         { label: 'ST', value: 'st' },
-        { label: 'Body', value: 'body' },
-        { label: 'Curls', value: 'curls' },
-        { label: 'Yaki', value: 'yaki' },
-        { label: 'Bob', value: 'bob' },
+        { label: 'Body +$10.00', value: 'body' },
+        { label: 'Curls +$10.00', value: 'curls' },
+        { label: 'Yaki +$10.00', value: 'yaki' },
+        { label: 'Bob $79.00', value: 'bob' },
       ],
       lengths: [
         { label: '8 Inch', value: '8inch' },
@@ -150,16 +149,44 @@ export default {
         { label: '24 Inch +$180.00', value: '24inch' },
         { label: '26 Inch +$240.00', value: '26inch' },
       ],
+      lengths1: [
+        { label: '8 Inch', value: '8inch' },
+        { label: '10 Inch', value: '10inch' },
+        { label: '12 Inch', value: '12inch' },
+        { label: '14 Inch', value: '14inch' },
+        { label: '16 Inch', value: '16inch' },
+        { label: '18 Inch +$30.00', value: '18inch' },
+        { label: '20 Inch + $90.00', value: '20inch' },
+        { label: '22 Inch +$130.00', value: '22inch' },
+        { label: '24 Inch +$180.00', value: '24inch' },
+        { label: '26 Inch +$240.00', value: '26inch' },
+      ],
+      lengths2: [
+        { label: '8 Inch', value: '8inch' },
+        { label: '10 Inch', value: '10inch' },
+        { label: '12 Inch', value: '12inch' },
+        { label: '14 Inch', value: '14inch' },
+      ],
       colors: [
         { color: 'black', name: 'Black' },
-        { color: 'winered', name: 'Wine Red' },
-        { color: 'darkpurple', name: 'Dark Purple' },
-        { color: 'blue', name: 'Blue' },
-        { color: 'platinumblonde', name: 'Platinum Blonde' },
+        { color: 'wine red ', name: 'Wine Red +¥30.00' },
+        { color: 'dark purple', name: 'Dark Purple +¥30.00' },
+        { color: 'blue', name: 'Blue +¥30.00' },
+        { color: 'platinum blonde', name: 'Platinum Blonde +¥30.00' },
       ],
     };
   },
-  watch: {},
+  watch: {
+    style(newVal, oldVal) {
+      if (newVal == 'bob') {
+        this.lengths = this.lengths2;
+        this.length = '14inch';
+      } else {
+        this.lengths = this.lengths1;
+        this.length = '16inch';
+      }
+    },
+  },
   methods: {
     handleSidebar() {
       return (this.sidebarVisible = true);
