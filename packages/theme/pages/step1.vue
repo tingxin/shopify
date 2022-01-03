@@ -131,7 +131,7 @@ export default {
       length: '16inch',
       color: 'black',
       styles: [
-        { label: 'JC0', value: 'jc' },
+        { label: 'JC', value: 'jc' },
         { label: 'ST', value: 'st' },
         { label: 'Body', value: 'body' },
         { label: 'Curls', value: 'curls' },

@@ -13,7 +13,7 @@
       <SfComponentSelect
         v-model="density"
         label="Hair Density "
-        class="form__element form__element--half form__element--half-even form__select sf-component-select--underlined"
+        class="form__element form__element--half form__select sf-component-select--underlined"
         :required="false"
         valid
         :disabled="false"
@@ -31,7 +31,7 @@
       <SfComponentSelect
         v-model="laceMaterial"
         label="Lace Material"
-        class="form__element form__element--half form__select sf-component-select--underlined"
+        class="form__element form__element--half form__element--half-even form__select sf-component-select--underlined"
         :required="false"
         valid
         :disabled="false"
@@ -50,7 +50,7 @@
       <SfComponentSelect
         v-model="cap"
         label="Cap Construction "
-        class="form__element form__element--half form__element--half-even form__select sf-component-select--underlined"
+        class="form__element form__element--half form__select sf-component-select--underlined"
         :required="false"
         valid
         :disabled="false"
@@ -69,7 +69,7 @@
       <SfComponentSelect
         v-model="hairLine"
         label="Hair Line"
-        class="form__element form__element--half form__select sf-component-select--underlined"
+        class="form__element form__element--half form__element--half-even form__select sf-component-select--underlined"
         :required="false"
         valid
         :disabled="false"
@@ -88,7 +88,7 @@
       <SfComponentSelect
         v-model="capSize"
         label="Cap Size "
-        class="form__element form__element--half form__element--half-even form__select sf-component-select--underlined"
+        class="form__element form__element--half form__select sf-component-select--underlined"
         :required="false"
         valid
         :disabled="false"
@@ -106,7 +106,7 @@
       <SfComponentSelect
         v-model="addElasticBand"
         label="Add Elastic Bands"
-        class="form__element form__element--half form__select sf-component-select--underlined"
+        class="form__element form__element--half form__element--half-even form__select sf-component-select--underlined"
         :required="false"
         valid
         :disabled="false"
@@ -362,10 +362,11 @@ export default {
   },
 };
 </script>
-
 <style lang="scss" scoped>
 @import '~@storefront-ui/vue/styles';
-
+.cart__image {
+  width: 100%;
+}
 .pdc-pdp {
   min-height: 93vh;
   width: 100%;
@@ -396,7 +397,10 @@ export default {
     }
   }
 }
-#form-ste2 {
+.info_circle——button {
+  display: inline-block;
+}
+#form-ste1 {
   box-sizing: border-box;
   padding: 0 var(--spacer-sm);
   position: relative;
@@ -406,15 +410,17 @@ export default {
     margin: 0 auto;
   }
 }
-.form__h2 {
-  padding: var(--spacer-sm);
+.form_title {
+  display: flex;
 }
 .form {
   padding: var(--spacer-sm) 0;
   @include for-mobile {
     padding: var(--spacer-sm);
   }
-
+  &__h2 {
+    padding: var(--spacer-sm) 0;
+  }
   &__group {
     display: flex;
     align-items: flex-start;
@@ -438,6 +444,16 @@ export default {
     &:last-of-type {
       margin: 0 calc(var(--spacer-2xl) - var(--spacer-sm)) 0 0;
     }
+    &__element {
+      margin: 0 0 var(--spacer-sm) 0;
+      flex: 0 0 100%;
+      &--half {
+        flex: 1 1 50%;
+        &-even {
+          padding: 0 0 0 var(--spacer-xl);
+        }
+      }
+    }
     &__action {
       flex: 0 0 100%;
       display: flex;
@@ -452,7 +468,7 @@ export default {
     left: 0;
     z-index: 1;
     .sf-loader__overlay {
-      background: rgba(0, 0, 0, 0.7);
+      background: rgba(255, 255, 255, 0.9);
     }
   }
 }
