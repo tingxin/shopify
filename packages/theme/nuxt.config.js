@@ -5,7 +5,7 @@ import webpack from 'webpack';
 
 const config = {
   server: {
-    port: 80,
+    port: 3000,
     host: '0.0.0.0',
   },
   publicRuntimeConfig: {

@@ -169,16 +169,16 @@ export default {
       ],
       colors: [
         { color: 'black', name: 'Black' },
-        { color: 'wine red ', name: 'Wine Red +¥30.00' },
-        { color: 'dark purple', name: 'Dark Purple +¥30.00' },
+        { color: 'winered ', name: 'Wine Red +¥30.00' },
+        { color: 'darkpurple', name: 'Dark Purple +¥30.00' },
         { color: 'blue', name: 'Blue +¥30.00' },
-        { color: 'platinum blonde', name: 'Platinum Blonde +¥30.00' },
+        { color: 'platinumblonde', name: 'Platinum Blonde +¥30.00' },
       ],
     };
   },
   watch: {
     style(newVal, oldVal) {
-      if (newVal == 'bob') {
+      if (newVal === 'bob') {
         this.lengths = this.lengths2;
         this.length = '14inch';
       } else {
