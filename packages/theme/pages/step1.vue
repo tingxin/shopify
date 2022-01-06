@@ -207,7 +207,7 @@ export default {
     async submit() {
       const info = JSON.parse(window.localStorage.getItem('info'));
       //this.style
-      const params = ['jc', this.color, this.length];
+      const params = [this.style, this.color, this.length];
       const newData = {
         name: info.name,
         params,
