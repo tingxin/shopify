@@ -10,23 +10,9 @@
         :background="hero.background"
         :image="hero.image"
         :class="hero.className"
+        :link="hero.link"
       />
     </SfHero>
-    <LazyHydrate when-visible>
-      <SfBannerGrid :banner-grid="1" class="banner-grid">
-        <template v-for="item in banners" #[item.slot]>
-          <SfBanner
-            :key="item.slot"
-            :title="item.title"
-            :subtitle="item.subtitle"
-            :description="item.description"
-            :button-text="item.buttonText"
-            :image="item.image"
-            :class="item.class"
-          />
-        </template>
-      </SfBannerGrid>
-    </LazyHydrate>
     <LazyHydrate when-visible>
       <RelatedProducts
         :products="products"
@@ -62,36 +48,15 @@ import {
   SfArrow,
   SfButton
 } from '@storefront-ui/vue';
-import {
-  useProduct,
-  useCart,
-  productGetters
-} from '@vue-storefront/shopify';
-import {
-  computed
-} from '@nuxtjs/composition-api';
-import { onSSR } from '@vue-storefront/core';
-import LazyHydrate from 'vue-lazy-hydration';
-import MobileStoreBanner from '~/components/MobileStoreBanner.vue';
 import RelatedProducts from '~/components/RelatedProducts.vue';
+import { useProduct, useCart, productGetters } from '@vue-storefront/shopify';
+import { computed } from '@vue/composition-api';
+import { onSSR } from '@vue-storefront/core';
+import MobileStoreBanner from '~/components/MobileStoreBanner.vue';
+import LazyHydrate from 'vue-lazy-hydration';
 
 export default {
   name: 'Home',
-  components: {
-    SfHero,
-    RelatedProducts,
-    SfBanner,
-    SfCallToAction,
-    SfSection,
-    SfCarousel,
-    SfImage,
-    SfBannerGrid,
-    SfHeading,
-    SfArrow,
-    SfButton,
-    MobileStoreBanner,
-    LazyHydrate
-  },
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   setup() {
     const {
@@ -116,110 +81,38 @@ export default {
       isInCart
     };
   },
+  components: {
+    SfHero,
+    RelatedProducts,
+    SfBanner,
+    SfCallToAction,
+    SfSection,
+    SfCarousel,
+    SfImage,
+    SfBannerGrid,
+    SfHeading,
+    SfArrow,
+    SfButton,
+    MobileStoreBanner,
+    LazyHydrate
+  },
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   data() {
     return {
       heroes: [
         {
-          title: 'Colorful summer dresses are already in store',
-          subtitle: 'SUMMER COLLECTION 2021',
-          buttonText: 'Learn more',
+          title: ' Custom wigs exclusively for you',
+          subtitle: 'Try on online',
+          buttonText: 'Start Customizing',
           background: '#eceff1',
-          image: {
-            mobile:
-              'https://cdn.shopify.com/s/files/1/0407/1902/4288/files/bannerB_328x224.jpg',
-            desktop:
-              'https://cdn.shopify.com/s/files/1/0407/1902/4288/files/bannerB_1240x400.jpg'
-          },
-          link: '/c/women/women-clothing-shirts'
-        },
-        {
-          title: 'Colorful summer dresses are already in store',
-          subtitle: 'SUMMER COLLECTION 2021',
-          buttonText: 'Learn more',
-          background: '#fce4ec',
           image: {
             mobile:
               'https://cdn.shopify.com/s/files/1/0407/1902/4288/files/bannerH_328x224.jpg',
             desktop:
               'https://cdn.shopify.com/s/files/1/0407/1902/4288/files/bannerH_1240x400.jpg'
           },
-          link: '/c/women/women-clothing-dresses'
-        },
-        {
-          title: 'Colorful summer dresses are already in store',
-          subtitle: 'SUMMER COLLECTION 2021',
-          buttonText: 'Learn more',
-          background: '#efebe9',
-          image: {
-            mobile:
-              'https://cdn.shopify.com/s/files/1/0407/1902/4288/files/bannerA_328x224.jpg',
-            desktop:
-              'https://cdn.shopify.com/s/files/1/0407/1902/4288/files/bannerA_1240x400.jpg'
-          },
-          link: '/c/women/women-shoes-sandals',
-          className:
-            'sf-hero-item--position-bg-top-left sf-hero-item--align-right'
-        }
-      ],
-      banners: [
-        {
-          slot: 'banner-A',
-          subtitle: 'Dresses',
-          title: 'Cocktail & Party',
-          description:
-            'Find stunning women\'s cocktail dresses and party dresses. Stand out in lace and metallic cocktail dresses from all your favorite brands.',
-          buttonText: 'Shop now',
-          image: {
-            mobile:
-              'https://cdn.shopify.com/s/files/1/0407/1902/4288/files/bannerB_328x343.jpg',
-            desktop:
-              'https://cdn.shopify.com/s/files/1/0407/1902/4288/files/bannerF_332x840.jpg'
-          },
-          class: 'sf-banner--slim desktop-only',
-          link: '/c/women/women-clothing-skirts'
-        },
-        {
-          slot: 'banner-B',
-          subtitle: 'Dresses',
-          title: 'Linen Dresses',
-          description:
-            'Find stunning women\'s cocktail dresses and party dresses. Stand out in lace and metallic cocktail dresses from all your favorite brands.',
-          buttonText: 'Shop now',
-          image: {
-            mobile:
-              'https://cdn.shopify.com/s/files/1/0407/1902/4288/files/bannerE_328x343.jpg',
-            desktop:
-              'https://cdn.shopify.com/s/files/1/0407/1902/4288/files/bannerE_496x840.jpg'
-          },
-          class: 'sf-banner--slim banner-central desktop-only',
-          link: '/c/women/women-clothing-dresses'
-        },
-        {
-          slot: 'banner-C',
-          subtitle: 'T-Shirts',
-          title: 'The Office Life',
-          image: {
-            mobile:
-              'https://cdn.shopify.com/s/files/1/0407/1902/4288/files/bannerC_328x343.jpg',
-            desktop:
-              'https://cdn.shopify.com/s/files/1/0407/1902/4288/files/bannerC_332x400.jpg'
-          },
-          class: 'sf-banner--slim banner__tshirt',
-          link: '/c/women/women-clothing-shirts'
-        },
-        {
-          slot: 'banner-D',
-          subtitle: 'Summer Sandals',
-          title: 'Eco Sandals',
-          image: {
-            mobile:
-              'https://cdn.shopify.com/s/files/1/0407/1902/4288/files/bannerG_328x343.jpg',
-            desktop:
-              'https://cdn.shopify.com/s/files/1/0407/1902/4288/files/bannerG_332x400.jpg'
-          },
-          class: 'sf-banner--slim',
-          link: '/c/women/women-shoes-sandals'
+          link: '/cropper',
+          className: 'sf-hero-item--position-bg-top-left '
         }
       ]
     };
@@ -244,7 +137,7 @@ export default {
 }
 .article-item__meta-item:not(:last-child)::after {
   display: inline-block;
-  content: "";
+  content: '';
   width: 5px;
   height: 5px;
   margin: -1px 10px 0 10px;
@@ -286,8 +179,23 @@ export default {
   }
 }
 
-::v-deep .sf-hero__controls {
-  --hero-controls-display: none;
+::v-deep {
+  .sf-hero__controls {
+    --hero-controls-display: none;
+  }
+  .sf-hero-item__button {
+    @include for-desktop {
+      display: block;
+      text-align: center;
+    }
+  }
+
+  .glide__slide a {
+    @include for-desktop {
+      display: block;
+      width: 230px;
+    }
+  }
 }
 
 .banner-grid {
