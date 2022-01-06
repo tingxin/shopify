@@ -1,13 +1,5 @@
 <template>
   <div id="form-step2">
-    <SfNotification
-      :visible="Boolean(notificationVisible)"
-      persistent=""
-      title=""
-      :message="notificationVisible"
-      action=""
-      type="danger"
-    />
     <h3 class="form__h2">Wig Specs</h3>
     <form class="form">
       <SfComponentSelect
@@ -123,7 +115,14 @@
       </SfComponentSelect>
 
       <div class="form__element form__element--half" />
-
+      <SfNotification
+        :visible="Boolean(notificationVisible)"
+        persistent=""
+        title=""
+        :message="notificationVisible"
+        action=""
+        type="danger"
+      />
       <div class="form__action">
         <SfButton type="submit" @click.prevent="submit">Next</SfButton>
       </div>
@@ -245,6 +244,8 @@ export default {
       requestId: '',
       // 回显图片路径
       filePath: '',
+      // 请求模型id
+      requestId: '',
     };
   },
   watch: {
@@ -253,7 +254,7 @@ export default {
       handler(newVal) {
         if (newVal !== '' && this.is2D !== 'done') {
           // 实现轮询
-          this.createSetInterval();
+          // this.createSetInterval();
         } else if (newVal !== '' && this.is2D === 'done') {
           this.stopSetInterval();
         }
@@ -262,56 +263,13 @@ export default {
     },
   },
   methods: {
-    async submit() {
-      const info = JSON.parse(window.localStorage.getItem('info'));
-      const hairInfo = JSON.parse(window.localStorage.getItem('hairInfo'));
-      const params = [
-        ...hairInfo,
-        this.density,
-        this.laceMaterial,
-        this.cap,
-        this.hairLine,
-        this.capSize,
-        this.addElasticBand,
-      ];
-      const newData = {
-        name: info.name,
-        params,
-        data: info.data,
-      };
-
-      // this.$store.dispatch('addForm', data);
-      this.submitted = true;
-      this.isLoadervisible = true;
-      // 获取远端图片
-      this.notificationVisible = '';
-      await this.$axios({
-        method: 'POST',
-        // url: '/ama/profile',
-        url: '/b/default/profile',
-        data: JSON.stringify(newData),
-      })
-        .then(({ data }) => {
-          window.localStorage.removeItem('filePath');
-          this.requestId = data.request_id;
-          this.filePath = data.file_path;
-        })
-        .catch((e) => {
-          console.log(e);
-          this.notificationVisible = 'Internal Server Error';
-          this.isLoadervisible = false;
-        });
-    },
-    // reset() {
-    //   this.style = '';
-    //   this.length = '';
-    //   this.color = '';
-    //   this.density = '';
-    //   this.laceMaterial = '';
-    // }
     // 开启轮询  如果存在则先销毁定时器后重新开启
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+    submit() {
+      this.createSetInterval();
+    },
     createSetInterval() {
+      this.isLoadervisible = true;
       this.stopSetInterval();
       this.timer = setInterval(() => {
         this.getNewMessage();
@@ -342,11 +300,10 @@ export default {
             this.stopSetInterval();
             this.$router.push({
               path: '/model',
-              // query: {
-              //   path: this.filePath
-              // }
+              query: {
+                filePath: this.filePath,
+              },
             });
-            window.localStorage.setItem('filePath', this.filePath);
           } else if (data.status === 'timeout') {
             this.notificationVisible = '处理超时，请重试';
             this.isLoadervisible = false; // 选择配置的暂时不支持，请重新配置
@@ -355,11 +312,18 @@ export default {
             this.notificationVisible = ' 选择配置的暂时不支持，请重新配置';
             this.isLoadervisible = false;
             this.stopSetInterval();
+            setTimeout(() => {
+              this.$router.push({
+                path: '/step1',
+              });
+            }, 800);
           }
           this.is2D = data.status;
         })
         .catch((e) => {
-          console.log(e);
+          this.$router.push({
+            path: '/step1',
+          });
           this.notificationVisible = 'Internal Server Error';
           this.isLoadervisible = false;
           this.stopSetInterval();
@@ -368,6 +332,8 @@ export default {
   },
   mounted() {
     this.stopSetInterval();
+    this.filePath = window.localStorage.getItem('filePath');
+    this.requestId = window.localStorage.getItem('request_id');
   },
 };
 </script>

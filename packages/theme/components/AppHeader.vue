@@ -96,7 +96,7 @@ import {
   useWishlist,
   useUser,
   cartGetters,
-  useCategory
+  useCategory,
 } from '@vue-storefront/shopify';
 import { computed, ref } from '@vue/composition-api';
 import { onSSR } from '@vue-storefront/core';
@@ -108,20 +108,16 @@ export default {
     SfImage,
     LocaleSelector,
     SfButton,
-    SfBadge
+    SfBadge,
   },
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   setup(props, { root }) {
-    const {
-      toggleCartSidebar,
-      toggleWishlistSidebar,
-      toggleLoginModal
-    } = useUiState();
+    const { toggleCartSidebar, toggleWishlistSidebar, toggleLoginModal } =
+      useUiState();
     const { changeSearchTerm, getFacetsFromURL } = useUiHelpers();
     const { isAuthenticated, load: loadUser } = useUser();
     const { cart, load: loadCart } = useCart();
     const { search, categories } = useCategory('menuCategories');
-    console.log('categories', categories);
     const { load: loadWishlist } = useWishlist();
     const term = ref(getFacetsFromURL().term);
     const curCatSlug = ref(getFacetsFromURL().categorySlug);
@@ -154,9 +150,9 @@ export default {
       changeSearchTerm,
       term,
       curCatSlug,
-      categories
+      categories,
     };
-  }
+  },
 };
 </script>
 

@@ -42,13 +42,19 @@
         <!-- class="cropper-show" -->
 
         <div :style="previews.div">
-          <img :style="previews.img" src="mark.jpeg" alt="" />
+          <img :style="previews.img" src="face.png" alt="" />
         </div>
       </div>
     </div>
     <div class="cropper-desc">
       Please upload a frontal face photo that matches the contour of the
       reference image we provide
+    </div>
+    <div class="cropper-desc" style="color: #000">
+      Our Virtual Try On Feature is still under testing. The refinement of 3D
+      images, the matching between avatars and wigs, and the transmission speed
+      are all being optimized. We apologize for any inconvenience this might
+      cause. Please come back for better experience.
     </div>
     <div class="test-button">
       <label class="upload btn" for="uploads">UPLOAD</label>
@@ -229,6 +235,9 @@ export default {
     handleShow(e) {
       e.stoppropagation();
     },
+  },
+  mounted() {
+    this.clearCrop();
   },
 };
 </script>

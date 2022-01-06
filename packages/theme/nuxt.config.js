@@ -55,6 +55,7 @@ const config = {
   plugins: [
     '~/plugins/scrollToTop.client.js',
     { src: '~/plugins/cropper', ssr: false },
+    '~/plugins/vueClipboard.js',
   ],
   buildModules: [
     // to core

@@ -91,6 +91,13 @@
         <SfButton type="submit" @click.prevent="submit">Next</SfButton>
       </div>
     </form>
+    <div class="pdc-pdp" v-if="isLoadervisible">
+      <SfLoader class="pdc-pdp-loader" :loading="isLoadervisible">
+        <div class="desc">
+          <!-- please have a cup of coffee,it will be done in one or wait minutes -->
+        </div>
+      </SfLoader>
+    </div>
   </div>
 </template>
 <script>
@@ -105,6 +112,7 @@ import {
   SfIcon,
   SfSidebar,
   SfImage,
+  SfLoader,
 } from '@storefront-ui/vue';
 
 export default {
@@ -118,6 +126,7 @@ export default {
     SfIcon,
     SfSidebar,
     SfImage,
+    SfLoader,
   },
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   setup(props, { root }) {},
@@ -174,6 +183,7 @@ export default {
         { color: 'blue', name: 'Blue +¥30.00' },
         { color: 'platinumblonde', name: 'Platinum Blonde +¥30.00' },
       ],
+      isLoadervisible: false,
     };
   },
   watch: {
@@ -195,16 +205,37 @@ export default {
       this.sidebarVisible = false;
     },
     async submit() {
-      window.localStorage.setItem(
-        'hairInfo',
-        JSON.stringify([this.style, this.color, this.length])
-      );
-      this.$router.push({
-        path: '/step2',
-        // query: {
-        //   path: this.filePath
-        // }
-      });
+      const info = JSON.parse(window.localStorage.getItem('info'));
+      //this.style
+      const params = ['jc', this.color, this.length];
+      const newData = {
+        name: info.name,
+        params,
+        data: info.data,
+      };
+
+      this.submitted = true;
+      this.isLoadervisible = true;
+      // 获取远端图片
+      this.notificationVisible = '';
+      await this.$axios({
+        method: 'POST',
+        // url: '/ama/profile',
+        url: '/b/default/profile',
+        data: JSON.stringify(newData),
+      })
+        .then(({ data }) => {
+          this.isLoadervisible = false;
+          window.localStorage.setItem('filePath', data.file_path);
+          window.localStorage.setItem('request_id', data.request_id);
+          this.$router.push({
+            path: '/step2',
+          });
+        })
+        .catch((e) => {
+          this.notificationVisible = 'Internal Server Error';
+          this.isLoadervisible = false;
+        });
     },
   },
 };
@@ -279,6 +310,36 @@ export default {
     }
     &__button {
       --button-width: auto;
+    }
+  }
+}
+.pdc-pdp {
+  min-height: 93vh;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 99999;
+  margin-left: -25%;
+  background: rgba(94, 91, 91, 0.2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  @include for-mobile {
+    min-height: 165vh;
+  }
+  .pdc-pdp-loader {
+    width: 100%;
+    .sf-loader__overlay {
+      background: rgba(0, 0, 0, 0.5);
+    }
+  }
+  .pdc-pdp-desc {
+    color: red;
+    margin: var(--spacer-2xl);
+    @include for-mobile {
+      margin: var(--spacer-2xl) var(--spacer-base);
     }
   }
 }

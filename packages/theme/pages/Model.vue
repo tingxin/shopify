@@ -17,9 +17,17 @@
         Return
       </SfButton>
       <SfButton class="color-primary sf-button btn"> Check Out </SfButton>
-      <SfButton class="color-primary sf-button btn" @click="handleShare">
-        Share
-      </SfButton>
+
+      <!-- <input type="text" v-model="message" /> -->
+      <button
+        type="button"
+        class="share-button"
+        v-clipboard:copy="message"
+        v-clipboard:success="onCopy"
+        v-clipboard:error="onError"
+      >
+        Share!
+      </button>
       <div class="tilltop">分享前请选取合适的角度</div>
     </div>
   </div>
@@ -27,13 +35,13 @@
 <script>
 import { SfButton } from '@storefront-ui/vue';
 export default {
-  components: { SfButton },
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   setup(props, { root }) {
     const handelReturn = () => {
       return root.$router.push('/step1');
     };
-
+    // const filePath = root.$route.query.path;
+    const message = `https://fdwig.myshopify.com/model?filePath=${root.$route.query.filePath}`;
     const handleShare = () => {
       // return root.$router.push({
       //   path: '/share',
@@ -45,21 +53,34 @@ export default {
     return {
       handelReturn,
       handleShare,
+      // filePath,
+      message,
     };
   },
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   data() {
     return {};
   },
+  components: { SfButton },
 
   mounted() {
-    import('@google/model-viewer');
+    this.loadComponent();
     this.getModleFile();
   },
   methods: {
     getModleFile() {
-      const filePath = window.localStorage.getItem('filePath');
+      const filePath = this.$route.query.filePath;
       document.getElementById('model').src = filePath;
+    },
+    onCopy: function (e) {
+      alert('You just copied: ' + e.text);
+    },
+    onError: function (e) {
+      alert('Failed to copy texts');
+    },
+
+    loadComponent() {
+      return () => import('@google/model-viewer');
     },
   },
 };
@@ -104,6 +125,25 @@ export default {
       }
       color: red;
     }
+  }
+  .share-button {
+    width: 150px;
+    margin: var(--spacer-sm) 0 0;
+    height: 43px;
+    background: var(--button-background, var(--c-primary));
+    border: var(
+      --button-border,
+      var(--button-border-style, solid)
+        var(--button-border-color, var(--c-primary))
+    );
+    color: #fff;
+    font: var(
+      --button-font,
+      var(--button-font-weight, var(--font-weight--semibold))
+        var(--button-font-size, var(--font-size--base)) /
+        var(--button-font-line-height, 1.2)
+        var(--button-font-family, var(--font-family--secondary))
+    );
   }
 }
 </style>
