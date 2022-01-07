@@ -117,9 +117,6 @@ export default {
       ]
     };
   },
-   mounted () {
-    window.location.href = '/cropper';
-  },
   methods: {
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
     toggleWishlist(index) {
