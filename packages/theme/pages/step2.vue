@@ -130,7 +130,7 @@
     <div class="pdc-pdp" v-if="isLoadervisible">
       <SfLoader class="pdc-pdp-loader" :loading="isLoadervisible">
         <div class="desc">
-          please have a cup of coffee,it will be done in one or wait minutes
+          please have a cup of coffee,it will be done in one or two minutes
         </div>
       </SfLoader>
       <div class="pdc-pdp-desc">

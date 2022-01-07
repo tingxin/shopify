@@ -1,263 +1,323 @@
-<template>
-  <div id="home">
-    <SfHero class="hero">
-      <SfHeroItem
-        v-for="(hero, i) in heroes"
-        :key="i"
-        :title="hero.title"
-        :subtitle="hero.subtitle"
-        :button-text="hero.buttonText"
-        :background="hero.background"
-        :image="hero.image"
-        :class="hero.className"
-        :link="hero.link"
-      />
-    </SfHero>
-    <LazyHydrate when-visible>
-      <RelatedProducts
-        :products="products"
-        :loading="productsLoading"
-        title="Match it with"
-      />
-    </LazyHydrate>
+<template name="Cropper">
+  <div>
+    <div id="cropper">
+      <div class="cut">
+        <!-- {{ previews }} -->
 
-    <LazyHydrate when-visible>
-      <SfCallToAction
-        title="Subscribe to Newsletters"
-        button-text="Subscribe"
-        description="Be aware of upcoming sales and events. Receive gifts and special offers!"
-        image="https://cdn.shopify.com/s/files/1/0407/1902/4288/files/newsletter_1240x202.jpg?v=1616496568"
-        class="call-to-action"
+        <vue-cropper
+          ref="cropper"
+          :img="option.img"
+          :output-size="option.size"
+          :output-type="option.outputType"
+          :info="true"
+          :full="option.full"
+          :fixed="fixed"
+          :fixed-number="fixedNumber"
+          :can-move="option.canMove"
+          :can-move-box="option.canMoveBox"
+          :fixed-box="option.fixedBox"
+          :original="option.original"
+          :auto-crop="option.autoCrop"
+          :auto-crop-width="option.autoCropWidth"
+          :auto-crop-height="option.autoCropHeight"
+          :center-box="option.centerBox"
+          :high="option.high"
+          mode="cover"
+          :max-img-size="option.max"
+          @real-time="realTime"
+          @img-load="imgLoad"
+          @crop-moving="cropMoving"
+        ></vue-cropper>
+      </div>
+      <div
+        :style="{
+          width: previews.w + 'px',
+          height: previews.h + 'px',
+          overflow: 'hidden',
+          margin: '30px',
+          border: '3px dashed red',
+        }"
+        class="cropper-show"
+      >
+        <!-- class="cropper-show" -->
+
+        <div :style="previews.div">
+          <img :style="previews.img" src="face.png" alt="" />
+        </div>
+      </div>
+    </div>
+    <div class="cropper-desc">
+      Please upload a frontal face photo that matches the contour of the
+      reference image we provide
+    </div>
+    <div class="test-button">
+      <label class="upload btn" for="uploads">UPLOAD</label>
+      <input
+        id="uploads"
+        type="file"
+        style="position: absolute; clip: rect(0 0 0 0)"
+        accept="image/png, image/jpeg, image/gif, image/jpg"
+        @change="uploadImg($event, 1)"
       />
-    </LazyHydrate>
-    <LazyHydrate when-visible>
-      <MobileStoreBanner />
-    </LazyHydrate>
+      <SfButton class="color-primary sf-button btn" @click="clearCrop"
+        >clear
+      </SfButton>
+      <SfButton class="color-primary sf-button btn" @click="refreshCrop">
+        refresh
+      </SfButton>
+      <SfButton class="color-primary sf-button btn" @click="down('blob')">
+        next
+      </SfButton>
+    </div>
   </div>
 </template>
-<script type="module">
-import {
-  SfHero,
-  SfBanner,
-  SfCallToAction,
-  SfSection,
-  SfCarousel,
-  SfImage,
-  SfBannerGrid,
-  SfHeading,
-  SfArrow,
-  SfButton
-} from '@storefront-ui/vue';
-import RelatedProducts from '~/components/RelatedProducts.vue';
-import { useProduct, useCart, productGetters } from '@vue-storefront/shopify';
-import { computed } from '@vue/composition-api';
-import { onSSR } from '@vue-storefront/core';
-import MobileStoreBanner from '~/components/MobileStoreBanner.vue';
-import LazyHydrate from 'vue-lazy-hydration';
+<script>
+import { SfButton } from '@storefront-ui/vue';
+import { compress, compressAccurately } from 'image-conversion';
 
 export default {
-  name: 'Home',
+  name: 'Cropper',
+  components: { SfButton },
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  setup() {
-    const {
-      products: relatedProducts,
-      search: productsSearch,
-      loading: productsLoading
-    } = useProduct('relatedProducts');
-    const { cart, load: loadCart, addItem: addToCart, isInCart } = useCart();
-
-    onSSR(async () => {
-      await productsSearch({ limit: 8 });
-      await loadCart();
-    });
-    return {
-      products: computed(() =>
-        productGetters.getFiltered(relatedProducts.value, { master: true })
-      ),
-      getChkId: computed(() => cart.value.id),
-      productsLoading,
-      productGetters,
-      addToCart,
-      isInCart
+  setup(props, { root }) {
+    const handleNextClick = () => {
+      return root.$router.push('/step1');
     };
-  },
-  components: {
-    SfHero,
-    RelatedProducts,
-    SfBanner,
-    SfCallToAction,
-    SfSection,
-    SfCarousel,
-    SfImage,
-    SfBannerGrid,
-    SfHeading,
-    SfArrow,
-    SfButton,
-    MobileStoreBanner,
-    LazyHydrate
+    return {
+      handleNextClick,
+    };
   },
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   data() {
     return {
-      heroes: [
-        {
-          title: ' Custom wigs exclusively for you',
-          subtitle: 'Try on online',
-          buttonText: 'Start Customizing',
-          background: '#eceff1',
-          image: {
-            mobile:
-              'https://cdn.shopify.com/s/files/1/0407/1902/4288/files/bannerH_328x224.jpg',
-            desktop:
-              'https://cdn.shopify.com/s/files/1/0407/1902/4288/files/bannerH_1240x400.jpg'
-          },
-          link: '/cropper',
-          className: 'sf-hero-item--position-bg-top-left '
-        }
-      ]
+      model: false,
+      modelSrc: '',
+      crap: false,
+      previews: {},
+      option: {
+        img: 'mark.jpeg',
+        size: 1,
+        full: false,
+        outputType: 'png',
+        name: 'demo.png',
+        canMove: true,
+        fixedBox: false,
+        original: false,
+        canMoveBox: true,
+        autoCrop: true,
+        // 只有自动截图开启 宽度高度才生效
+        // autoCropWidth: 240,
+        // autoCropHeight: 320,
+        centerBox: false,
+        high: true,
+        max: 99999,
+      },
+      show: true,
+      fixed: true,
+      fixedNumber: [3, 4],
     };
   },
+
   methods: {
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-    toggleWishlist(index) {
-      this.products[index].isInWishlist = !this.products[index].isInWishlist;
-    }
-  }
+    clearCrop() {
+      // clear
+      this.$refs.cropper.clearCrop();
+    },
+    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+    refreshCrop() {
+      // clear
+      this.$refs.cropper.refresh();
+    },
+    // 实时预览函数
+    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+    realTime(data) {
+      this.previews = data;
+    },
+
+    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+    down(type) {
+      event.preventDefault();
+      // 输出;
+      if (type === 'blob') {
+        this.$refs.cropper.getCropBlob((data) => {
+          const isJpgOrPng =
+            data.type === 'image/jpeg' || data.type === 'image/png';
+          const isLt2M = data.size / 1024 / 1024 < 2;
+          if (!isJpgOrPng) {
+            // this.$message.error('上传头像图片只能是 JPG 或 PNG 格式!');
+            return false;
+          }
+          if (!isLt2M) {
+            // this.$message.error('上传头像图片大小不能超过 2MB!');
+            return false;
+          }
+          return new Promise((resolve) => {
+            compressAccurately(data, {
+              with: 480,
+              height: 640,
+            }).then((res) => {
+              this.$refs.cropper.getCropData((res) => {
+                this.downImg = res;
+                const newData = res.split('base64,')[1];
+                const info = {
+                  name: this.option.name,
+                  data: newData,
+                };
+                window.localStorage.setItem('info', JSON.stringify(info));
+                // this.$store.dispatch('addForm', info);
+                this.handleNextClick();
+              });
+              resolve(res);
+            });
+          });
+        });
+      } else {
+        this.$refs.cropper.getCropData((data) => {
+          this.downImg = data;
+          const newData = data.split('base64,')[1];
+          const info = {
+            name: this.option.name,
+            data: newData,
+          };
+          // this.$store.dispatch('addForm', info);
+          this.handleNextClick();
+        });
+      }
+    },
+
+    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+    uploadImg(e, num) {
+      // 上传图片
+      // this.option.img
+      const file = e.target.files[0];
+      if (!/\.(gif|jpg|jpeg|png|bmp|GIF|JPG|PNG)$/.test(e.target.value)) {
+        return false;
+      }
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        let data;
+        if (typeof e.target.result === 'object') {
+          // 把Array Buffer转化为blob 如果是base64不需要
+          const blob = new Blob([e.target.result]);
+          data = window.URL.createObjectURL(blob);
+          // const file = new File([blob], '');
+        } else {
+          data = e.target.result;
+        }
+        if (num === 1) {
+          this.option.img = data;
+          this.option.name = file.name;
+          this.option.outputType = file.name.split('/')[1];
+        } else if (num === 2) {
+          this.example2.img = data;
+        }
+      };
+      // 转化为base64
+      // reader.readAsDataURL(file)
+      // 转化为blob
+      reader.readAsArrayBuffer(file);
+    },
+    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+    imgLoad(msg) {
+      // console.log(msg);
+    },
+    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+    cropMoving(data) {
+      // console.log(data, "截图框当前坐标");
+    },
+    handleShow(e) {
+      e.stoppropagation();
+    },
+  },
+  mounted() {
+    this.clearCrop();
+  },
 };
 </script>
-
-<style lang="postcss" scoped>
-.article-meta h4 a {
-  color: #111111;
-  font-weight: 600;
-  font-size: 20px;
-}
-.article-meta {
-  margin-top: 10px;
-}
-.article-item__meta-item:not(:last-child)::after {
-  display: inline-block;
-  content: '';
-  width: 5px;
-  height: 5px;
-  margin: -1px 10px 0 10px;
-  border-radius: 100%;
-  background: rgba(0, 0, 0, 0.4);
-  vertical-align: middle;
-}
-#home {
+<style lang="scss" scoped>
+#cropper {
   box-sizing: border-box;
-  padding: 0 var(--spacer-sm);
   @include for-desktop {
-    max-width: 1240px;
-    padding: 0;
+    display: flex;
+    justify-content: center;
+    max-width: 1272px;
+    padding: 0 var(--spacer-sm);
     margin: 0 auto;
   }
-}
-
-.hero {
-  margin: var(--spacer-xl) auto var(--spacer-lg);
-  --hero-item-background-position: center;
-  ::v-deep .sf-link:hover {
-    color: var(--c-white);
-  }
-  @include for-desktop {
-    margin: var(--spacer-xl) auto var(--spacer-2xl);
-  }
-  .sf-hero-item {
-    &:nth-child(even) {
-      --hero-item-background-position: left;
-      @include for-mobile {
-        --hero-item-background-position: 30%;
-        --hero-item-wrapper-text-align: right;
-        --hero-item-subtitle-width: 100%;
-        --hero-item-title-width: 100%;
-        --hero-item-wrapper-padding: var(--spacer-sm) var(--spacer-sm)
-          var(--spacer-sm) var(--spacer-2xl);
-      }
-    }
-  }
-}
-
-::v-deep {
-  .sf-hero__controls {
-    --hero-controls-display: none;
-  }
-  .sf-hero-item__button {
+  .cut {
+    margin: 30px auto;
+    width: 80%;
+    height: 300px;
     @include for-desktop {
-      display: block;
-      text-align: center;
+      margin: 30px 0;
+      width: 420px;
+      height: 480px;
     }
   }
+  .cropper-show {
+    position: absolute;
+    opacity: 0.2;
 
-  .glide__slide a {
+    pointer-events: none;
     @include for-desktop {
-      display: block;
-      width: 230px;
+      top: 14.5%;
+    }
+    @include for-mobile {
+      top: 20%;
+      left: 11%;
     }
   }
 }
-
-.banner-grid {
-  --banner-container-width: 50%;
-  margin: var(--spacer-xl) 0;
-  ::v-deep .sf-link:hover {
-    color: var(--c-white);
-  }
-  @include for-desktop {
-    margin: var(--spacer-2xl) 0;
-    ::v-deep .sf-link {
-      --button-width: auto;
-    }
-  }
-}
-
-.banner {
-  &__tshirt {
-    background-position: left;
-  }
-  &-central {
-    @include for-desktop {
-      --banner-container-flex: 0 0 70%;
-    }
-  }
-}
-
-.similar-products {
+.test-button {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-bottom: var(--spacer-2xs);
-  --heading-padding: 0;
-  border-bottom: 1px var(--c-light) solid;
+  flex-wrap: wrap;
   @include for-desktop {
-    border-bottom: 0;
+    width: 100%;
     justify-content: center;
-    padding-bottom: 0;
   }
 }
+.img-mark {
+  width: 100%;
+  height: 100%;
+}
+.upload {
+  background: var(--c-primary);
 
-.call-to-action {
-  background-position: right;
-  margin: var(--spacer-xs) 0;
+  color: var(--c-light-variant);
+  font: var(
+    --button-font,
+    var(--button-font-weight, var(--font-weight--semibold))
+      var(--button-font-size, var(--font-size--base)) /
+      var(--button-font-line-height, 1.2)
+      var(--button-font-family, var(--font-family--secondary))
+  );
+  line-height: 2.7rem;
+  text-align: center;
   @include for-desktop {
-    margin: var(--spacer-xl) 0 var(--spacer-2xl) 0;
+    line-height: 43px;
+    margin: 0 var(--spacer-sm) var(--spacer-sm);
+    padding: var(--button-padding, 0 var(--spacer-base));
   }
 }
-
-.carousel {
-  margin: 0 calc(var(--spacer-sm) * -1) 0 0;
+.cropper-desc {
+  margin: var(--spacer-sm) var(--spacer-sm);
+  font-size: 1rem;
+  color: red;
   @include for-desktop {
-    margin: 0;
+    margin: var(--spacer-sm) 0;
+    font-size: 18px;
+    text-align: center;
   }
-  &__item {
-    margin: 1.375rem 0 2.5rem 0;
-    @include for-desktop {
-      margin: var(--spacer-xl) 0 var(--spacer-xl) 0;
-    }
-    &__product {
-      --product-card-add-button-transform: translate3d(0, 30%, 0);
-    }
+}
+.btn {
+  width: var(--spacer-2sm);
+  margin: 0 var(--spacer-sm) var(--spacer-sm);
+  height: 43px;
+
+  @include for-mobile {
+    flex: 0 0 40%;
+    height: 2.7rem;
   }
 }
 </style>
