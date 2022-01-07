@@ -78,7 +78,7 @@
       >
         <SfComponentSelectOption
           v-for="length in lengths"
-          :key="length.value"
+          :key="length.label"
           :value="length.value"
         >
           {{ length.label }}
@@ -114,23 +114,20 @@ import {
 export default {
   name: 'Step1',
   components: {
-
     SfButton,
     SfComponentSelect,
     SfIcon,
     SfSidebar,
     SfLoader,
   },
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   setup(props, { root }) {},
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   data() {
     return {
       valid: false,
       sidebarVisible: false,
       // 款式
       style: 'st',
-      length: '16inch',
+      length: '16',
       color: 'black',
       styles: [
         { label: 'ST', value: 'st' },
@@ -140,16 +137,16 @@ export default {
         { label: 'Bob $79.00', value: 'bob' },
       ],
       lengths: [
-        { label: '8 Inch', value: '10inch' },
-        { label: '10 Inch', value: '10inch' },
-        { label: '12 Inch', value: '10inch' },
-        { label: '14 Inch', value: '10inch' },
-        { label: '16 Inch', value: '18inch' },
-        { label: '18 Inch +$30.00', value: '18inch' },
-        { label: '20 Inch + $90.00', value: '18inch' },
-        { label: '22 Inch +$130.00', value: '18inch' },
-        { label: '24 Inch +$180.00', value: '26inch' },
-        { label: '26 Inch +$240.00', value: '26inch' },
+        { label: '8 Inch', value: '8' },
+        { label: '10 Inch', value: '10' },
+        { label: '12 Inch', value: '12' },
+        { label: '14 Inch', value: '14' },
+        { label: '16 Inch', value: '16' },
+        { label: '18 Inch +$30.00', value: '18' },
+        { label: '20 Inch + $90.00', value: '20' },
+        { label: '22 Inch +$130.00', value: '22' },
+        { label: '24 Inch +$180.00', value: '24' },
+        { label: '26 Inch +$240.00', value: '26' },
       ],
       colors: [
         { color: 'black', name: 'Black' },
@@ -168,10 +165,23 @@ export default {
     sidebarClose() {
       this.sidebarVisible = false;
     },
+    // 无论那个款式，0-14 -> 10, 16-22->18, 24-26->26
+    getInch(val){
+      if(['8','10','12','14'].includes(val)){
+
+        return '10inch'
+      }else if(['16','18','20','22'].includes(val)){
+
+        return '18inch'
+      }else{
+
+        return '26inch'
+      }
+    },
     async submit() {
       const info = JSON.parse(window.localStorage.getItem('info'));
-      // this.style
-      const params = [this.style, this.color, this.length];
+      const newInch = this.getInch(this.length)
+      const params = [this.style, this.color, newInch];
       const newData = {
         name: info.name,
         params,
