@@ -91,7 +91,7 @@
         <SfButton type="submit" @click.prevent="submit">Next</SfButton>
       </div>
     </form>
-    <div class="pdc-pdp" v-if="isLoadervisible">
+    <div v-if="isLoadervisible" class="pdc-pdp">
       <SfLoader class="pdc-pdp-loader" :loading="isLoadervisible">
         <div class="desc">
           <!-- please have a cup of coffee,it will be done in one or wait minutes -->
@@ -104,28 +104,21 @@
 import('@google/model-viewer');
 
 import {
-  SfSelect,
-  SfColor,
   SfButton,
-  SfInput,
   SfComponentSelect,
   SfIcon,
   SfSidebar,
-  SfImage,
   SfLoader,
 } from '@storefront-ui/vue';
 
 export default {
   name: 'Step1',
   components: {
-    SfSelect,
-    SfColor,
+
     SfButton,
-    SfInput,
     SfComponentSelect,
     SfIcon,
     SfSidebar,
-    SfImage,
     SfLoader,
   },
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -147,34 +140,16 @@ export default {
         { label: 'Bob $79.00', value: 'bob' },
       ],
       lengths: [
-        { label: '8 Inch', value: '8inch' },
+        { label: '8 Inch', value: '10inch' },
         { label: '10 Inch', value: '10inch' },
-        { label: '12 Inch', value: '12inch' },
-        { label: '14 Inch', value: '14inch' },
-        { label: '16 Inch', value: '16inch' },
+        { label: '12 Inch', value: '10inch' },
+        { label: '14 Inch', value: '10inch' },
+        { label: '16 Inch', value: '18inch' },
         { label: '18 Inch +$30.00', value: '18inch' },
-        { label: '20 Inch + $90.00', value: '20inch' },
-        { label: '22 Inch +$130.00', value: '22inch' },
-        { label: '24 Inch +$180.00', value: '24inch' },
+        { label: '20 Inch + $90.00', value: '18inch' },
+        { label: '22 Inch +$130.00', value: '18inch' },
+        { label: '24 Inch +$180.00', value: '26inch' },
         { label: '26 Inch +$240.00', value: '26inch' },
-      ],
-      lengths1: [
-        { label: '8 Inch', value: '8inch' },
-        { label: '10 Inch', value: '10inch' },
-        { label: '12 Inch', value: '12inch' },
-        { label: '14 Inch', value: '14inch' },
-        { label: '16 Inch', value: '16inch' },
-        { label: '18 Inch +$30.00', value: '18inch' },
-        { label: '20 Inch + $90.00', value: '20inch' },
-        { label: '22 Inch +$130.00', value: '22inch' },
-        { label: '24 Inch +$180.00', value: '24inch' },
-        { label: '26 Inch +$240.00', value: '26inch' },
-      ],
-      lengths2: [
-        { label: '8 Inch', value: '8inch' },
-        { label: '10 Inch', value: '10inch' },
-        { label: '12 Inch', value: '12inch' },
-        { label: '14 Inch', value: '14inch' },
       ],
       colors: [
         { color: 'black', name: 'Black' },
@@ -186,17 +161,6 @@ export default {
       isLoadervisible: false,
     };
   },
-  watch: {
-    style(newVal, oldVal) {
-      if (newVal === 'bob') {
-        this.lengths = this.lengths2;
-        this.length = '14inch';
-      } else {
-        this.lengths = this.lengths1;
-        this.length = '16inch';
-      }
-    },
-  },
   methods: {
     handleSidebar() {
       return (this.sidebarVisible = true);
@@ -206,7 +170,7 @@ export default {
     },
     async submit() {
       const info = JSON.parse(window.localStorage.getItem('info'));
-      //this.style
+      // this.style
       const params = [this.style, this.color, this.length];
       const newData = {
         name: info.name,

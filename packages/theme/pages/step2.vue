@@ -129,9 +129,7 @@
     </form>
     <div v-if="isLoadervisible" class="pdc-pdp">
       <SfLoader class="pdc-pdp-loader" :loading="isLoadervisible">
-        <div class="desc">
-          please have a cup of coffee,it will be done in one or wait minutes
-        </div>
+        <div class="desc"/>
       </SfLoader>
       <div class="pdc-pdp-desc">
         please have a cup of coffee,it will be done in one or wait minutes

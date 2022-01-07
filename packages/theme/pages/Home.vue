@@ -121,7 +121,7 @@ export default {
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
     toggleWishlist(index) {
       this.products[index].isInWishlist = !this.products[index].isInWishlist;
-    }
+    },
   }
 };
 </script>
