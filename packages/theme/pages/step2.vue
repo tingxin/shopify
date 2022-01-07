@@ -184,10 +184,10 @@ export default {
       addElasticBand: 'no',
       densities: [
         { label: '150%', value: '150%' },
-        { label: '180% +$30.00', value: '180%' },
+        { label: '180%', value: '180%' },
       ],
       laceMaterials: [
-        { label: 'HD Lace +$20.00', value: 'hd lace' },
+        { label: 'HD Lace', value: 'hd lace' },
         { label: 'Normal Lace', value: 'normal lace' },
       ],
       caps: [
@@ -196,16 +196,16 @@ export default {
           value: '4 parting glueless lace front crap',
         },
         {
-          label: '6 Deep Parting Glueless Lace Front Crap +$60.00',
+          label: '6 Deep Parting Glueless Lace Front Crap',
           value: '6 deep parting glueless lace front crap',
         },
         {
-          label: 'Glueless 5*5 Closure Lace Cap +$40.00',
+          label: 'Glueless 5*5 Closure Lace Cap',
           value: 'glueless 5*5 closure lace cap',
         },
-        { label: '13*4 Lace Cap +$60.00', value: '13*4 lace cap' },
-        { label: '13*4*1 Lace Cap +$60.00', value: '13*4*1 lace cap' },
-        { label: '13*6 Lace Cap +$60.00', value: '13*6 lace cap' },
+        { label: '13*4 Lace Cap', value: '13*4 lace cap' },
+        { label: '13*4*1 Lace Cap', value: '13*4*1 lace cap' },
+        { label: '13*6 Lace Cap', value: '13*6 lace cap' },
       ],
       hairLines: [
         { label: 'Natural Hair Line', value: 'natural hair line' },
@@ -215,7 +215,7 @@ export default {
         { label: 'Average', value: 'average' },
         { label: 'Petite', value: 'petite' },
         { label: 'Large', value: 'large' },
-        { label: 'Custom +$30.00', value: 'custom' },
+        { label: 'Custom ', value: 'custom' },
       ],
       addElasticBands: [
         { label: 'Yes', value: 'yes' },

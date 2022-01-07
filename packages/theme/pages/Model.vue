@@ -26,9 +26,9 @@
         type="button"
         class="share-button"
       >
-        Share!
+        SHARE
       </button>
-      <div class="tilltop">分享前请选取合适的角度</div>
+      <!-- <div class="tilltop">分享前请选取合适的角度</div> -->
     </div>
   </div>
 </template>
@@ -145,7 +145,7 @@ export default {
         var(--button-font-line-height, 1.2)
         var(--button-font-family, var(--font-family--secondary))
     );
-    @include for-mobile {
+    @include for-desktop {
       margin-left: var(--spacer-xl);
     }
   }
