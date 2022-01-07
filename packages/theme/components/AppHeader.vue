@@ -15,7 +15,7 @@
     <template #logo>
       <nuxt-link
         data-cy="app-header-url_logo"
-        :to="localePath('/')"
+        :to="localePath('/cropper')"
         class="sf-header__logo"
       >
         <img
