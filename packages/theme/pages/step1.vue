@@ -131,10 +131,10 @@ export default {
       color: 'black',
       styles: [
         { label: 'ST', value: 'st' },
-        { label: 'Body +$10.00', value: 'body' },
-        { label: 'Curls +$10.00', value: 'curls' },
-        { label: 'Yaki +$10.00', value: 'yaki' },
-        { label: 'Bob $79.00', value: 'bob' },
+        { label: 'Body', value: 'body' },
+        { label: 'Curls', value: 'curls' },
+        { label: 'Yaki', value: 'yaki' },
+        { label: 'Bob', value: 'bob' },
       ],
       lengths: [
         { label: '8 Inch', value: '8' },
