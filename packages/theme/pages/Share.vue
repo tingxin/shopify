@@ -16,9 +16,9 @@
       </div>
       <div class="btns">
         <SfButton class="color-primary sf-button btn" @click="htmlToCanvas">
-          Share
+          SHARE
         </SfButton>
-        <div class="tilltop">分享前请选取合适的角度</div>
+        <!-- <div class="tilltop">分享前请选取合适的角度</div> -->
       </div>
     </div>
     <div v-else class="canvas-bill">

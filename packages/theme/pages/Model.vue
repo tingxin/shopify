@@ -20,11 +20,11 @@
 
       <!-- <input type="text" v-model="message" /> -->
       <button
-        type="button"
-        class="share-button"
         v-clipboard:copy="message"
         v-clipboard:success="onCopy"
         v-clipboard:error="onError"
+        type="button"
+        class="share-button"
       >
         Share!
       </button>
@@ -35,6 +35,7 @@
 <script>
 import { SfButton } from '@storefront-ui/vue';
 export default {
+  components: { SfButton },
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   setup(props, { root }) {
     const handelReturn = () => {
@@ -61,7 +62,6 @@ export default {
   data() {
     return {};
   },
-  components: { SfButton },
 
   mounted() {
     this.loadComponent();
@@ -72,10 +72,10 @@ export default {
       const filePath = this.$route.query.filePath;
       document.getElementById('model').src = filePath;
     },
-    onCopy: function (e) {
+    onCopy (e) {
       alert('You just copied: ' + e.text);
     },
-    onError: function (e) {
+    onError (e) {
       alert('Failed to copy texts');
     },
 
@@ -126,6 +126,7 @@ export default {
       color: red;
     }
   }
+
   .share-button {
     width: 150px;
     margin: var(--spacer-sm) 0 0;
@@ -144,6 +145,9 @@ export default {
         var(--button-font-line-height, 1.2)
         var(--button-font-family, var(--font-family--secondary))
     );
+    @include for-mobile {
+      margin-left: var(--spacer-xl);
+    }
   }
 }
 </style>
