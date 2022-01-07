@@ -1,13 +1,13 @@
 <template>
 <!-- TODO: create logic with isActive prop for BottomNavigationItems -->
-  <SfBottomNavigation class="smartphone-only">
+<div></div>
+  <!-- <SfBottomNavigation class="smartphone-only">
     <nuxt-link data-cy="bottom-navigation-url_home" to="/">
       <SfBottomNavigationItem :class="$route.path == '/' ? 'sf-bottom-navigation__item--active' : ''" icon="home" size="20px" label="Home"/>
     </nuxt-link>
     <SfBottomNavigationItem data-cy="bottom-navigation-url_menu" icon="menu" size="20px" label="Menu"/>
     <SfBottomNavigationItem data-cy="bottom-navigation-url_wishlist" icon="heart" size="20px" label="Wishlist" @click="toggleWishlistSidebar"/>
     <SfBottomNavigationItem data-cy="bottom-navigation-url_account" icon="profile" size="20px" label="Account" @click="handleAccountClick"/>
-    <!-- TODO: add logic for label - if on Home then Basket, if on PDC then AddToCart etc. -->
     <SfBottomNavigationItem
       data-cy="bottom-navigation-url_add-to-cart"
       label="Basket"
@@ -25,7 +25,7 @@
         </SfCircleIcon>
       </template>
     </SfBottomNavigationItem>
-  </SfBottomNavigation>
+  </SfBottomNavigation> -->
 </template>
 
 <script type="module">
@@ -59,3 +59,4 @@ export default {
   }
 };
 </script>
+

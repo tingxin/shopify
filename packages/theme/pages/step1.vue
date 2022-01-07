@@ -78,7 +78,7 @@
       >
         <SfComponentSelectOption
           v-for="length in lengths"
-          :key="length.value"
+          :key="length.label"
           :value="length.value"
         >
           {{ length.label }}
@@ -91,44 +91,43 @@
         <SfButton type="submit" @click.prevent="submit">Next</SfButton>
       </div>
     </form>
+    <div v-if="isLoadervisible" class="pdc-pdp">
+      <SfLoader class="pdc-pdp-loader" :loading="isLoadervisible">
+        <div class="desc">
+          <!-- please have a cup of coffee,it will be done in one or wait minutes -->
+        </div>
+      </SfLoader>
+    </div>
   </div>
 </template>
 <script>
 import('@google/model-viewer');
 
 import {
-  SfSelect,
-  SfColor,
   SfButton,
-  SfInput,
   SfComponentSelect,
   SfIcon,
   SfSidebar,
-  SfImage,
+  SfLoader,
 } from '@storefront-ui/vue';
 
 export default {
   name: 'Step1',
   components: {
-    SfSelect,
-    SfColor,
     SfButton,
-    SfInput,
     SfComponentSelect,
     SfIcon,
     SfSidebar,
-    SfImage,
+    SfLoader,
   },
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   setup(props, { root }) {},
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   data() {
     return {
       valid: false,
       sidebarVisible: false,
       // 款式
       style: 'st',
-      length: '16inch',
+      length: '16',
       color: 'black',
       styles: [
         { label: 'ST', value: 'st' },
@@ -138,54 +137,26 @@ export default {
         { label: 'Bob $79.00', value: 'bob' },
       ],
       lengths: [
-        { label: '8 Inch', value: '8inch' },
-        { label: '10 Inch', value: '10inch' },
-        { label: '12 Inch', value: '12inch' },
-        { label: '14 Inch', value: '14inch' },
-        { label: '16 Inch', value: '16inch' },
-        { label: '18 Inch +$30.00', value: '18inch' },
-        { label: '20 Inch + $90.00', value: '20inch' },
-        { label: '22 Inch +$130.00', value: '22inch' },
-        { label: '24 Inch +$180.00', value: '24inch' },
-        { label: '26 Inch +$240.00', value: '26inch' },
-      ],
-      lengths1: [
-        { label: '8 Inch', value: '8inch' },
-        { label: '10 Inch', value: '10inch' },
-        { label: '12 Inch', value: '12inch' },
-        { label: '14 Inch', value: '14inch' },
-        { label: '16 Inch', value: '16inch' },
-        { label: '18 Inch +$30.00', value: '18inch' },
-        { label: '20 Inch + $90.00', value: '20inch' },
-        { label: '22 Inch +$130.00', value: '22inch' },
-        { label: '24 Inch +$180.00', value: '24inch' },
-        { label: '26 Inch +$240.00', value: '26inch' },
-      ],
-      lengths2: [
-        { label: '8 Inch', value: '8inch' },
-        { label: '10 Inch', value: '10inch' },
-        { label: '12 Inch', value: '12inch' },
-        { label: '14 Inch', value: '14inch' },
+        { label: '8 Inch', value: '8' },
+        { label: '10 Inch', value: '10' },
+        { label: '12 Inch', value: '12' },
+        { label: '14 Inch', value: '14' },
+        { label: '16 Inch', value: '16' },
+        { label: '18 Inch ', value: '18' },
+        { label: '20 Inch ', value: '20' },
+        { label: '22 Inch ', value: '22' },
+        { label: '24 Inch ', value: '24' },
+        { label: '26 Inch', value: '26' },
       ],
       colors: [
         { color: 'black', name: 'Black' },
-        { color: 'winered ', name: 'Wine Red +¥30.00' },
-        { color: 'darkpurple', name: 'Dark Purple +¥30.00' },
-        { color: 'blue', name: 'Blue +¥30.00' },
-        { color: 'platinumblonde', name: 'Platinum Blonde +¥30.00' },
+        { color: 'winered ', name: 'Wine Red'},
+        { color: 'darkpurple', name: 'Dark Purple' },
+        { color: 'blue', name: 'Blue' },
+        { color: 'platinumblonde', name: 'Platinum Blonde' },
       ],
+      isLoadervisible: false,
     };
-  },
-  watch: {
-    style(newVal, oldVal) {
-      if (newVal === 'bob') {
-        this.lengths = this.lengths2;
-        this.length = '14inch';
-      } else {
-        this.lengths = this.lengths1;
-        this.length = '16inch';
-      }
-    },
   },
   methods: {
     handleSidebar() {
@@ -194,17 +165,51 @@ export default {
     sidebarClose() {
       this.sidebarVisible = false;
     },
+    // 无论那个款式，0-14 -> 10, 16-22->18, 24-26->26
+    getInch(val){
+      if(['8','10','12','14'].includes(val)){
+
+        return '10inch'
+      }else if(['16','18','20','22'].includes(val)){
+
+        return '18inch'
+      }else{
+
+        return '26inch'
+      }
+    },
     async submit() {
-      window.localStorage.setItem(
-        'hairInfo',
-        JSON.stringify([this.style, this.color, this.length])
-      );
-      this.$router.push({
-        path: '/step2',
-        // query: {
-        //   path: this.filePath
-        // }
-      });
+      const info = JSON.parse(window.localStorage.getItem('info'));
+      const newInch = this.getInch(this.length)
+      const params = [this.style, this.color, newInch];
+      const newData = {
+        name: info.name,
+        params,
+        data: info.data,
+      };
+
+      this.submitted = true;
+      this.isLoadervisible = true;
+      // 获取远端图片
+      this.notificationVisible = '';
+      await this.$axios({
+        method: 'POST',
+        // url: '/ama/profile',
+        url: '/b/default/profile',
+        data: JSON.stringify(newData),
+      })
+        .then(({ data }) => {
+          this.isLoadervisible = false;
+          window.localStorage.setItem('filePath', data.file_path);
+          window.localStorage.setItem('request_id', data.request_id);
+          this.$router.push({
+            path: '/step2',
+          });
+        })
+        .catch((e) => {
+          this.notificationVisible = 'Internal Server Error';
+          this.isLoadervisible = false;
+        });
     },
   },
 };
@@ -279,6 +284,36 @@ export default {
     }
     &__button {
       --button-width: auto;
+    }
+  }
+}
+.pdc-pdp {
+  min-height: 93vh;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 99999;
+  margin-left: -25%;
+  background: rgba(94, 91, 91, 0.2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  @include for-mobile {
+    min-height: 165vh;
+  }
+  .pdc-pdp-loader {
+    width: 100%;
+    .sf-loader__overlay {
+      background: rgba(0, 0, 0, 0.5);
+    }
+  }
+  .pdc-pdp-desc {
+    color: red;
+    margin: var(--spacer-2xl);
+    @include for-mobile {
+      margin: var(--spacer-2xl) var(--spacer-base);
     }
   }
 }

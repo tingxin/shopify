@@ -17,9 +17,17 @@
         Return
       </SfButton>
       <SfButton class="color-primary sf-button btn"> Check Out </SfButton>
-      <SfButton class="color-primary sf-button btn" @click="handleShare">
-        Share
-      </SfButton>
+
+      <!-- <input type="text" v-model="message" /> -->
+      <button
+        v-clipboard:copy="message"
+        v-clipboard:success="onCopy"
+        v-clipboard:error="onError"
+        type="button"
+        class="share-button"
+      >
+        SHARE
+      </button>
       <div class="tilltop">分享前请选取合适的角度</div>
     </div>
   </div>
@@ -33,7 +41,8 @@ export default {
     const handelReturn = () => {
       return root.$router.push('/step1');
     };
-
+    // const filePath = root.$route.query.path;
+    const message = `https://fdwig.myshopify.com/model?filePath=${root.$route.query.filePath}`;
     const handleShare = () => {
       // return root.$router.push({
       //   path: '/share',
@@ -45,6 +54,8 @@ export default {
     return {
       handelReturn,
       handleShare,
+      // filePath,
+      message,
     };
   },
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -53,13 +64,23 @@ export default {
   },
 
   mounted() {
-    import('@google/model-viewer');
+    this.loadComponent();
     this.getModleFile();
   },
   methods: {
     getModleFile() {
-      const filePath = window.localStorage.getItem('filePath');
+      const filePath = this.$route.query.filePath;
       document.getElementById('model').src = filePath;
+    },
+    onCopy (e) {
+      alert('You just copied: ' + e.text);
+    },
+    onError (e) {
+      alert('Failed to copy texts');
+    },
+
+    loadComponent() {
+      return () => import('@google/model-viewer');
     },
   },
 };
@@ -103,6 +124,29 @@ export default {
         margin: var(--spacer-sm) var(--spacer-xl);
       }
       color: red;
+    }
+  }
+
+  .share-button {
+    width: 150px;
+    margin: var(--spacer-sm) 0 0;
+    height: 43px;
+    background: var(--button-background, var(--c-primary));
+    border: var(
+      --button-border,
+      var(--button-border-style, solid)
+        var(--button-border-color, var(--c-primary))
+    );
+    color: #fff;
+    font: var(
+      --button-font,
+      var(--button-font-weight, var(--font-weight--semibold))
+        var(--button-font-size, var(--font-size--base)) /
+        var(--button-font-line-height, 1.2)
+        var(--button-font-family, var(--font-family--secondary))
+    );
+    @include for-desktop {
+      margin-left: var(--spacer-xl);
     }
   }
 }
