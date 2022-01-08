@@ -16,10 +16,15 @@
       <SfButton class="color-primary sf-button btn" @click="handelReturn">
         Return
       </SfButton>
-      <SfButton class="color-primary sf-button btn"> Check Out </SfButton>
+      <!-- <SfButton class="color-primary sf-button btn"> Check Out </SfButton> -->
 
       <!-- <input type="text" v-model="message" /> -->
-      <button
+
+      <SfButton class="color-primary sf-button btn" @click="handelReturnCustomizer">
+        Return to Customizer
+      </SfButton>
+      <SfButton class="color-primary sf-button btn" @click="handelReturnCart"> Return to Cart </SfButton>
+            <button
         v-clipboard:copy="message"
         v-clipboard:success="onCopy"
         v-clipboard:error="onError"
@@ -28,7 +33,7 @@
       >
         SHARE
       </button>
-      <div class="tilltop">分享前请选取合适的角度</div>
+      <!-- <div class="tilltop">分享前请选取合适的角度</div> -->
     </div>
   </div>
 </template>
@@ -36,29 +41,27 @@
 import { SfButton } from '@storefront-ui/vue';
 export default {
   components: { SfButton },
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   setup(props, { root }) {
     const handelReturn = () => {
       return root.$router.push('/step1');
     };
-    // const filePath = root.$route.query.path;
+    const handelReturnCustomizer = () => {
+      return root.$router.push('https://fdwig.com/collections/all');
+    };
+    const handelReturnCart = () => {
+      return root.$router.push('https://fdwig.com/cart');
+    }
     const message = `https://fdwig.myshopify.com/model?filePath=${root.$route.query.filePath}`;
     const handleShare = () => {
-      // return root.$router.push({
-      //   path: '/share',
-      //   query: {
-      //     path: root.$route.query.path
-      //   }
-      // });
     };
     return {
       handelReturn,
       handleShare,
-      // filePath,
+      handelReturnCustomizer,
+      handelReturnCart,
       message,
     };
   },
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   data() {
     return {};
   },
@@ -111,7 +114,7 @@ export default {
     display: flex;
     flex-direction: column;
     .btn {
-      width: 150px;
+      width: 250px;
       margin: var(--spacer-sm) 0 0;
       height: 43px;
 
@@ -128,7 +131,7 @@ export default {
   }
 
   .share-button {
-    width: 150px;
+    width: 250px;
     margin: var(--spacer-sm) 0 0;
     height: 43px;
     background: var(--button-background, var(--c-primary));

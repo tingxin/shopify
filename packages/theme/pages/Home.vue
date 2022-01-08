@@ -38,15 +38,7 @@
 <script type="module">
 import {
   SfHero,
-  SfBanner,
   SfCallToAction,
-  SfSection,
-  SfCarousel,
-  SfImage,
-  SfBannerGrid,
-  SfHeading,
-  SfArrow,
-  SfButton
 } from '@storefront-ui/vue';
 import RelatedProducts from '~/components/RelatedProducts.vue';
 import { useProduct, useCart, productGetters } from '@vue-storefront/shopify';
@@ -57,6 +49,13 @@ import LazyHydrate from 'vue-lazy-hydration';
 
 export default {
   name: 'Home',
+  components: {
+    SfHero,
+    RelatedProducts,
+    SfCallToAction,
+    MobileStoreBanner,
+    LazyHydrate
+  },
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   setup() {
     const {
@@ -80,21 +79,6 @@ export default {
       addToCart,
       isInCart
     };
-  },
-  components: {
-    SfHero,
-    RelatedProducts,
-    SfBanner,
-    SfCallToAction,
-    SfSection,
-    SfCarousel,
-    SfImage,
-    SfBannerGrid,
-    SfHeading,
-    SfArrow,
-    SfButton,
-    MobileStoreBanner,
-    LazyHydrate
   },
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   data() {
@@ -127,24 +111,11 @@ export default {
 </script>
 
 <style lang="postcss" scoped>
-.article-meta h4 a {
-  color: #111111;
-  font-weight: 600;
-  font-size: 20px;
-}
-.article-meta {
-  margin-top: 10px;
-}
-.article-item__meta-item:not(:last-child)::after {
-  display: inline-block;
-  content: '';
-  width: 5px;
-  height: 5px;
-  margin: -1px 10px 0 10px;
-  border-radius: 100%;
-  background: rgba(0, 0, 0, 0.4);
-  vertical-align: middle;
-}
+  ::v-deep.sf-link {
+      /* --button-width: auto; */
+      --button-width: var(--spacer-4xl)!important
+    }
+
 #home {
   box-sizing: border-box;
   padding: 0 var(--spacer-sm);
@@ -183,13 +154,15 @@ export default {
   .sf-hero__controls {
     --hero-controls-display: none;
   }
-  .sf-hero-item__button {
+  /* .sf-hero-item__button {
     @include for-desktop {
       display: block;
       text-align: center;
+      : var(--spacer-4xl)!important
+      
     }
-  }
-
+    
+  } */
   .glide__slide a {
     @include for-desktop {
       display: block;
@@ -199,16 +172,13 @@ export default {
 }
 
 .banner-grid {
-  --banner-container-width: 50%;
+  /* --banner-container-width: 50%; */
   margin: var(--spacer-xl) 0;
   ::v-deep .sf-link:hover {
     color: var(--c-white);
   }
   @include for-desktop {
     margin: var(--spacer-2xl) 0;
-    ::v-deep .sf-link {
-      --button-width: auto;
-    }
   }
 }
 
@@ -223,41 +193,13 @@ export default {
   }
 }
 
-.similar-products {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-bottom: var(--spacer-2xs);
-  --heading-padding: 0;
-  border-bottom: 1px var(--c-light) solid;
-  @include for-desktop {
-    border-bottom: 0;
-    justify-content: center;
-    padding-bottom: 0;
-  }
-}
+
 
 .call-to-action {
   background-position: right;
   margin: var(--spacer-xs) 0;
   @include for-desktop {
     margin: var(--spacer-xl) 0 var(--spacer-2xl) 0;
-  }
-}
-
-.carousel {
-  margin: 0 calc(var(--spacer-sm) * -1) 0 0;
-  @include for-desktop {
-    margin: 0;
-  }
-  &__item {
-    margin: 1.375rem 0 2.5rem 0;
-    @include for-desktop {
-      margin: var(--spacer-xl) 0 var(--spacer-xl) 0;
-    }
-    &__product {
-      --product-card-add-button-transform: translate3d(0, 30%, 0);
-    }
   }
 }
 </style>

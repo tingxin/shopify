@@ -132,7 +132,7 @@
         <div class="desc"/>
       </SfLoader>
       <div class="pdc-pdp-desc">
-        please have a cup of coffee,it will be done in one or wait minutes
+        Please have a cup of coffee,it will be done in one or few minutes
       </div>
     </div>
   </div>
@@ -327,7 +327,7 @@ export default {
   width: 100%;
 }
 .pdc-pdp {
-  min-height: 93vh;
+  min-height: 95vh;
   width: 100%;
   position: absolute;
   top: 0;

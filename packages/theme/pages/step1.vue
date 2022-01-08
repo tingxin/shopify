@@ -288,7 +288,7 @@ export default {
   }
 }
 .pdc-pdp {
-  min-height: 93vh;
+  min-height: 95vh;
   width: 100%;
   position: absolute;
   top: 0;
