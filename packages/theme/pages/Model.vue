@@ -13,9 +13,9 @@
       />
     </div>
     <div class="btns">
-      <SfButton class="color-primary sf-button btn" @click="handelReturn">
+      <!-- <SfButton class="color-primary sf-button btn" @click="handelReturn">
         Return
-      </SfButton>
+      </SfButton> -->
       <!-- <SfButton class="color-primary sf-button btn"> Check Out </SfButton> -->
 
       <!-- <input type="text" v-model="message" /> -->
@@ -24,7 +24,7 @@
         Return to Customizer
       </SfButton>
       <SfButton class="color-primary sf-button btn" @click="handelReturnCart"> Return to Cart </SfButton>
-            <button
+      <!-- <button
         v-clipboard:copy="message"
         v-clipboard:success="onCopy"
         v-clipboard:error="onError"
@@ -32,15 +32,22 @@
         class="share-button"
       >
         SHARE
-      </button>
-      <!-- <div class="tilltop">分享前请选取合适的角度</div> -->
+      </button> -->
+      <SfNotification
+        :visible="Boolean(notificationVisible)"
+        persistent=""
+        title=""
+        :message="notificationVisible"
+        action=""
+        type="danger"
+      />
     </div>
   </div>
 </template>
 <script>
-import { SfButton } from '@storefront-ui/vue';
+import { SfButton,SfNotification } from '@storefront-ui/vue';
 export default {
-  components: { SfButton },
+  components: { SfButton ,SfNotification},
   setup(props, { root }) {
     const handelReturn = () => {
       return root.$router.push('/step1');
@@ -51,7 +58,7 @@ export default {
     const handelReturnCart = () => {
       return root.$router.push('https://fdwig.com/cart');
     }
-    const message = `https://fdwig.myshopify.com/model?filePath=${root.$route.query.filePath}`;
+    const message = `https://fdwig.com/model?filePath=${root.$route.query.filePath}`;
     const handleShare = () => {
     };
     return {
@@ -63,7 +70,9 @@ export default {
     };
   },
   data() {
-    return {};
+    return {
+      notificationVisible :'' 
+    };
   },
   mounted() {
     this.loadComponent();
@@ -75,7 +84,10 @@ export default {
       document.getElementById('model').src = filePath;
     },
     onCopy (e) {
-      alert('You just copied: ' + e.text);
+      this.notificationVisible = 'The path has been copied successfully';
+      setTimeout(()=>{
+        this.notificationVisible = ''
+      },500)
     },
     onError (e) {
       alert('Failed to copy texts');
@@ -131,7 +143,7 @@ export default {
 
   .share-button {
     width: 250px;
-    margin: var(--spacer-sm) 0 0;
+    margin: var(--spacer-sm)  0;
     height: 43px;
     background: var(--button-background, var(--c-primary));
     border: var(
