@@ -127,14 +127,12 @@
         <SfButton type="submit" @click.prevent="submit">Next</SfButton>
       </div>
     </form>
-    <div class="pdc-pdp" v-if="isLoadervisible">
+    <div v-if="isLoadervisible" class="pdc-pdp">
       <SfLoader class="pdc-pdp-loader" :loading="isLoadervisible">
-        <div class="desc">
-          please have a cup of coffee,it will be done in one or wait minutes
-        </div>
+        <div class="desc"/>
       </SfLoader>
       <div class="pdc-pdp-desc">
-        please have a cup of coffee,it will be done in one or wait minutes
+        Please have a cup of coffee,it will be done in one or few minutes
       </div>
     </div>
   </div>
@@ -143,33 +141,19 @@
 import('@google/model-viewer');
 
 import {
-  SfSelect,
-  SfColor,
   SfButton,
-  SfInput,
   SfComponentSelect,
-  SfHeading,
   SfLoader,
   SfNotification,
-  SfIcon,
-  SfSidebar,
-  SfImage,
 } from '@storefront-ui/vue';
 
 export default {
   name: 'Step1',
   components: {
-    SfSelect,
-    SfColor,
     SfButton,
-    SfInput,
     SfComponentSelect,
-    SfHeading,
     SfLoader,
     SfNotification,
-    SfIcon,
-    SfSidebar,
-    SfImage,
   },
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   setup(props, { root }) {
@@ -200,10 +184,10 @@ export default {
       addElasticBand: 'no',
       densities: [
         { label: '150%', value: '150%' },
-        { label: '180% +$30.00', value: '180%' },
+        { label: '180%', value: '180%' },
       ],
       laceMaterials: [
-        { label: 'HD Lace +$20.00', value: 'hd lace' },
+        { label: 'HD Lace', value: 'hd lace' },
         { label: 'Normal Lace', value: 'normal lace' },
       ],
       caps: [
@@ -212,16 +196,16 @@ export default {
           value: '4 parting glueless lace front crap',
         },
         {
-          label: '6 Deep Parting Glueless Lace Front Crap +$60.00',
+          label: '6 Deep Parting Glueless Lace Front Crap',
           value: '6 deep parting glueless lace front crap',
         },
         {
-          label: 'Glueless 5*5 Closure Lace Cap +$40.00',
+          label: 'Glueless 5*5 Closure Lace Cap',
           value: 'glueless 5*5 closure lace cap',
         },
-        { label: '13*4 Lace Cap +$60.00', value: '13*4 lace cap' },
-        { label: '13*4*1 Lace Cap +$60.00', value: '13*4*1 lace cap' },
-        { label: '13*6 Lace Cap +$60.00', value: '13*6 lace cap' },
+        { label: '13*4 Lace Cap', value: '13*4 lace cap' },
+        { label: '13*4*1 Lace Cap', value: '13*4*1 lace cap' },
+        { label: '13*6 Lace Cap', value: '13*6 lace cap' },
       ],
       hairLines: [
         { label: 'Natural Hair Line', value: 'natural hair line' },
@@ -231,7 +215,7 @@ export default {
         { label: 'Average', value: 'average' },
         { label: 'Petite', value: 'petite' },
         { label: 'Large', value: 'large' },
-        { label: 'Custom +$30.00', value: 'custom' },
+        { label: 'Custom ', value: 'custom' },
       ],
       addElasticBands: [
         { label: 'Yes', value: 'yes' },
@@ -241,7 +225,6 @@ export default {
       timer: null,
       // 是否执行轮训
       is2D: '',
-      requestId: '',
       // 回显图片路径
       filePath: '',
       // 请求模型id
@@ -261,6 +244,11 @@ export default {
       },
       immediate: true,
     },
+  },
+  mounted() {
+    this.stopSetInterval();
+    this.filePath = window.localStorage.getItem('filePath');
+    this.requestId = window.localStorage.getItem('request_id');
   },
   methods: {
     // 开启轮询  如果存在则先销毁定时器后重新开启
@@ -305,11 +293,11 @@ export default {
               },
             });
           } else if (data.status === 'timeout') {
-            this.notificationVisible = '处理超时，请重试';
+            this.notificationVisible = 'Processing, please try again after timeout';
             this.isLoadervisible = false; // 选择配置的暂时不支持，请重新配置
             this.stopSetInterval();
           } else if (data.status === 'bad') {
-            this.notificationVisible = ' 选择配置的暂时不支持，请重新配置';
+            this.notificationVisible = 'The selected configuration is temporarily not supported, please reconfigure';
             this.isLoadervisible = false;
             this.stopSetInterval();
             setTimeout(() => {
@@ -321,19 +309,15 @@ export default {
           this.is2D = data.status;
         })
         .catch((e) => {
+          this.stopSetInterval();
+          this.notificationVisible = 'Internal Server Error';
+          this.isLoadervisible = false;
           this.$router.push({
             path: '/step1',
           });
-          this.notificationVisible = 'Internal Server Error';
-          this.isLoadervisible = false;
-          this.stopSetInterval();
+         
         });
     },
-  },
-  mounted() {
-    this.stopSetInterval();
-    this.filePath = window.localStorage.getItem('filePath');
-    this.requestId = window.localStorage.getItem('request_id');
   },
 };
 </script>
@@ -343,7 +327,7 @@ export default {
   width: 100%;
 }
 .pdc-pdp {
-  min-height: 93vh;
+  min-height: 95vh;
   width: 100%;
   position: absolute;
   top: 0;

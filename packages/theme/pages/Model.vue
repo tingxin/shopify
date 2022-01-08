@@ -16,53 +16,55 @@
       <SfButton class="color-primary sf-button btn" @click="handelReturn">
         Return
       </SfButton>
-      <SfButton class="color-primary sf-button btn"> Check Out </SfButton>
+      <!-- <SfButton class="color-primary sf-button btn"> Check Out </SfButton> -->
 
       <!-- <input type="text" v-model="message" /> -->
-      <button
-        type="button"
-        class="share-button"
+
+      <SfButton class="color-primary sf-button btn" @click="handelReturnCustomizer">
+        Return to Customizer
+      </SfButton>
+      <SfButton class="color-primary sf-button btn" @click="handelReturnCart"> Return to Cart </SfButton>
+            <button
         v-clipboard:copy="message"
         v-clipboard:success="onCopy"
         v-clipboard:error="onError"
+        type="button"
+        class="share-button"
       >
-        Share!
+        SHARE
       </button>
-      <div class="tilltop">分享前请选取合适的角度</div>
+      <!-- <div class="tilltop">分享前请选取合适的角度</div> -->
     </div>
   </div>
 </template>
 <script>
 import { SfButton } from '@storefront-ui/vue';
 export default {
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  components: { SfButton },
   setup(props, { root }) {
     const handelReturn = () => {
       return root.$router.push('/step1');
     };
-    // const filePath = root.$route.query.path;
+    const handelReturnCustomizer = () => {
+      return root.$router.push('https://fdwig.com/collections/all');
+    };
+    const handelReturnCart = () => {
+      return root.$router.push('https://fdwig.com/cart');
+    }
     const message = `https://fdwig.myshopify.com/model?filePath=${root.$route.query.filePath}`;
     const handleShare = () => {
-      // return root.$router.push({
-      //   path: '/share',
-      //   query: {
-      //     path: root.$route.query.path
-      //   }
-      // });
     };
     return {
       handelReturn,
       handleShare,
-      // filePath,
+      handelReturnCustomizer,
+      handelReturnCart,
       message,
     };
   },
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   data() {
     return {};
   },
-  components: { SfButton },
-
   mounted() {
     this.loadComponent();
     this.getModleFile();
@@ -72,10 +74,10 @@ export default {
       const filePath = this.$route.query.filePath;
       document.getElementById('model').src = filePath;
     },
-    onCopy: function (e) {
+    onCopy (e) {
       alert('You just copied: ' + e.text);
     },
-    onError: function (e) {
+    onError (e) {
       alert('Failed to copy texts');
     },
 
@@ -111,7 +113,7 @@ export default {
     display: flex;
     flex-direction: column;
     .btn {
-      width: 150px;
+      width: 250px;
       margin: var(--spacer-sm) 0 0;
       height: 43px;
 
@@ -126,8 +128,9 @@ export default {
       color: red;
     }
   }
+
   .share-button {
-    width: 150px;
+    width: 250px;
     margin: var(--spacer-sm) 0 0;
     height: 43px;
     background: var(--button-background, var(--c-primary));
@@ -144,6 +147,9 @@ export default {
         var(--button-font-line-height, 1.2)
         var(--button-font-family, var(--font-family--secondary))
     );
+    @include for-desktop {
+      margin-left: var(--spacer-xl);
+    }
   }
 }
 </style>

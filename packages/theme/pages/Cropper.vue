@@ -66,13 +66,13 @@
         @change="uploadImg($event, 1)"
       />
       <SfButton class="color-primary sf-button btn" @click="clearCrop"
-        >clear
+        >CLEAR
       </SfButton>
       <SfButton class="color-primary sf-button btn" @click="refreshCrop">
-        refresh
+        REFRESH
       </SfButton>
       <SfButton class="color-primary sf-button btn" @click="down('blob')">
-        next
+        NEXT
       </SfButton>
     </div>
   </div>
@@ -122,6 +122,8 @@ export default {
       fixed: true,
       fixedNumber: [3, 4],
     };
+  },
+  mounted() {
   },
 
   methods: {
