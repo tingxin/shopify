@@ -150,7 +150,7 @@ export default {
       ],
       colors: [
         { color: 'black', name: 'Black' },
-        { color: 'winered ', name: 'Wine Red'},
+        { color: 'winered', name: 'Wine Red'},
         { color: 'darkpurple', name: 'Dark Purple' },
         { color: 'blue', name: 'Blue' },
         { color: 'platinumblonde', name: 'Platinum Blonde' },
