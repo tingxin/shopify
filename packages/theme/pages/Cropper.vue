@@ -1,6 +1,6 @@
 <template name="Cropper">
   <div>
-    <div id="cropper">
+    <div v-if="isShow" id="cropper">
       <div class="cut">
         <!-- {{ previews }} -->
 
@@ -46,15 +46,18 @@
         </div>
       </div>
     </div>
-    <div class="cropper-desc">
+    <div v-if="isShow" class="cropper-desc">
       Please upload a frontal face photo that matches the contour of the
       reference image we provide
     </div>
-    <div class="cropper-desc" style="color: #000">
+    <div v-if="isShow" class="cropper-desc" style="color: #000">
       Our Virtual Try On Feature is still under testing. The refinement of 3D
       images, the matching between avatars and wigs, and the transmission speed
       are all being optimized. We apologize for any inconvenience this might
       cause. Please come back for better experience.
+    </div>
+    <div v-else id="img-default">
+      <img class="cut" :src="imgDeafult" alt="" />
     </div>
     <div class="test-button">
       <label class="upload btn" for="uploads">UPLOAD</label>
@@ -98,10 +101,13 @@ export default {
     return {
       model: false,
       modelSrc: '',
+      isShow: false,
       crap: false,
       previews: {},
+      imgDeafult: 'mark.jpeg',
+
       option: {
-        img: 'mark.jpeg',
+        img: '',
         size: 1,
         full: false,
         outputType: 'png',
@@ -123,8 +129,7 @@ export default {
       fixedNumber: [3, 4],
     };
   },
-  mounted() {
-  },
+  mounted() {},
 
   methods: {
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -196,6 +201,7 @@ export default {
 
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
     uploadImg(e, num) {
+      this.isShow = true;
       // 上传图片
       // this.option.img
       const file = e.target.files[0];
@@ -241,10 +247,10 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-#cropper {
+#cropper,
+#img-default {
   box-sizing: border-box;
   @include for-desktop {
-    display: flex;
     justify-content: center;
     max-width: 1272px;
     padding: 0 var(--spacer-sm);
@@ -273,6 +279,9 @@ export default {
       left: 11%;
     }
   }
+}
+#img-default{
+  display: flex;
 }
 .test-button {
   display: flex;

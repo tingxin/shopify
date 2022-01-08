@@ -1,21 +1,21 @@
 <template>
   <SfHeader
     data-cy="app-header"
+    :search-value="term"
+    :cart-items-qty="cartTotalItems"
+    :account-icon="accountIcon"
+    class="sf-header--has-mobile-search"
     @click:cart="toggleCartSidebar"
     @click:wishlist="toggleWishlistSidebar"
     @click:account="handleAccountClick"
     @enter:search="changeSearchTerm"
     @change:search="(p) => (term = p)"
-    :searchValue="term"
-    :cartItemsQty="cartTotalItems"
-    :accountIcon="accountIcon"
-    class="sf-header--has-mobile-search"
   >
     <!-- TODO: add mobile view buttons after SFUI team PR -->
     <template #logo>
       <nuxt-link
         data-cy="app-header-url_logo"
-        :to="localePath('/')"
+        :to="localePath('/cropper')"
         class="sf-header__logo"
       >
         <img
@@ -28,7 +28,7 @@
       </nuxt-link>
     </template>
 
-    <template #navigation v-if="categories.length > 0">
+    <template v-if="categories.length > 0" #navigation>
       <SfHeaderNavigationItem
         v-for="cat in categories"
         :key="cat.id"
@@ -46,8 +46,8 @@
       <div class="sf-header__icons">
         <SfButton
           class="sf-button--pure sf-header__action user-action"
-          @click="handleAccountClick"
           aria-label="User"
+          @click="handleAccountClick"
         >
           <svg
             width="14"
@@ -64,8 +64,8 @@
         </SfButton>
         <SfButton
           class="sf-button--pure sf-header__action cart-action"
-          @click="toggleCartSidebar"
           aria-label="Cart"
+          @click="toggleCartSidebar"
         >
           <svg
             width="17"
@@ -89,7 +89,7 @@
 </template>
 
 <script type="module">
-import { SfHeader, SfImage, SfButton, SfBadge } from '@storefront-ui/vue';
+import { SfHeader, SfButton, SfBadge } from '@storefront-ui/vue';
 import useUiState from '~/composables/useUiState';
 import {
   useCart,
@@ -105,7 +105,6 @@ import LocaleSelector from './LocaleSelector';
 export default {
   components: {
     SfHeader,
-    SfImage,
     LocaleSelector,
     SfButton,
     SfBadge,

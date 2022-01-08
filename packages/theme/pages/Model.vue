@@ -20,10 +20,10 @@
 
       <!-- <input type="text" v-model="message" /> -->
 
-      <SfButton class="color-primary sf-button btn" @click="handelReturnCustomizer">
+      <SfButton class="color-secondary sf-button btn" @click="handelReturnCustomizer">
         Return to Customizer
       </SfButton>
-      <SfButton class="color-primary sf-button btn" @click="handelReturnCart"> Return to Cart </SfButton>
+      <SfButton class="color-secondary sf-button btn" @click="handelReturnCart"> Return to Cart </SfButton>
       <!-- <button
         v-clipboard:copy="message"
         v-clipboard:success="onCopy"
