@@ -238,9 +238,6 @@ export default {
       e.stoppropagation();
     },
   },
-  mounted() {
-    this.clearCrop();
-  },
 };
 </script>
 <style lang="scss" scoped>

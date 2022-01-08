@@ -91,9 +91,9 @@ export default {
           background: '#eceff1',
           image: {
             mobile:
-              'https://cdn.shopify.com/s/files/1/0407/1902/4288/files/bannerH_328x224.jpg',
+              'home-mobile.jpg',
             desktop:
-              'https://cdn.shopify.com/s/files/1/0407/1902/4288/files/bannerH_1240x400.jpg'
+              'home-desktop.jpg'
           },
           link: '/cropper',
           className: 'sf-hero-item--position-bg-top-left '
