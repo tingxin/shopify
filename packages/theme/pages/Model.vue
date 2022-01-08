@@ -16,7 +16,8 @@
       <SfButton class="color-primary sf-button btn" @click="handelReturn">
         Return
       </SfButton>
-      <SfButton class="color-primary sf-button btn"> Check Out </SfButton>
+      <SfButton class="color-primary sf-button btn" @click="returnCart"> Return to Cart </SfButton>
+      <SfButton class="color-primary sf-button btn" @click="returnCollection"> Return to Customizer </SfButton>
 
       <!-- <input type="text" v-model="message" /> -->
       <button
@@ -82,6 +83,12 @@ export default {
     loadComponent() {
       return () => import('@google/model-viewer');
     },
+    returnCart() {
+      window.location.href = "https://fdwig.com/cart";
+    },
+    returnCollection() {
+      window.location.href = "https://fdwig.com/collections/all";
+    }
   },
 };
 </script>
@@ -111,7 +118,7 @@ export default {
     display: flex;
     flex-direction: column;
     .btn {
-      width: 150px;
+      width: 200px;
       margin: var(--spacer-sm) 0 0;
       height: 43px;
 
