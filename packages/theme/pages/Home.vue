@@ -65,7 +65,7 @@ export default {
       heroes: [
         {
           title: ' Custom wigs exclusively for you',
-          subtitle: 'Try on online',
+          subtitle: 'Start Customizing',
           buttonText: 'Start Customizing',
           background: '#eceff1',
           image: {
@@ -126,17 +126,21 @@ export default {
   .sf-link {
     --button-width: var(--spacer-4xl) !important;
   }
-  .sf-hero-item__subtitle,
   .sf-hero-item__title {
-    color: rgba(255,255,255,0.5) !important;
+    @include for-mobile {
+    color: rgba(255,255,255,1) !important;
+    }
   }
   .sf-hero-item__subtitle {
+    display: none;
     @include for-mobile {
-      border: 1px solid rgba(255,255,255,0.4) !important;
-      padding: 4px ;
+      display: block;
+      padding: 8px ;
       border-radius: 4px;
       text-align:center;
       cursor: pointer;
+      background: #000;
+      color:#fff;
     }
   }
   .sf-hero__control--left, .sf-hero__control--right,.sf-hero__bullets{

@@ -57,10 +57,11 @@
       cause. Please come back for better experience.
     </div>
     <div v-else id="img-default">
-      <img class="cut" :src="imgDeafult" alt="" />
-
-          <div>Please upload a photo</div>
-
+      <!-- <img class="cut" :src="imgDeafult" alt="" /> -->
+      <div class="img-container">
+        <img class="mark-img" :src="imgDeafult" alt="" />
+      </div>
+      <div>Please upload a photo</div>
     </div>
     <div class="test-button">
       <label class="upload btn" for="uploads">UPLOAD</label>
@@ -91,7 +92,6 @@ import { compress, compressAccurately } from 'image-conversion';
 export default {
   name: 'Cropper',
   components: { SfButton },
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   setup(props, { root }) {
     const handleNextClick = () => {
       return root.$router.push('/step1');
@@ -100,7 +100,6 @@ export default {
       handleNextClick,
     };
   },
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   data() {
     return {
       model: false,
@@ -136,18 +135,16 @@ export default {
   mounted() {},
 
   methods: {
-    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
     clearCrop() {
-      if(!this.isShow){
-        return 
+      if (!this.isShow) {
+        return;
       }
       // clear
       this.$refs.cropper.clearCrop();
     },
-    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
     refreshCrop() {
-      if(!this.isShow){
-        return 
+      if (!this.isShow) {
+        return;
       }
       // clear
       this.$refs.cropper.refresh();
@@ -158,10 +155,9 @@ export default {
       this.previews = data;
     },
 
-    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
     down(type) {
-      if(!this.isShow){
-        return 
+      if (!this.isShow) {
+        return;
       }
       event.preventDefault();
       // 输出;
@@ -212,7 +208,6 @@ export default {
       }
     },
 
-    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
     uploadImg(e, num) {
       this.isShow = true;
       // 上传图片
@@ -245,11 +240,9 @@ export default {
       // 转化为blob
       reader.readAsArrayBuffer(file);
     },
-    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
     imgLoad(msg) {
       // console.log(msg);
     },
-    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
     cropMoving(data) {
       // console.log(data, "截图框当前坐标");
     },
@@ -280,6 +273,19 @@ export default {
       height: 480px;
     }
   }
+.mark-face{
+  //mark.jpeg
+  margin: 30px auto;
+    width: 80%;
+    // background: url('mark.jpeg') no-repeat;
+    background-position: 100% 100%;
+    // height: 300px;
+    @include for-desktop {
+      margin: 30px 0;
+      width: 420px;
+      height: 480px;
+    }
+}
   .cropper-show {
     position: absolute;
     opacity: 0.2;
@@ -294,10 +300,26 @@ export default {
     }
   }
 }
-#img-default{
+#img-default {
   flex-direction: column;
   align-items: center;
   margin-bottom: var(--spacer-sm);
+}
+.img-container{
+  margin: 30px auto 0px;
+    width: 70%;
+    padding-bottom: 4%;
+    overflow: hidden;
+    // height: 300px;
+    @include for-desktop {
+      margin: 30px 0;
+      width: 300px;
+      // height: 480px;
+    }
+  .mark-img{
+    width: 100%;
+    
+  }
 }
 .test-button {
   display: flex;

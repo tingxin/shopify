@@ -20,10 +20,11 @@
 
       <!-- <input type="text" v-model="message" /> -->
 
-      <SfButton class="color-secondary sf-button btn" @click="handelReturnCustomizer">
+      <SfButton class="color-secondary sf-button btn" link="https://fdwig.com/collections/all">
         Return to Customizer
       </SfButton>
-      <SfButton class="color-secondary sf-button btn" @click="handelReturnCart"> Return to Cart </SfButton>
+      
+      <SfButton class="color-secondary sf-button btn" link="https://fdwig.com/cart"> Return to Cart </SfButton>
       <!-- <button
         v-clipboard:copy="message"
         v-clipboard:success="onCopy"
@@ -52,20 +53,13 @@ export default {
     const handelReturn = () => {
       return root.$router.push('/step1');
     };
-    const handelReturnCustomizer = () => {
-      return root.$router.push('https://fdwig.com/collections/all');
-    };
-    const handelReturnCart = () => {
-      return root.$router.push('https://fdwig.com/cart');
-    }
+    // 分享url
     const message = `https://fdwig.com/model?filePath=${root.$route.query.filePath}`;
     const handleShare = () => {
     };
     return {
       handelReturn,
       handleShare,
-      handelReturnCustomizer,
-      handelReturnCart,
       message,
     };
   },
