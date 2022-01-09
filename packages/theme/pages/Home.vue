@@ -139,5 +139,8 @@ export default {
       cursor: pointer;
     }
   }
+  .sf-hero__control--left, .sf-hero__control--right,.sf-hero__bullets{
+    display: none;
+  }
 }
 </style>

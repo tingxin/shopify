@@ -58,6 +58,9 @@
     </div>
     <div v-else id="img-default">
       <img class="cut" :src="imgDeafult" alt="" />
+
+          <div>Please upload a photo</div>
+
     </div>
     <div class="test-button">
       <label class="upload btn" for="uploads">UPLOAD</label>
@@ -65,7 +68,8 @@
         id="uploads"
         type="file"
         style="position: absolute; clip: rect(0 0 0 0)"
-        accept="image/png, image/jpeg, image/gif, image/jpg"
+        accept="image/*"
+        mutiple="mutiple"
         @change="uploadImg($event, 1)"
       />
       <SfButton class="color-primary sf-button btn" @click="clearCrop"
@@ -134,11 +138,17 @@ export default {
   methods: {
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
     clearCrop() {
+      if(!this.isShow){
+        return 
+      }
       // clear
       this.$refs.cropper.clearCrop();
     },
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
     refreshCrop() {
+      if(!this.isShow){
+        return 
+      }
       // clear
       this.$refs.cropper.refresh();
     },
@@ -150,21 +160,24 @@ export default {
 
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
     down(type) {
+      if(!this.isShow){
+        return 
+      }
       event.preventDefault();
       // 输出;
       if (type === 'blob') {
         this.$refs.cropper.getCropBlob((data) => {
           const isJpgOrPng =
             data.type === 'image/jpeg' || data.type === 'image/png';
-          const isLt2M = data.size / 1024 / 1024 < 2;
+          // const isLt2M = data.size / 1024 / 1024 < 2;
           if (!isJpgOrPng) {
             // this.$message.error('上传头像图片只能是 JPG 或 PNG 格式!');
             return false;
           }
-          if (!isLt2M) {
-            // this.$message.error('上传头像图片大小不能超过 2MB!');
-            return false;
-          }
+          // if (!isLt2M) {
+          //   // this.$message.error('上传头像图片大小不能超过 2MB!');
+          //   return false;
+          // }
           return new Promise((resolve) => {
             compressAccurately(data, {
               with: 480,
@@ -250,6 +263,7 @@ export default {
 #cropper,
 #img-default {
   box-sizing: border-box;
+  display: flex;
   @include for-desktop {
     justify-content: center;
     max-width: 1272px;
@@ -281,7 +295,9 @@ export default {
   }
 }
 #img-default{
-  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: var(--spacer-sm);
 }
 .test-button {
   display: flex;
